@@ -263,8 +263,8 @@ export default function GatewayPage() {
             <span>본 사이트의 3D 장면과 샘플 데이터는 2027년 실증을 위한 시뮬레이션입니다</span>
           </div>
           <div className="mt-4 pt-4 border-t border-outline-variant/30">
-            <Link href="/media-content" className="text-xs text-outline hover:text-on-surface-variant transition-colors">
-              관리자 센터 →
+            <Link href="/login" className="text-xs text-outline hover:text-on-surface-variant transition-colors">
+              관리자 로그인
             </Link>
           </div>
         </div>
