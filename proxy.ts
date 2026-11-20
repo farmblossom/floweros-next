@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { updateSession } from "@/lib/supabase/middleware";
+import { updateSession } from "@/lib/supabase/proxy-helper";
 
 const ADMIN_PATHS = [
   "/media-content",
@@ -15,17 +15,22 @@ const ADMIN_PATHS = [
   "/admin",
 ];
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const isAdminPath = ADMIN_PATHS.some((p) => pathname.startsWith(p));
 
-  // Supabase 환경변수가 없으면 보호 없이 통과 (로컬 개발 편의)
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
+  if (!isAdminPath) {
     return NextResponse.next();
   }
 
-  const isAdminPath = ADMIN_PATHS.some((p) => pathname.startsWith(p));
-  if (!isAdminPath) {
-    return NextResponse.next();
+  // 환경변수 미설정 → admin 경로 항상 차단 (보안 기본값: deny)
+  if (
+    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
+    !process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
+  ) {
+    const loginUrl = new URL("/login", request.url);
+    loginUrl.searchParams.set("redirectTo", pathname);
+    return NextResponse.redirect(loginUrl);
   }
 
   try {
@@ -37,20 +42,22 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(loginUrl);
     }
 
-    // 관리자 이메일 체크
+    // ADMIN_EMAILS 미설정이거나 비어있으면 Google 로그인 여부와 무관하게 거부
     const adminEmails = (process.env.ADMIN_EMAILS ?? "")
       .split(",")
       .map((e) => e.trim())
       .filter(Boolean);
 
-    if (adminEmails.length > 0 && !adminEmails.includes(user.email ?? "")) {
+    if (adminEmails.length === 0 || !adminEmails.includes(user.email ?? "")) {
       return NextResponse.redirect(new URL("/unauthorized", request.url));
     }
 
     return supabaseResponse;
   } catch {
-    // Supabase 오류 시 통과 (환경변수 미설정 등)
-    return NextResponse.next();
+    // Supabase 오류 시에도 admin 접근 차단
+    const loginUrl = new URL("/login", request.url);
+    loginUrl.searchParams.set("redirectTo", pathname);
+    return NextResponse.redirect(loginUrl);
   }
 }
 
