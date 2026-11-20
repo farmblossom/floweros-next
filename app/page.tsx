@@ -212,7 +212,7 @@ const catFilters = [
 function ScopeChip({ scope, label }: { scope: string; label: string }) {
   if (scope === "public") {
     return (
-      <span className="px-2.5 py-1 rounded-full bg-primary/15 text-primary font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit">
+      <span className="px-2.5 py-1 rounded-full bg-primary/15 text-primary font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit whitespace-nowrap">
         <span className="material-symbols-outlined text-[14px]">public</span>
         {label}
       </span>
@@ -220,14 +220,14 @@ function ScopeChip({ scope, label }: { scope: string; label: string }) {
   }
   if (scope === "customer") {
     return (
-      <span className="px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit">
+      <span className="px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit whitespace-nowrap">
         <span className="material-symbols-outlined text-[14px]">lock</span>
         {label}
       </span>
     );
   }
   return (
-    <span className="px-2.5 py-1 rounded-full bg-surface-variant text-on-surface-variant font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit">
+    <span className="px-2.5 py-1 rounded-full bg-surface-variant text-on-surface-variant font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit whitespace-nowrap">
       <span className="material-symbols-outlined text-[14px]">admin_panel_settings</span>
       {label}
     </span>
@@ -237,14 +237,14 @@ function ScopeChip({ scope, label }: { scope: string; label: string }) {
 function StatusChip({ status }: { status: string }) {
   if (status === "approved") {
     return (
-      <span className="px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit">
+      <span className="px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit whitespace-nowrap">
         <span className="material-symbols-outlined text-[14px]">verified</span>
         승인완료
       </span>
     );
   }
   return (
-    <span className="px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit">
+    <span className="px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit whitespace-nowrap">
       <span className="material-symbols-outlined text-[14px]">pending_actions</span>
       검수대기
     </span>
@@ -541,7 +541,7 @@ export default function MediaContentPage() {
                               </div>
                             </div>
                           </td>
-                          <td className="py-3.5 px-4">
+                          <td className="py-3.5 px-4 whitespace-nowrap">
                             <div className="flex flex-col">
                               <span className="font-label-md text-label-md font-semibold text-on-surface">{item.farm}</span>
                               <span className={`font-label-sm text-label-sm ${item.areaColor ?? "text-outline"} ${item.areaColor ? "font-medium" : ""}`}>
@@ -549,7 +549,7 @@ export default function MediaContentPage() {
                               </span>
                             </div>
                           </td>
-                          <td className="py-3.5 px-4">
+                          <td className="py-3.5 px-4 whitespace-nowrap">
                             <div className="flex flex-col">
                               <span className="font-label-md text-label-md text-on-surface">{item.date}</span>
                               <span className={`font-label-sm text-label-sm ${item.dateInfoColor} flex items-center gap-0.5`}>
@@ -561,7 +561,7 @@ export default function MediaContentPage() {
                             </div>
                           </td>
                           <td className="py-3.5 px-4">
-                            <span className="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm">
+                            <span className="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm whitespace-nowrap">
                               {item.categoryLabel}
                             </span>
                           </td>
