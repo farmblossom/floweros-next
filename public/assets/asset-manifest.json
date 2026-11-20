@@ -1,0 +1,35 @@
+{
+  "version": "1.0",
+  "lastUpdated": "2026-11-20",
+  "assets": [
+    {
+      "name": "꽃폈네 로고",
+      "usage": "공통 헤더·대문·푸터",
+      "original": "MISSING_ASSET",
+      "transparent": "MISSING_ASSET",
+      "recommendedSize": "SVG 또는 PNG 최소 200x200",
+      "status": "원본 파일 필요 — 임시 아이콘 플레이스홀더 사용 중"
+    },
+    {
+      "name": "FM 쩡이",
+      "usage": "NPC 마커, 운영자 소개, 관리자 사이드바",
+      "original": "MISSING_ASSET",
+      "transparent": "MISSING_ASSET",
+      "status": "원본 파일 필요 — 텍스트 플레이스홀더 사용 중"
+    },
+    {
+      "name": "퍼뜨기",
+      "usage": "신월리 농장 탐방 안내 NPC, 말풍선, 대문 캐릭터 소개",
+      "original": "MISSING_ASSET",
+      "transparent": "MISSING_ASSET",
+      "status": "원본 파일 필요 — 3D 캡슐 NPC 사용 중"
+    },
+    {
+      "name": "쑤담이",
+      "usage": "덕산 농장 생육 기록 안내 NPC, 대문 캐릭터 소개",
+      "original": "MISSING_ASSET",
+      "transparent": "MISSING_ASSET",
+      "status": "원본 파일 필요 — 3D 캡슐 NPC 사용 중"
+    }
+  ]
+}
