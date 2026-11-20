@@ -3,10 +3,31 @@ import { useMemo } from "react";
 import { Sky, OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import * as THREE from "three";
 import WorldHotspot from "./WorldHotspot";
-import NpcMarker from "./NpcMarker";
+import CharacterSprite from "./CharacterSprite";
+
+// 퍼뜨기 순찰 경로 — 접근로 · 개간 구역
+const PUTTEOGI_WAYPOINTS: [number, number, number][] = [
+  [7, 0.2, 9],
+  [7, 0.2, 3],
+  [0, 0.3, 4],
+  [-5, 0.4, 5],
+  [-5, 0.4, 2],
+  [0, 0.3, 4],
+  [7, 0.2, 3],
+  [7, 0.2, 9],
+];
+
+const PUTTEOGI_DIALOG = [
+  "안녕하세요! 신월리 과원 조성 현장이에요 🌿",
+  "541평 경사지에 과원을 만들어 가는 과정을 기록 중이에요",
+  "기존 수목을 보존하면서 새 나무를 심을 계획이에요",
+  "드론·측량 자료가 확보되면 정밀하게 업데이트될 예정이에요",
+  "현재 3D 장면은 시뮬레이션 초안입니다 🔧",
+];
 
 interface SinwolSceneProps {
   onHotspotSelect: (label: string, info: string) => void;
+  walkMode?: boolean;
 }
 
 function HillyTerrain() {
@@ -97,7 +118,7 @@ const orchardPositions: [number, number, number][] = [
   [-8, 0.5, 6], [-4, 0.4, 6], [0, 0.3, 6], [4, 0.3, 6],
 ];
 
-export default function SinwolScene({ onHotspotSelect }: SinwolSceneProps) {
+export default function SinwolScene({ onHotspotSelect, walkMode = false }: SinwolSceneProps) {
   return (
     <>
       <PerspectiveCamera makeDefault position={[5, 12, 20]} fov={68} />
@@ -145,20 +166,24 @@ export default function SinwolScene({ onHotspotSelect }: SinwolSceneProps) {
         onSelect={onHotspotSelect}
       />
 
-      <NpcMarker
-        position={[7, 0.3, 8]}
+      <CharacterSprite
+        waypoints={PUTTEOGI_WAYPOINTS}
+        textureUrl="/assets/brand/putteogi-row.png"
         name="퍼뜨기"
-        message="신월리 과원이 조성될 땅을 걸어보세요. 원본 캐릭터 준비 중입니다."
-        color="#745947"
+        dialogLines={PUTTEOGI_DIALOG}
+        speed={1.0}
+        size={[1.3, 1.7]}
       />
 
-      <OrbitControls
-        maxPolarAngle={Math.PI / 2.0}
-        minDistance={4}
-        maxDistance={40}
-        enablePan={true}
-        target={[0, 1, 0]}
-      />
+      {!walkMode && (
+        <OrbitControls
+          maxPolarAngle={Math.PI / 2.0}
+          minDistance={4}
+          maxDistance={40}
+          enablePan={true}
+          target={[0, 1, 0]}
+        />
+      )}
     </>
   );
 }

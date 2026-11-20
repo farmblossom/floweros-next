@@ -37,12 +37,13 @@ export default function Header({ onMenuClick }: HeaderProps) {
       {/* 오른쪽: 고객용 웹사이트 링크 + 사용자 프로필 */}
       <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
         <a
-          className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high font-label-md text-label-md text-on-surface transition-colors"
-          href="#"
+          className="flex items-center gap-1.5 px-2 md:px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high font-label-md text-label-md text-on-surface transition-colors"
+          href="/"
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="고객용 웹사이트 (새 탭)"
         >
-          <span className="font-body-md text-body-md">고객용 웹사이트</span>
+          <span className="hidden md:inline font-body-md text-body-md">고객용 웹사이트</span>
           <span className="material-symbols-outlined text-[16px]">open_in_new</span>
         </a>
         <div className="hidden md:block h-6 w-px bg-outline-variant/40"></div>

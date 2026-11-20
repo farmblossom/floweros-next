@@ -92,6 +92,18 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           </nav>
         </div>
 
+        {/* 고객용 웹사이트 (모바일용) */}
+        <a
+          href="/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+          onClick={onClose}
+        >
+          <span className="material-symbols-outlined text-[20px]">open_in_new</span>
+          <span className="font-body-md text-body-md">고객용 웹사이트</span>
+        </a>
+
         {/* 하단: 운영 모드 상태 */}
         <div className="px-3 py-3 rounded-lg bg-surface-container flex items-center justify-between">
           <div className="flex flex-col">

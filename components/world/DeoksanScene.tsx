@@ -1,10 +1,31 @@
 "use client";
 import { Sky, OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import WorldHotspot from "./WorldHotspot";
-import NpcMarker from "./NpcMarker";
+import CharacterSprite from "./CharacterSprite";
+
+// 쑤담이 순찰 경로 — 감자밭 중앙 농로 · 고랑 사이
+const SSUDAMI_WAYPOINTS: [number, number, number][] = [
+  [0, 0, 10.5],
+  [0, 0, 5],
+  [0, 0, 0],
+  [-3.6, 0, -3],
+  [0, 0, -6],
+  [3.6, 0, -3],
+  [0, 0, 0],
+  [0, 0, 10.5],
+];
+
+const SSUDAMI_DIALOG = [
+  "안녕하세요! 덕산리 감자밭이에요 🥔",
+  "2027년 봄 수미·조풍 품종 봄감자 실증을 준비 중이에요",
+  "고랑 A-01~A-40까지 40팀이 각각 담당 구역을 갖게 돼요",
+  "감자가 발아하고 꽃이 피는 과정을 함께 지켜봐요!",
+  "파란 마커를 클릭하면 현장 정보를 볼 수 있어요 📍",
+];
 
 interface DeoksanSceneProps {
   onHotspotSelect: (label: string, info: string) => void;
+  walkMode?: boolean;
 }
 
 function PotatoRow({ position, length = 18 }: { position: [number, number, number]; length?: number }) {
@@ -34,7 +55,7 @@ function PotatoRow({ position, length = 18 }: { position: [number, number, numbe
   );
 }
 
-export default function DeoksanScene({ onHotspotSelect }: DeoksanSceneProps) {
+export default function DeoksanScene({ onHotspotSelect, walkMode = false }: DeoksanSceneProps) {
   return (
     <>
       <PerspectiveCamera makeDefault position={[0, 8, 22]} fov={70} />
@@ -127,20 +148,24 @@ export default function DeoksanScene({ onHotspotSelect }: DeoksanSceneProps) {
         onSelect={onHotspotSelect}
       />
 
-      <NpcMarker
-        position={[-1.2, 0, 10]}
+      <CharacterSprite
+        waypoints={SSUDAMI_WAYPOINTS}
+        textureUrl="/assets/brand/ssudami-row.png"
         name="쑤담이"
-        message="안녕하세요! 덕산농장의 감자 고랑을 탐방해보세요. 원본 캐릭터 준비 중입니다."
-        color="#4a6243"
+        dialogLines={SSUDAMI_DIALOG}
+        speed={1.1}
+        size={[1.3, 1.7]}
       />
 
-      <OrbitControls
-        maxPolarAngle={Math.PI / 2.1}
-        minDistance={4}
-        maxDistance={35}
-        enablePan={true}
-        target={[0, 1, 0]}
-      />
+      {!walkMode && (
+        <OrbitControls
+          maxPolarAngle={Math.PI / 2.1}
+          minDistance={4}
+          maxDistance={35}
+          enablePan={true}
+          target={[0, 1, 0]}
+        />
+      )}
     </>
   );
 }
