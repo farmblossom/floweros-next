@@ -258,6 +258,7 @@ export default function MediaContentPage() {
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMsg, setToastMsg] = useState("");
   const [items, setItems] = useState(mediaItems);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const showToast = (msg: string) => {
     setToastMsg(msg);
@@ -278,12 +279,12 @@ export default function MediaContentPage() {
   return (
     <div className="bg-surface font-body-md text-on-surface antialiased">
       {/* 사이드바 */}
-      <Sidebar />
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* 메인 콘텐츠 영역 */}
-      <div className="pl-72">
+      <div className="lg:pl-72">
         {/* 헤더 */}
-        <Header />
+        <Header onMenuClick={() => setSidebarOpen(true)} />
 
         {/* 페이지 본문 */}
         <main className="w-full pt-16 bg-surface min-h-screen">
@@ -299,15 +300,16 @@ export default function MediaContentPage() {
               <span className="font-body-md text-body-md">{toastMsg}</span>
             </div>
 
-            <div className="px-8 py-8 flex flex-col gap-8 max-w-[1440px] mx-auto w-full">
+            <div className="px-4 md:px-8 py-6 md:py-8 flex flex-col gap-6 md:gap-8 max-w-[1440px] mx-auto w-full">
 
               {/* 상단 공지 & 헤더 정보 */}
               <div className="flex flex-col gap-4">
-                <div className="flex items-center justify-between flex-wrap gap-3">
-                  <div className="flex items-center gap-2.5">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3">
+                  <div className="flex flex-wrap items-center gap-2">
                     <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary-container/60 text-on-secondary-container font-label-sm text-label-sm">
                       <span className="material-symbols-outlined text-[16px]">info</span>
-                      <span>※ 본 화면의 모든 샘플 이미지는 2027년 실증을 위한 시뮬레이션 자료입니다.</span>
+                      <span className="hidden sm:inline">※ 본 화면의 모든 샘플 이미지는 2027년 실증을 위한 시뮬레이션 자료입니다.</span>
+                      <span className="sm:hidden">※ 2027년 실증용 시뮬레이션 자료</span>
                     </div>
                     <span className="px-2.5 py-1 rounded-full bg-surface-container-high text-outline font-label-sm text-label-sm">
                       Cloudflare R2 + CDN 동기화 중
