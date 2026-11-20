@@ -1,0 +1,471 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_dashboard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"inverse-primary":"#b2cea8","surface-variant":"#e9e1dc","tertiary-fixed":"#fbd8f3","secondary-fixed-dim":"#e3bfaa","on-secondary-container":"#795d4b","on-tertiary-fixed":"#291427","on-surface-variant":"#434840","on-primary-container":"#f8fff0","on-primary":"#ffffff","primary":"#4a6243","surface-container":"#f5ece7","tertiary-container":"#886c83","inverse-on-surface":"#f8efea","outline":"#74796f","on-secondary-fixed-variant":"#5a4131","secondary-container":"#fed8c2","surface-container-high":"#efe6e2","on-secondary":"#ffffff","on-surface":"#1e1b18","on-tertiary":"#ffffff","secondary-fixed":"#ffdcc7","primary-fixed-dim":"#b2cea8","surface-container-low":"#fbf2ed","on-error":"#ffffff","surface-bright":"#fff8f5","surface-tint":"#4c6546","tertiary":"#6e5469","tertiary-fixed-dim":"#debdd6","on-background":"#1e1b18","primary-fixed":"#ceebc3","surface":"#fff8f5","surface-container-highest":"#e9e1dc","primary-container":"#627b5a","error":"#ba1a1a","error-container":"#ffdad6","on-error-container":"#93000a","on-secondary-fixed":"#2a170a","on-primary-fixed-variant":"#354d30","outline-variant":"#c3c8be","surface-container-lowest":"#ffffff","background":"#fff8f5","on-tertiary-fixed-variant":"#583f54","surface-dim":"#e1d8d4","secondary":"#745947","on-primary-fixed":"#0a2008","on-tertiary-container":"#fffbff","inverse-surface":"#34302c"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin":"3rem","gutter-mobile":"1rem","space-sm":"0.5rem","margin-mobile":"1.25rem","space-xs":"0.25rem","space-md":"1rem","space-xl":"2.5rem","space-lg":"1.5rem","gutter":"1.5rem"},"fontFamily":{"headline-lg-mobile":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"label-sm":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"title-md":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"headline-xl":["Plus Jakarta Sans"],"body-lg":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"title-lg":["Plus Jakarta Sans"],"headline-xl-mobile":["Plus Jakarta Sans"]},"fontSize":{"headline-lg-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"700"}],"body-md":["14px",{"lineHeight":"22px","fontWeight":"400"}],"label-sm":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"headline-md":["22px",{"lineHeight":"30px","letterSpacing":"-0.01em","fontWeight":"600"}],"title-md":["16px",{"lineHeight":"24px","fontWeight":"600"}],"label-md":["14px",{"lineHeight":"20px","fontWeight":"500"}],"headline-xl":["40px",{"lineHeight":"52px","letterSpacing":"-0.02em","fontWeight":"700"}],"body-lg":["16px",{"lineHeight":"26px","fontWeight":"400"}],"headline-lg":["30px",{"lineHeight":"40px","letterSpacing":"-0.015em","fontWeight":"700"}],"title-lg":["19px",{"lineHeight":"26px","letterSpacing":"-0.005em","fontWeight":"600"}],"headline-xl-mobile":["30px",{"lineHeight":"38px","letterSpacing":"-0.015em","fontWeight":"700"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex flex-col justify-between py-6 px-4 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col gap-6"><div class="flex items-center gap-3 px-3"><img alt="꽃폈네 로고" class="w-10 h-10 rounded-xl object-cover" src="https://lh3.googleusercontent.com/aida/ALJJyrAdscUf-yJW6KgV5WUvFnm487IDcvr7BfxcOfuiEoL1PUyiPlbEa1ORYMe3Eimyx9iMDtK8cK781GVl4k0Gea47yzmTHhIwJJ20KSyDWbjkWWTbr9p1Nup0lFotxJqWiQ7j-F7h1ElobJ0TCFd8i4Bh9cSuVZ7XrN_U5kur24zKfP5oQedXnq0pp5wR4_nLxVappU157aI7N4QvzcA-h_a8FEHAD5XYfs7BmuuUH4zcQuInI9diDQE172Y"><div class="flex flex-col"><span class="font-title-md text-title-md text-primary tracking-tight">꽃폈네 OS</span><span class="font-label-sm text-label-sm text-secondary">FM 쩡이 관리자 센터</span></div></div><nav class="flex flex-col gap-1" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-sm"><a aria-current="page" class="flex items-center gap-3 px-3 py-2.5 transition-colors bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-sm" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">space_dashboard</span>대시보드</a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="customer-participation" href="#"><span class="material-symbols-outlined text-[20px]">groups</span>고객·참여 관리</a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="farm-furrow" href="#"><span class="material-symbols-outlined text-[20px]">nature</span>농장·고랑 관리</a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="field-journal" href="#"><span class="material-symbols-outlined text-[20px]">edit_note</span>현장 영농일지</a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="customer-requests" href="#"><span class="material-symbols-outlined text-[20px]">contact_support</span>고객 요청</a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="harvest-delivery" href="#"><span class="material-symbols-outlined text-[20px]">local_shipping</span>부분수확·배송</a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="media-content" href="#"><span class="material-symbols-outlined text-[20px]">perm_media</span>미디어·콘텐츠 관리</a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="ai-draft-storybook" href="#"><span class="material-symbols-outlined text-[20px]">auto_stories</span>AI 초안·스토리북 검수</a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="channel-management" href="#"><span class="material-symbols-outlined text-[20px]">hub</span>외부 채널 관리</a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="settings" href="#"><span class="material-symbols-outlined text-[20px]">settings</span>설정</a></nav></div><div class="px-3 py-3 rounded-lg bg-surface-container flex items-center justify-between"><div class="flex flex-col"><span class="font-label-sm text-label-sm text-on-surface-variant">운영 모드</span><span class="font-title-md text-title-md text-primary font-semibold">실시간 동기화 중</span></div><span class="material-symbols-outlined text-primary text-[20px]">sensors</span></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-8"><div class="flex items-center gap-6"><div class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-lg text-on-surface"><span class="material-symbols-outlined text-secondary text-[20px]">agriculture</span><select class="bg-transparent font-title-md text-title-md text-on-surface outline-none cursor-pointer pr-2"><option selected="" value="deoksan">밀양 덕산농장 (2027 봄감자 실증 중)</option><option value="shinwol">신월농장 (과원 오픈 예정)</option></select></div><div class="hidden xl:flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm"><span class="material-symbols-outlined text-primary text-[18px]">wb_sunny</span><span>덕산농장: 21.4°C 맑음 (기상청 API 연동 예정 / FM 08:30 현장 육안 확인 완료)</span></div></div><div class="flex items-center gap-4"><a class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high font-label-md text-label-md text-on-surface transition-colors" href="#" target="_blank"><span class="font-body-md text-body-md">고객용 웹사이트</span><span class="material-symbols-outlined text-[16px]">open_in_new</span></a><div class="h-6 w-px bg-outline-variant/40"></div><div class="flex items-center gap-3"><div class="flex flex-col items-end"><span class="font-label-md text-label-md text-on-surface font-semibold">FM 쩡이</span><span class="font-label-sm text-label-sm text-outline">총괄 농장관리자</span></div><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFCFUrYzyKeprsU8czrlOWWydJYd4gjUB-iaUdw_6Px7sKXhXQ75R_UNMiLzNemJXMCsPa90KUpPKRfwIMWGHCf9MvIC_CK40opd0umZbfyktV9QAX6wmJLvAImLoMNeW8yRXpB36TjY035z6GX1qasBUXOrfs18_oo-j8HAjG1JvRX98A92PziwmSnhshwdgrmOxI_2yu2OKrYH21rRkQuNQkbV1s4QzBGWlfgpDmBIfP4ssxzCIp"></div></div></header><main class="w-full pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<div class="p-8 max-w-[1520px] mx-auto w-full flex flex-col gap-8">
+<!-- Hero Operational Status Banner with Avatar & Key Quick States -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container-low shadow-sm">
+<div class="absolute -right-12 -top-12 w-64 h-64 rounded-full bg-secondary-container/20 blur-3xl pointer-events-none"></div>
+<div class="absolute right-72 bottom-0 w-48 h-48 rounded-full bg-primary-fixed/25 blur-2xl pointer-events-none"></div>
+<div class="relative z-10 p-6 md:p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+<div class="flex items-center gap-6">
+<div class="relative shrink-0">
+<div class="w-20 h-20 md:w-24 md:h-24 rounded-2xl bg-surface-container-high overflow-hidden shadow-sm flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="Warm friendly clay 3D figurine caricature portrait of Korean female farm manager wearing a sun hat and gardening apron smiling kindly with potato field in background, high detail miniature style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFCFUrYzyKeprsU8czrlOWWydJYd4gjUB-iaUdw_6Px7sKXhXQ75R_UNMiLzNemJXMCsPa90KUpPKRfwIMWGHCf9MvIC_CK40opd0umZbfyktV9QAX6wmJLvAImLoMNeW8yRXpB36TjY035z6GX1qasBUXOrfs18_oo-j8HAjG1JvRX98A92PziwmSnhshwdgrmOxI_2yu2OKrYH21rRkQuNQkbV1s4QzBGWlfgpDmBIfP4ssxzCIp">
+</div>
+<div class="absolute -bottom-1.5 -right-1.5 bg-primary text-on-primary rounded-full p-1 shadow-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<div class="flex flex-wrap items-center gap-2.5">
+<span class="font-headline-md text-headline-md text-on-surface">FM 쩡이 총괄 센터</span>
+<span class="px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-primary/10 text-primary">밀양 덕산 2027 봄감자 실증</span>
+<span class="px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-secondary/15 text-secondary">생육 52일차 (개화 성기)</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+              오늘 오전 08:30 토양수분(19.2%) 및 40두둑 육안 예찰 완료. 온화한 기온과 일조량으로 감자 비대기 진입이 안정적으로 전개 중입니다.
+            </p>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-3 shrink-0">
+<button class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-all">
+<span class="material-symbols-outlined text-[18px] text-secondary">photo_camera</span>
+            현장 미디어 등록
+          </button>
+<button class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md shadow-sm transition-all">
+<span class="material-symbols-outlined text-[18px]">add_task</span>
+            새 영농일지 기록
+          </button>
+</div>
+</div>
+<!-- Quick Metrics Ribbon inside Hero -->
+<div class="bg-surface-container/70 px-8 py-3.5 flex flex-wrap items-center justify-between gap-4 font-label-sm text-label-sm text-on-surface-variant">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[18px]">water_drop</span>
+<span>평균 지하수 관수압: <strong class="text-on-surface font-semibold">1.8 bar (적정)</strong></span>
+</div>
+<div class="h-3 w-px bg-outline-variant/50 hidden sm:block"></div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">thermostat</span>
+<span>지중온도(15cm): <strong class="text-on-surface font-semibold">16.8°C</strong></span>
+</div>
+<div class="h-3 w-px bg-outline-variant/50 hidden md:block"></div>
+<div class="flex items-center gap-2 hidden md:flex">
+<span class="material-symbols-outlined text-tertiary text-[18px]">nest_cam_outdoor</span>
+<span>현장 IoT 센서망: <strong class="text-primary font-semibold">정상 송신 중 (4/4개소)</strong></span>
+</div>
+</div>
+<div class="flex items-center gap-1.5 text-secondary">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+<span>다음 자동 수분 측정: 12:00</span>
+</div>
+</div>
+</div>
+<!-- 4 Core KPI Summary Cards (Equally spaced, organic warm aesthetic) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+<!-- KPI 1: 전체 참여팀 -->
+<div class="p-6 rounded-xl bg-surface-container-low shadow-sm flex flex-col justify-between relative group hover:shadow-md transition-shadow">
+<div class="flex items-start justify-between">
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-secondary tracking-wider uppercase">고랑 분양 현황</span>
+<span class="font-title-lg text-title-lg text-on-surface">전체 참여팀 현황</span>
+</div>
+<div class="p-2.5 rounded-lg bg-secondary-container/40 text-secondary">
+<span class="material-symbols-outlined text-[22px]">diversity_3</span>
+</div>
+</div>
+<div class="my-4 flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-on-surface tracking-tight">34</span>
+<span class="font-title-md text-title-md text-outline">/ 40팀</span>
+</div>
+<div class="flex flex-col gap-2 pt-2">
+<div class="w-full bg-surface-container-highest rounded-full h-2 overflow-hidden">
+<div class="bg-primary h-full rounded-full transition-all duration-500" style="width: 85%;"></div>
+</div>
+<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span class="text-primary font-semibold">목표 85% 달성</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-secondary font-medium">입금 대기 4팀</span>
+</div>
+</div>
+</div>
+<!-- KPI 2: 고객 케어 요청 -->
+<div class="p-6 rounded-xl bg-surface-container-low shadow-sm flex flex-col justify-between relative group hover:shadow-md transition-shadow">
+<div class="flex items-start justify-between">
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-secondary tracking-wider uppercase">밀착 관리 큐</span>
+<span class="font-title-lg text-title-lg text-on-surface">고객 케어 요청</span>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-high text-primary">
+<span class="material-symbols-outlined text-[22px]">support_agent</span>
+</div>
+</div>
+<div class="my-4 flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-on-surface tracking-tight">3</span>
+<span class="font-title-md text-title-md text-outline">건 처리 대기</span>
+</div>
+<div class="flex flex-wrap gap-1.5 pt-1">
+<span class="px-2 py-1 rounded-md bg-surface-container text-on-surface-variant font-label-sm text-label-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>관수 점검 1
+          </span>
+<span class="px-2 py-1 rounded-md bg-surface-container text-on-surface-variant font-label-sm text-label-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>사진 촬영 1
+          </span>
+<span class="px-2 py-1 rounded-md bg-surface-container text-on-surface-variant font-label-sm text-label-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>생육 문의 1
+          </span>
+</div>
+</div>
+<!-- KPI 3: AI 영농일지 검수 -->
+<div class="p-6 rounded-xl bg-surface-container-low shadow-sm flex flex-col justify-between relative group hover:shadow-md transition-shadow">
+<div class="flex items-start justify-between">
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-secondary tracking-wider uppercase">캐릭터 스토리북</span>
+<span class="font-title-lg text-title-lg text-on-surface">AI 영농일지 검수</span>
+</div>
+<div class="flex items-center -space-x-2"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsHxwjGYZlf80EYRLipvGSVIgpUn7usmKwSmnkJQQXcNJaXTEU6JfKMDH5MEV8Ut5unVvhvT3VQ-j1knRvo7dlSDslhs4Ymu8WIFABjP92cM1LnOHkZDslFU2b2spSXCxai4MESRHow4WJDYfzl66olDoVFd0TxxSuxw7T8b1oBcHxeXs-Yr7F3qMXarjXTrdRTwiXdH32Ako-1AtmSZnmRTLQs9oQUuiqmTGjxBT6HHCpoO-HK3nm" alt="쑤담이" class="w-9 h-9 rounded-full object-cover bg-white ring-2 ring-surface shadow-sm"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9TaQDf7wzaPKobofmFO79Tg0rFVsNHGMl-Y95mjxO5SUMKOLGEmqlUWyB1CIhTlXCnf4nsMyOQz0tUbIpdYih7zZx2q7BtluSDytmwdEiiZrWcX0zur-LsT6OvvI45vgeCUshwAxXan5JjRbGgDKF0pJ36bhI3dhN_OmlU107fkHH1m23Qd-gU-XQjrJ1trKlBmzsBRyavjtLm4EQpG16XOPv5rtbxcnsVN3W05b25dO0vO7IHpSZ" alt="퍼뜨기" class="w-9 h-9 rounded-full object-cover bg-white ring-2 ring-surface shadow-sm"></div>
+</div>
+<div class="my-4 flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-tertiary tracking-tight">2</span>
+<span class="font-title-md text-title-md text-outline">건 대기 중</span>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container flex items-center justify-between"><div class="flex items-center gap-1.5"><span class="flex items-center gap-1 px-1.5 py-0.5 rounded bg-surface-container-highest font-label-sm text-label-sm text-on-surface"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsHxwjGYZlf80EYRLipvGSVIgpUn7usmKwSmnkJQQXcNJaXTEU6JfKMDH5MEV8Ut5unVvhvT3VQ-j1knRvo7dlSDslhs4Ymu8WIFABjP92cM1LnOHkZDslFU2b2spSXCxai4MESRHow4WJDYfzl66olDoVFd0TxxSuxw7T8b1oBcHxeXs-Yr7F3qMXarjXTrdRTwiXdH32Ako-1AtmSZnmRTLQs9oQUuiqmTGjxBT6HHCpoO-HK3nm" alt="쑤담이" class="w-3.5 h-3.5 rounded-full object-cover">쑤담이 1</span><span class="flex items-center gap-1 px-1.5 py-0.5 rounded bg-surface-container-highest font-label-sm text-label-sm text-on-surface"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9TaQDf7wzaPKobofmFO79Tg0rFVsNHGMl-Y95mjxO5SUMKOLGEmqlUWyB1CIhTlXCnf4nsMyOQz0tUbIpdYih7zZx2q7BtluSDytmwdEiiZrWcX0zur-LsT6OvvI45vgeCUshwAxXan5JjRbGgDKF0pJ36bhI3dhN_OmlU107fkHH1m23Qd-gU-XQjrJ1trKlBmzsBRyavjtLm4EQpG16XOPv5rtbxcnsVN3W05b25dO0vO7IHpSZ" alt="퍼뜨기" class="w-3.5 h-3.5 rounded-full object-cover">퍼뜨기 1</span></div><a class="font-label-sm text-label-sm text-tertiary font-semibold hover:underline flex items-center gap-0.5" href="#">검수하기<span class="material-symbols-outlined text-[14px]">arrow_forward</span></a></div>
+</div>
+<!-- KPI 4: 3kg 안심 비축고 -->
+<div class="p-6 rounded-xl bg-surface-container-low shadow-sm flex flex-col justify-between relative group hover:shadow-md transition-shadow">
+<div class="flex items-start justify-between">
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-secondary tracking-wider uppercase">안심 보증 풀 (Pool)</span>
+<span class="font-title-lg text-title-lg text-on-surface">3kg 안심 비축고</span>
+</div>
+<div class="p-2.5 rounded-lg bg-primary-fixed text-on-primary-fixed">
+<span class="material-symbols-outlined text-[22px]">inventory_2</span>
+</div>
+</div>
+<div class="my-4 flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-primary tracking-tight">142.5</span>
+<span class="font-title-md text-title-md text-outline">kg 확보</span>
+</div>
+<div class="flex flex-col gap-2 pt-2">
+<div class="w-full bg-surface-container-highest rounded-full h-2 overflow-hidden">
+<div class="bg-primary h-full rounded-full transition-all duration-500" style="width: 100%;"></div>
+</div>
+<div class="flex items-center justify-between font-label-sm text-label-sm">
+<span class="text-primary font-semibold">목표(120kg) 대비 118% 달성</span>
+<span class="text-on-surface-variant font-medium">실증 수확분 적재 완료</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Two-Column Operational Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- LEFT SECTION (7 Cols): 오늘 꼭 처리할 농장 업무 Checklist -->
+<div class="lg:col-span-7 flex flex-col gap-6">
+<div class="p-6 md:p-7 rounded-xl bg-surface-container-low shadow-sm flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]">checklist</span>
+<h2 class="font-title-lg text-title-lg text-on-surface font-semibold">오늘 꼭 처리할 농장 업무</h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">현장 우선순위에 따른 순차 점검 리스트입니다.</p>
+</div>
+<span class="px-3 py-1 rounded-full font-label-sm text-label-sm bg-primary/10 text-primary font-medium">
+              4개 중 1개 완료됨
+            </span>
+</div>
+<!-- Checklist Rows -->
+<div class="flex flex-col gap-3">
+<!-- Item 1 (Done) -->
+<div class="p-4 rounded-xl bg-surface-container transition-all flex items-start gap-4 opacity-75">
+<button class="mt-0.5 w-6 h-6 rounded-md bg-primary text-on-primary flex items-center justify-center shrink-0" onclick="toggleCheck(this)">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</button>
+<div class="flex flex-col gap-1 flex-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-surface-container-highest text-outline font-semibold">09:30</span>
+<span class="font-title-md text-title-md text-on-surface line-through">A-01 고랑 수확 실측 계량 및 데이터 연동</span>
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-primary/15 text-primary">완료</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                  실측 중량 3.42kg 확인 후 참여 회원(김*현) 대시보드 자동 연동 완료.
+                </p>
+</div>
+</div>
+<!-- Item 2 (Active/Pending) -->
+<div class="p-4 rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex items-start gap-4">
+<button class="mt-0.5 w-6 h-6 rounded-md bg-surface-container-high hover:bg-primary hover:text-on-primary text-transparent flex items-center justify-center shrink-0 transition-colors" onclick="toggleCheck(this)">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</button>
+<div class="flex flex-col gap-1.5 flex-1 min-w-0">
+<div class="flex items-center justify-between flex-wrap gap-2">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-secondary-container/60 text-secondary font-semibold">11:00</span>
+<span class="font-title-md text-title-md text-on-surface font-semibold">덕산농장 A구역 드론 4K 정기 촬영 및 식생 상태 확인</span>
+</div>
+<span class="px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-secondary/15 text-secondary">예정</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                  A-01 ~ A-10 두둑 캐노피 엽면적 지수(NDVI) 산출 및 주간 성장 타임랩스 원본 촬영.
+                </p>
+<div class="flex items-center gap-3 pt-1">
+<span class="font-label-sm text-label-sm text-outline flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">flight</span>
+                    DJI Mavic 3M 배터리 98%
+                  </span>
+<button class="font-label-sm text-label-sm text-primary font-semibold hover:underline">비행 로그 기록</button>
+</div>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="p-4 rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex items-start gap-4">
+<button class="mt-0.5 w-6 h-6 rounded-md bg-surface-container-high hover:bg-primary hover:text-on-primary text-transparent flex items-center justify-center shrink-0 transition-colors" onclick="toggleCheck(this)">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</button>
+<div class="flex flex-col gap-1.5 flex-1 min-w-0">
+<div class="flex items-center justify-between flex-wrap gap-2"><span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-tertiary-container/20 text-tertiary font-semibold">14:00</span><div class="flex items-center -space-x-1.5"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9TaQDf7wzaPKobofmFO79Tg0rFVsNHGMl-Y95mjxO5SUMKOLGEmqlUWyB1CIhTlXCnf4nsMyOQz0tUbIpdYih7zZx2q7BtluSDytmwdEiiZrWcX0zur-LsT6OvvI45vgeCUshwAxXan5JjRbGgDKF0pJ36bhI3dhN_OmlU107fkHH1m23Qd-gU-XQjrJ1trKlBmzsBRyavjtLm4EQpG16XOPv5rtbxcnsVN3W05b25dO0vO7IHpSZ" alt="퍼뜨기" class="w-5 h-5 rounded-full object-cover bg-white ring-1 ring-surface-container"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsHxwjGYZlf80EYRLipvGSVIgpUn7usmKwSmnkJQQXcNJaXTEU6JfKMDH5MEV8Ut5unVvhvT3VQ-j1knRvo7dlSDslhs4Ymu8WIFABjP92cM1LnOHkZDslFU2b2spSXCxai4MESRHow4WJDYfzl66olDoVFd0TxxSuxw7T8b1oBcHxeXs-Yr7F3qMXarjXTrdRTwiXdH32Ako-1AtmSZnmRTLQs9oQUuiqmTGjxBT6HHCpoO-HK3nm" alt="쑤담이" class="w-5 h-5 rounded-full object-cover bg-white ring-1 ring-surface-container"></div><span class="font-title-md text-title-md text-on-surface font-semibold">A-01, B-04 AI 캐릭터 일지 초안 팩트체크 후 승인</span></div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                  생성형 AI가 작성한 감자꽃 개화 묘사 및 관수 사실 관계 교정 (쩡이 톤앤매너 검토).
+                </p>
+<div class="flex items-center gap-3 pt-1">
+<a class="inline-flex items-center gap-1 font-label-sm text-label-sm text-tertiary font-semibold hover:underline" href="#">
+<span class="material-symbols-outlined text-[16px]">rate_review</span>
+                    초안 2건 바로 검수하기
+                  </a>
+</div>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="p-4 rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex items-start gap-4">
+<button class="mt-0.5 w-6 h-6 rounded-md bg-surface-container-high hover:bg-primary hover:text-on-primary text-transparent flex items-center justify-center shrink-0 transition-colors" onclick="toggleCheck(this)">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</button>
+<div class="flex flex-col gap-1.5 flex-1 min-w-0">
+<div class="flex items-center justify-between flex-wrap gap-2">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-surface-container-highest text-on-surface-variant font-semibold">16:30</span>
+<span class="font-title-md text-title-md text-on-surface font-semibold">6월 2주차 부분수확 일정 슬롯 4개 개방 공지</span>
+</div>
+<span class="px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface-variant">대기</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                  주말 가족 단위 직접 수확 방문팀을 위한 시간대별 슬롯(오전 2타임, 오후 2타임) 카카오 알림 발송.
+                </p>
+</div>
+</div>
+</div>
+<!-- Bottom Action -->
+<div class="flex items-center justify-between pt-2">
+<span class="font-label-sm text-label-sm text-outline">모든 일정은 알림톡 자동 연계 큐에 동기화됩니다.</span>
+<button class="inline-flex items-center gap-1.5 font-label-md text-label-md text-primary font-semibold hover:underline">
+<span class="material-symbols-outlined text-[18px]">add</span>
+              오늘 업무 추가
+            </button>
+</div>
+</div>
+<!-- Mini Visual Status: Furrow Distribution Graphic / Map snippet -->
+<div class="p-6 rounded-xl bg-surface-container-low shadow-sm flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[22px]">grid_view</span>
+<span class="font-title-md text-title-md text-on-surface">덕산농장 40두둑 빠른 상태도 (A·B·C·D 구역)</span>
+</div>
+<div class="flex items-center gap-3 font-label-sm text-label-sm text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-primary"></span>정상생육 (34)</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary"></span>점검필요 (3)</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-surface-container-highest"></span>대기 (3)</span>
+</div>
+</div>
+<!-- High-End Organic Furrow Heatmap Simulation -->
+<div class="grid grid-cols-10 gap-2 p-4 rounded-lg bg-surface-container">
+<!-- Row A -->
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90" title="A-01: 김*현 (적정)">A01</div>
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90" title="A-02: 박*수 (적정)">A02</div>
+<div class="h-8 rounded bg-secondary text-on-secondary font-label-sm text-label-sm flex items-center justify-center font-semibold cursor-pointer ring-2 ring-secondary-container" title="A-03: 이*진 (배수점검)">A03</div>
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90" title="A-04: 정상">A04</div>
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90" title="A-05: 정상">A05</div>
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90" title="A-06: 정상">A06</div>
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90" title="A-07: 정상">A07</div>
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90" title="A-08: 정상">A08</div>
+<div class="h-8 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm flex items-center justify-center font-semibold cursor-pointer" title="A-09: 안심 비축고 두둑">비축</div>
+<div class="h-8 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm flex items-center justify-center font-semibold cursor-pointer" title="A-10: 안심 비축고 두둑">비축</div>
+<!-- Row B -->
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90">B01</div>
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90">B02</div>
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90">B03</div>
+<div class="h-8 rounded bg-tertiary text-on-tertiary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90" title="B-04: 일지 검수 대기">B04</div>
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90">B05</div>
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90">B06</div>
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90">B07</div>
+<div class="h-8 rounded bg-secondary text-on-secondary font-label-sm text-label-sm flex items-center justify-center font-semibold cursor-pointer" title="B-08: 점적관수 점검">B08</div>
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90">B09</div>
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90">B10</div>
+<!-- Row C -->
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90">C01</div>
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90">C02</div>
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90">C03</div>
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90">C04</div>
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90">C05</div>
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90">C06</div>
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90">C07</div>
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90">C08</div>
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90">C09</div>
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90">C10</div>
+<!-- Row D -->
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90">D01</div>
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90">D02</div>
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90">D03</div>
+<div class="h-8 rounded bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-medium cursor-pointer hover:opacity-90">D04</div>
+<div class="h-8 rounded bg-surface-container-highest text-outline font-label-sm text-label-sm flex items-center justify-center font-medium">대기</div>
+<div class="h-8 rounded bg-surface-container-highest text-outline font-label-sm text-label-sm flex items-center justify-center font-medium">대기</div>
+<div class="h-8 rounded bg-surface-container-highest text-outline font-label-sm text-label-sm flex items-center justify-center font-medium">대기</div>
+<div class="h-8 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm flex items-center justify-center font-semibold cursor-pointer">비축</div>
+<div class="h-8 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm flex items-center justify-center font-semibold cursor-pointer">비축</div>
+<div class="h-8 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm flex items-center justify-center font-semibold cursor-pointer">비축</div>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm pt-1">
+<span>두둑 번호를 클릭하면 해당 참여 고객 및 생육 상세로 이동합니다.</span>
+<span class="font-semibold text-secondary hover:underline cursor-pointer">전체 고랑 맵 보기 →</span>
+</div>
+</div>
+</div>
+<!-- RIGHT SECTION (5 Cols): 최근 농장 활동 및 고객 알림 기록 + 현장 핫스팟 -->
+<div class="lg:col-span-5 flex flex-col gap-6">
+<!-- Activity Timeline Card -->
+<div class="p-6 md:p-7 rounded-xl bg-surface-container-low shadow-sm flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[22px]">history_edu</span>
+<h2 class="font-title-lg text-title-lg text-on-surface font-semibold">최근 농장 활동 및 알림 기록</h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">실시간 처리된 현장 업무와 카카오 알림 발송 로그</p>
+</div>
+<button class="p-2 rounded-lg hover:bg-surface-container text-outline hover:text-on-surface transition-colors" title="새로고침">
+<span class="material-symbols-outlined text-[20px]">refresh</span>
+</button>
+</div>
+<!-- Timeline Items -->
+<div class="relative flex flex-col gap-5 before:absolute before:left-3.5 before:top-3 before:bottom-3 before:w-0.5 before:bg-surface-container-highest">
+<!-- Activity 1 -->
+<div class="relative flex items-start gap-4 pl-1">
+<div class="w-6 h-6 rounded-full bg-primary text-on-primary flex items-center justify-center shrink-0 z-10 shadow-sm mt-0.5">
+<span class="material-symbols-outlined text-[14px]">water</span>
+</div>
+<div class="flex flex-col gap-1 p-3.5 rounded-lg bg-surface-container-lowest w-full shadow-sm">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-primary/10 text-primary font-semibold">작업일지 등록</span>
+<span class="font-label-sm text-label-sm text-outline">오늘 08:45</span>
+</div>
+<div class="font-title-md text-title-md text-on-surface font-medium">A-01 외 7개 고랑 점적관수 30분 실시</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                  기온 상승 예상으로 이른 아침 2톤 관수 공급 완료.
+                </p>
+<div class="pt-2 flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span class="flex items-center gap-1.5">
+<img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFCFUrYzyKeprsU8czrlOWWydJYd4gjUB-iaUdw_6Px7sKXhXQ75R_UNMiLzNemJXMCsPa90KUpPKRfwIMWGHCf9MvIC_CK40opd0umZbfyktV9QAX6wmJLvAImLoMNeW8yRXpB36TjY035z6GX1qasBUXOrfs18_oo-j8HAjG1JvRX98A92PziwmSnhshwdgrmOxI_2yu2OKrYH21rRkQuNQkbV1s4QzBGWlfgpDmBIfP4ssxzCIp" alt="FM 쩡이" class="w-5 h-5 rounded-full object-cover ring-1 ring-secondary-container">
+                    기록자: FM 쩡이
+                  </span>
+<span class="text-primary font-semibold">데이터 저장됨</span>
+</div>
+</div>
+</div>
+<!-- Activity 2 -->
+<div class="relative flex items-start gap-4 pl-1">
+<div class="w-6 h-6 rounded-full bg-secondary text-on-secondary flex items-center justify-center shrink-0 z-10 shadow-sm mt-0.5">
+<span class="material-symbols-outlined text-[14px]">send</span>
+</div>
+<div class="flex flex-col gap-1 p-3.5 rounded-lg bg-surface-container-lowest w-full shadow-sm">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-secondary/15 text-secondary font-semibold">고객요청 처리</span>
+<span class="font-label-sm text-label-sm text-outline">오늘 08:10</span>
+</div>
+<div class="font-title-md text-title-md text-on-surface font-medium">A-03 고랑 배수 점검 사진 피드백 발송 완료</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                  참여회원(박*민 님) 카카오 알림톡으로 현장 고랑 근접 사진 2장 전송 완료.
+                </p>
+<div class="pt-2 flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span class="text-secondary font-medium">카카오 알림 발송 성공</span>
+<button class="text-outline hover:text-on-surface font-semibold hover:underline">상세보기</button>
+</div>
+</div>
+</div>
+<!-- Activity 3 -->
+<div class="relative flex items-start gap-4 pl-1">
+<div class="w-7 h-7 rounded-full bg-surface-container-lowest ring-2 ring-tertiary flex items-center justify-center shrink-0 z-10 shadow-sm mt-0.5 overflow-hidden"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsHxwjGYZlf80EYRLipvGSVIgpUn7usmKwSmnkJQQXcNJaXTEU6JfKMDH5MEV8Ut5unVvhvT3VQ-j1knRvo7dlSDslhs4Ymu8WIFABjP92cM1LnOHkZDslFU2b2spSXCxai4MESRHow4WJDYfzl66olDoVFd0TxxSuxw7T8b1oBcHxeXs-Yr7F3qMXarjXTrdRTwiXdH32Ako-1AtmSZnmRTLQs9oQUuiqmTGjxBT6HHCpoO-HK3nm" alt="쑤담이" class="w-full h-full object-cover"></div>
+<div class="flex flex-col gap-1 p-3.5 rounded-lg bg-surface-container-lowest w-full shadow-sm">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-tertiary/15 text-tertiary font-semibold">AI 초안 대기</span>
+<span class="font-label-sm text-label-sm text-outline">어제 19:20</span>
+</div>
+<div class="flex items-center gap-2"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsHxwjGYZlf80EYRLipvGSVIgpUn7usmKwSmnkJQQXcNJaXTEU6JfKMDH5MEV8Ut5unVvhvT3VQ-j1knRvo7dlSDslhs4Ymu8WIFABjP92cM1LnOHkZDslFU2b2spSXCxai4MESRHow4WJDYfzl66olDoVFd0TxxSuxw7T8b1oBcHxeXs-Yr7F3qMXarjXTrdRTwiXdH32Ako-1AtmSZnmRTLQs9oQUuiqmTGjxBT6HHCpoO-HK3nm" alt="쑤담이" class="w-5 h-5 rounded-full object-cover"><div class="font-title-md text-title-md text-on-surface font-medium">쑤담이의 밭일기 카카오 알림 승인 대기</div></div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                  “오늘 감자 이파리에 작은 이슬방울이 맺혔어요!” B구역 8팀 알림톡 예약.
+                </p>
+<div class="pt-2 flex items-center gap-2">
+<button class="px-3 py-1 rounded bg-tertiary text-on-tertiary font-label-sm text-label-sm font-semibold hover:opacity-90">초안 승인</button>
+<button class="px-3 py-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">수정</button>
+</div>
+</div>
+</div>
+</div>
+<a class="w-full py-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-center font-label-md text-label-md text-on-surface transition-colors flex items-center justify-center gap-1" href="#">
+            전체 활동 로그 기록 열람
+            <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</a>
+</div>
+<!-- Field Photo Spotlight: Tangible farm connection -->
+<div class="p-6 rounded-xl bg-surface-container-low shadow-sm flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<span class="font-title-md text-title-md text-on-surface font-semibold">오늘의 덕산농장 실시간 렌즈</span>
+<span class="font-label-sm text-label-sm text-primary flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+              Live Sync
+            </span>
+</div>
+<div class="relative rounded-xl overflow-hidden h-48 bg-surface-container group">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Sunlit green potato field in Miryang Korea during gentle morning light, neatly mounded organic soil ridges with blooming small white potato flowers, macro agricultural photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXSTgCETzXHNEapnKoiu_xtQSeNNNxp58zl7QZB_iDtrWvYLvlgORuJIY7RY9vRYm6dPVyWrglWiSShlIcX-gzq6vm5j7RQ_ASHCO09ey874w7Sw1L0TCNPKI9BNCL7Oyexcd5Aj_Cci4r1K349aXtcweKt8QPK8i-ZaBqAKLpBZB7QVhLJVz7Qw72u-lvLiWfKM2QM4qa-1pWnrZ8pHxc4QHZFLftr0sWCFUnChc">
+<div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex flex-col justify-end p-4 text-white">
+<span class="font-label-sm text-label-sm text-secondary-fixed">CAM 01 - A구역 4호기</span>
+<p class="font-title-md text-title-md font-semibold text-white">감자꽃 만개 및 엽육 두께 양호</p>
+<div class="flex items-center justify-between text-xs text-white/80 pt-1">
+<span>촬영시각: 오늘 08:30:12</span>
+<span class="text-white font-medium hover:underline cursor-pointer">고화질 스틸컷 다운로드</span>
+</div>
+</div>
+</div>
+<!-- Bottom Notice for Field Handover -->
+<div class="p-3.5 rounded-lg bg-secondary-container/30 flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary text-[20px] shrink-0 mt-0.5">info</span>
+<div class="flex flex-col gap-0.5">
+<span class="font-label-sm text-label-sm font-semibold text-on-secondary-container">신월농장 오픈 준비 알림</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant">
+                과원(자두/복숭아) 구획 설계는 7월 초 개시 예정이며, 현재 덕산 봄감자 수확 종료 시점과 연계 작업 중입니다.
+              </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  function toggleCheck(btn) {
+    const isChecked = btn.classList.contains('bg-primary');
+    const row = btn.closest('.p-4');
+    const title = row.querySelector('.font-title-md');
+    
+    if (isChecked) {
+      btn.classList.remove('bg-primary', 'text-on-primary');
+      btn.classList.add('bg-surface-container-high', 'text-transparent');
+      row.classList.remove('opacity-75');
+      if (title) title.classList.remove('line-through');
+    } else {
+      btn.classList.remove('bg-surface-container-high', 'text-transparent');
+      btn.classList.add('bg-primary', 'text-on-primary');
+      row.classList.add('opacity-75');
+      if (title) title.classList.add('line-through');
+    }
+  }
+</script></main></div>
+
+</body></html>

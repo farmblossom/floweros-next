@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"inverse-primary":"#b2cea8","surface-variant":"#e9e1dc","tertiary-fixed":"#fbd8f3","secondary-fixed-dim":"#e3bfaa","on-secondary-container":"#795d4b","on-tertiary-fixed":"#291427","on-surface-variant":"#434840","on-primary-container":"#f8fff0","on-primary":"#ffffff","primary":"#4a6243","surface-container":"#f5ece7","tertiary-container":"#886c83","inverse-on-surface":"#f8efea","outline":"#74796f","on-secondary-fixed-variant":"#5a4131","secondary-container":"#fed8c2","surface-container-high":"#efe6e2","on-secondary":"#ffffff","on-surface":"#1e1b18","on-tertiary":"#ffffff","secondary-fixed":"#ffdcc7","primary-fixed-dim":"#b2cea8","surface-container-low":"#fbf2ed","on-error":"#ffffff","surface-bright":"#fff8f5","surface-tint":"#4c6546","tertiary":"#6e5469","tertiary-fixed-dim":"#debdd6","on-background":"#1e1b18","primary-fixed":"#ceebc3","surface":"#fff8f5","surface-container-highest":"#e9e1dc","primary-container":"#627b5a","error":"#ba1a1a","error-container":"#ffdad6","on-error-container":"#93000a","on-secondary-fixed":"#2a170a","on-primary-fixed-variant":"#354d30","outline-variant":"#c3c8be","surface-container-lowest":"#ffffff","background":"#fff8f5","on-tertiary-fixed-variant":"#583f54","surface-dim":"#e1d8d4","secondary":"#745947","on-primary-fixed":"#0a2008","on-tertiary-container":"#fffbff","inverse-surface":"#34302c"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin":"3rem","gutter-mobile":"1rem","space-sm":"0.5rem","margin-mobile":"1.25rem","space-xs":"0.25rem","space-md":"1rem","space-xl":"2.5rem","space-lg":"1.5rem","gutter":"1.5rem"},"fontFamily":{"headline-lg-mobile":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"label-sm":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"title-md":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"headline-xl":["Plus Jakarta Sans"],"body-lg":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"title-lg":["Plus Jakarta Sans"],"headline-xl-mobile":["Plus Jakarta Sans"]},"fontSize":{"headline-lg-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"700"}],"body-md":["14px",{"lineHeight":"22px","fontWeight":"400"}],"label-sm":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"headline-md":["22px",{"lineHeight":"30px","letterSpacing":"-0.01em","fontWeight":"600"}],"title-md":["16px",{"lineHeight":"24px","fontWeight":"600"}],"label-md":["14px",{"lineHeight":"20px","fontWeight":"500"}],"headline-xl":["40px",{"lineHeight":"52px","letterSpacing":"-0.02em","fontWeight":"700"}],"body-lg":["16px",{"lineHeight":"26px","fontWeight":"400"}],"headline-lg":["30px",{"lineHeight":"40px","letterSpacing":"-0.015em","fontWeight":"700"}],"title-lg":["19px",{"lineHeight":"26px","letterSpacing":"-0.005em","fontWeight":"600"}],"headline-xl-mobile":["30px",{"lineHeight":"38px","letterSpacing":"-0.015em","fontWeight":"700"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex flex-col justify-between py-6 px-4 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col gap-6"><div class="flex items-center gap-3 px-3"><img alt="꽃폈네 로고" class="w-10 h-10 rounded-xl object-cover" src="https://lh3.googleusercontent.com/aida/ALJJyrAdscUf-yJW6KgV5WUvFnm487IDcvr7BfxcOfuiEoL1PUyiPlbEa1ORYMe3Eimyx9iMDtK8cK781GVl4k0Gea47yzmTHhIwJJ20KSyDWbjkWWTbr9p1Nup0lFotxJqWiQ7j-F7h1ElobJ0TCFd8i4Bh9cSuVZ7XrN_U5kur24zKfP5oQedXnq0pp5wR4_nLxVappU157aI7N4QvzcA-h_a8FEHAD5XYfs7BmuuUH4zcQuInI9diDQE172Y"/><div class="flex flex-col"><span class="font-title-md text-title-md text-primary tracking-tight">꽃폈네 OS</span><span class="font-label-sm text-label-sm text-secondary">FM 쩡이 관리자 센터</span></div></div><nav class="flex flex-col gap-1" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-sm"><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">space_dashboard</span>대시보드</a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="customer-participation" href="#"><span class="material-symbols-outlined text-[20px]">groups</span>고객·참여 관리</a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="farm-furrow" href="#"><span class="material-symbols-outlined text-[20px]">nature</span>농장·고랑 관리</a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="field-journal" href="#"><span class="material-symbols-outlined text-[20px]">edit_note</span>현장 영농일지</a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="customer-requests" href="#"><span class="material-symbols-outlined text-[20px]">contact_support</span>고객 요청</a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="harvest-delivery" href="#"><span class="material-symbols-outlined text-[20px]">local_shipping</span>부분수확·배송</a><a aria-current="page" class="flex items-center gap-3 px-3 py-2.5 transition-colors bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-sm" data-path="media-content" href="#"><span class="material-symbols-outlined text-[20px]">perm_media</span>미디어·콘텐츠 관리</a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="ai-draft-storybook" href="#"><span class="material-symbols-outlined text-[20px]">auto_stories</span>AI 초안·스토리북 검수</a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="channel-management" href="#"><span class="material-symbols-outlined text-[20px]">hub</span>외부 채널 관리</a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="settings" href="#"><span class="material-symbols-outlined text-[20px]">settings</span>설정</a></nav></div><div class="px-3 py-3 rounded-lg bg-surface-container flex items-center justify-between"><div class="flex flex-col"><span class="font-label-sm text-label-sm text-on-surface-variant">운영 모드</span><span class="font-title-md text-title-md text-primary font-semibold">실시간 동기화 중</span></div><span class="material-symbols-outlined text-primary text-[20px]">sensors</span></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-8"><div class="flex items-center gap-6"><div class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-lg text-on-surface"><span class="material-symbols-outlined text-secondary text-[20px]">agriculture</span><select class="bg-transparent font-title-md text-title-md text-on-surface outline-none cursor-pointer pr-2"><option selected="" value="deoksan">밀양 덕산농장 (2027 봄감자 실증 중)</option><option value="shinwol">신월농장 (과원 오픈 예정)</option></select></div><div class="hidden xl:flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm"><span class="material-symbols-outlined text-primary text-[18px]">wb_sunny</span><span>덕산농장: 21.4°C 맑음 (기상청 API 연동 예정 / FM 08:30 현장 육안 확인 완료)</span></div></div><div class="flex items-center gap-4"><a class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high font-label-md text-label-md text-on-surface transition-colors" href="#" target="_blank"><span class="font-body-md text-body-md">고객용 웹사이트</span><span class="material-symbols-outlined text-[16px]">open_in_new</span></a><div class="h-6 w-px bg-outline-variant/40"></div><div class="flex items-center gap-3"><div class="flex flex-col items-end"><span class="font-label-md text-label-md text-on-surface font-semibold">FM 쩡이</span><span class="font-label-sm text-label-sm text-outline">총괄 농장관리자</span></div><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/ALJJyrAdscUf-yJW6KgV5WUvFnm487IDcvr7BfxcOfuiEoL1PUyiPlbEa1ORYMe3Eimyx9iMDtK8cK781GVl4k0Gea47yzmTHhIwJJ20KSyDWbjkWWTbr9p1Nup0lFotxJqWiQ7j-F7h1ElobJ0TCFd8i4Bh9cSuVZ7XrN_U5kur24zKfP5oQedXnq0pp5wR4_nLxVappU157aI7N4QvzcA-h_a8FEHAD5XYfs7BmuuUH4zcQuInI9diDQE172Y"/></div></div></header><main class="w-full pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Toast Notification Simulator -->
+<div class="fixed bottom-8 right-8 z-50 bg-inverse-surface text-inverse-on-surface px-5 py-3 rounded-lg shadow-xl flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none" id="toast">
+<span class="material-symbols-outlined text-inverse-primary text-[20px]" id="toast-icon">check_circle</span>
+<span class="font-body-md text-body-md" id="toast-msg">변경사항이 저장되었습니다.</span>
+</div>
+<div class="px-8 py-8 flex flex-col gap-8 max-w-[1440px] mx-auto w-full">
+<!-- Top Notice & Header Info -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between flex-wrap gap-3">
+<div class="flex items-center gap-2.5">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary-container/60 text-on-secondary-container font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">info</span>
+<span>※ 본 화면의 모든 샘플 이미지는 2027년 실증을 위한 시뮬레이션 자료입니다.</span>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-outline font-label-sm text-label-sm">Cloudflare R2 + CDN 동기화 중</span>
+</div>
+<div class="flex items-center gap-2 text-outline font-label-sm text-label-sm">
+<span class="inline-block w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span>미디어 스토리지 잔여: 412.8 GB / 1.0 TB</span>
+</div>
+</div>
+<!-- Action & Farm Switch Toolbar -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-surface-container-low p-4 rounded-xl shadow-sm">
+<div class="flex items-center gap-2 overflow-x-auto pb-1 lg:pb-0">
+<button class="farm-tab-btn active px-4 py-2 rounded-lg font-title-md text-title-md bg-primary text-on-primary shadow-sm flex items-center gap-2 transition-all">
+<span class="material-symbols-outlined text-[18px]">yard</span>
+<span>밀양 덕산농장</span>
+<span class="px-1.5 py-0.5 rounded-full bg-on-primary/20 text-on-primary font-label-sm text-label-sm">활성</span>
+</button>
+<button class="farm-tab-btn px-4 py-2 rounded-lg font-title-md text-title-md bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">park</span>
+<span>신월농장</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-variant text-on-surface-variant font-label-sm text-label-sm">과원 준비중</span>
+</button>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-5 py-2.5 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md flex items-center gap-2 shadow-sm transition-all transform active:scale-95" onclick="triggerUploadModal()">
+<span class="material-symbols-outlined text-[20px]">add_photo_alternate</span>
+<span>신규 농장 사진/영상 등록</span>
+</button>
+<button class="p-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant transition-colors" onclick="showToast('R2 스토리지 메타데이터를 전수 재동기화했습니다.')" title="새로고침">
+<span class="material-symbols-outlined text-[20px]">refresh</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Key Slots Management Grid (Brand / VR 360 / Furrow / Package) -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">핵심 프론트 노출 슬롯 관리</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">고객 웹사이트 메인 및 고랑 스토리북에 실시간 직결되는 4대 마스터 미디어 슬롯입니다.</p>
+</div>
+<span class="font-label-sm text-label-sm text-secondary bg-surface-container-high px-3 py-1 rounded-full">자동 캐시 무효화 적용됨</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+<!-- Slot 1: Brand Website Main Hero -->
+<div class="flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all group">
+<div class="relative h-48 bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Panoramic breathtaking view of Deoksan potato farm in Miryang South Korea during crisp morning sunrise, lush green potato sprouts in symmetrical earthy furrows, morning mist rising over distant mountains, warm natural organic sunlight, editorial agricultural photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKJVDQBuLPEutAmI3bjXvqcibneV3iXe_zMuFjrPOoKZrGsMAJe-6PW8oooGtmJzZGhJZTpeRcluTXXFhKnrQDa4aHlHVlMaHRlird4m54-X89yWkaVTnnAUCLxXj7cSzBkY7TkI77zWXS488NRCHwvQnZV7X5B_nBIaVdMQaQE3-y6sNZQlSv-hN71LHzXwp7vF9OQ7p1dP7EUrad3ER_kD2vPVQdUISWSgqDbMw"/>
+<span class="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-surface/90 backdrop-blur-md text-primary font-label-sm text-label-sm shadow-sm flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">web</span>
+              홈페이지 메인 대표
+            </span>
+<span class="absolute bottom-3 right-3 px-2 py-0.5 rounded bg-inverse-surface/80 text-inverse-on-surface font-label-sm text-label-sm backdrop-blur-sm">
+              1920 × 1080 (16:9)
+            </span>
+</div>
+<div class="p-5 flex flex-col justify-between flex-1 gap-4">
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary font-semibold">SLOT-01</span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-primary">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                  정상 노출 중
+                </span>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface font-semibold line-clamp-1">밀양 덕산리 봄 들녘 전경 (새싹 발아기)</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">꽃폈네 공식 웹 랜딩 최상단 히어로 배너에 노출 중인 고해상도 드론 원판입니다.</p>
+</div>
+<div class="pt-3 border-t-0 bg-surface-container-low/60 -mx-5 -mb-5 p-4 flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline">최종갱신: 2027.04.12 FM 쩡이</span>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-variant text-on-surface font-label-md text-label-md transition-colors flex items-center gap-1.5" onclick="triggerSlotReplace('홈페이지 대표 슬롯')">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+                교체
+              </button>
+</div>
+</div>
+</div>
+<!-- Slot 2: 360 VR Virtual Farm Hotspot -->
+<div class="flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all group">
+<div class="relative h-48 bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Equirectangular 360 degree panoramic view of Miryang Deoksan organic potato farm field, rich dark loamy soil ridges with young vibrant green potato shoots under soft cloudy sky, rustic irrigation channel and FM tool station visible in warm earth tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBN5Q5NsLWYCWOpniq7lEj3zbCDL2u6iNNF06-ZYQ_EPgJ1R4saSC0GhOG9FZvJEoEQPjjjPJqPoeVMu3ZNfgi0Fr6NMvZc360VzFWSu0zMvkFiSXhPcjWzDQU8A60bsmGTvt99C3dkx6IutRVb-qCTVvc150U8jqpb8u2-GMWUbdBlo3LNH_8jAv3XRXsvXF60IwxiCD8UhD3PQp2uZ9XCsCDjVKX5VZuUd5xXuwU"/>
+<span class="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-surface/90 backdrop-blur-md text-tertiary font-label-sm text-label-sm shadow-sm flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">360</span>
+              3D 가상농장 핫스팟
+            </span>
+<div class="absolute bottom-3 left-3 flex gap-1.5">
+<span class="px-2 py-0.5 rounded bg-primary/90 text-on-primary font-label-sm text-label-sm backdrop-blur-sm">입구</span>
+<span class="px-2 py-0.5 rounded bg-primary/90 text-on-primary font-label-sm text-label-sm backdrop-blur-sm">중앙농로</span>
+<span class="px-2 py-0.5 rounded bg-primary/90 text-on-primary font-label-sm text-label-sm backdrop-blur-sm">A구역</span>
+</div>
+</div>
+<div class="p-5 flex flex-col justify-between flex-1 gap-4">
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary font-semibold">SLOT-02</span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-tertiary">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                  핫스팟 3개 연동
+                </span>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface font-semibold line-clamp-1">덕산농장 360° 파노라마 큐브맵</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">소비자가 내 고랑을 3차원으로 둘러보는 Three.js WebGL 투어 텍스처 데이터셋입니다.</p>
+</div>
+<div class="pt-3 border-t-0 bg-surface-container-low/60 -mx-5 -mb-5 p-4 flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline">해상도: 8K Panorama</span>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-variant text-on-surface font-label-md text-label-md transition-colors flex items-center gap-1.5" onclick="triggerSlotReplace('360 VR 파노라마')">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+                교체
+              </button>
+</div>
+</div>
+</div>
+<!-- Slot 3: Furrow Growth Observation -->
+<div class="flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all group">
+<div class="relative h-48 bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Close up macrophotography of lush spring potato plants growing in dark fertile soil with soil moisture meter and wooden furrow marker A-04 visible in soft morning sunlight, tactile organic details, agricultural field journal photo." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDX1lLY0IXjfWOz_y7tZHsp2gmvAQu2jp985GgGI926ee757BPRt3joxwK_dV8Zs4EpV3rUx6JnXaxQrkUiT45-pvQDrPDtyIv34qufku4gt98KZtul6mBc2wOQY_KTSbmsfpi081sCn31G5hvN47nY1OojxlwtFod_co7PhF0EvelIU7XDWaJh-RvGs4JkHYcIuE06-Obdida0N6F6ZxOd7ZF6kt65j5RpYSoh7vM"/>
+<span class="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-surface/90 backdrop-blur-md text-secondary font-label-sm text-label-sm shadow-sm flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">straighten</span>
+              고랑별 실측 생육 슬롯
+            </span>
+<span class="absolute bottom-3 right-3 px-2 py-0.5 rounded bg-surface/90 text-on-surface font-label-sm text-label-sm backdrop-blur-sm">
+              A-01 ~ A-40 연동
+            </span>
+</div>
+<div class="p-5 flex flex-col justify-between flex-1 gap-4">
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary font-semibold">SLOT-03</span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-primary">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                  EXIF 자동 매핑됨
+                </span>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface font-semibold line-clamp-1">고랑 A-04 실측 엽수 및 초장 기록</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">고객 모바일 알림톡 및 마이페이지 내 고랑 실시간 생육 갤러리에 공급됩니다.</p>
+</div>
+<div class="pt-3 border-t-0 bg-surface-container-low/60 -mx-5 -mb-5 p-4 flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline">실측 초장: 18.5 cm</span>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-variant text-on-surface font-label-md text-label-md transition-colors flex items-center gap-1.5" onclick="triggerSlotReplace('고랑 실측 사진')">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+                교체
+              </button>
+</div>
+</div>
+</div>
+<!-- Slot 4: 2027 Storybox & 3kg Harvest Package -->
+<div class="flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all group">
+<div class="relative h-48 bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Artisanal organic craft box packaging for Korean fresh harvested spring potatoes, stamped with cute character mascot and calligraphic Korean brand Florished Florished, standing beside freshly dug unwashed potatoes on natural linen cloth in soft studio daylight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbBP0WqL3bcx0k5_VjAxQ9Aqmd7l34Jif8v0_L7BXylXaU8_iyxqKYL0U_0P1FZ4bo4CRpg4cXinSBW0GB87xs-TnS-WtpSEnEGKRJnE90ACsJyzX181koOZFg2KChv93PxJThPUqURCfoj7v49LAmZ0uY8JzWuZmIrYNEqb3Cm2F3KJI7VEv48ggERqaX-33_MQmfeJt4i_UXGI5dIxY4TfjqpJA_U7vEscSm35Y"/>
+<span class="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-surface/90 backdrop-blur-md text-on-secondary-container bg-secondary-container font-label-sm text-label-sm shadow-sm flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">inventory_2</span>
+              수확 패키지 대표컷
+            </span>
+<span class="absolute bottom-3 right-3 px-2 py-0.5 rounded bg-inverse-surface/80 text-inverse-on-surface font-label-sm text-label-sm backdrop-blur-sm">
+              시즌 한정 3kg 상자
+            </span>
+</div>
+<div class="p-5 flex flex-col justify-between flex-1 gap-4">
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary font-semibold">SLOT-04</span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-primary">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                  스토어/스토리북 연동
+                </span>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface font-semibold line-clamp-1">2027 햇감자 크라프트 패키지 3kg</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">퍼스기·쑤담이 캐릭터 인쇄본 및 리얼 감자 보증서가 포함된 패키징 최종 컷입니다.</p>
+</div>
+<div class="pt-3 border-t-0 bg-surface-container-low/60 -mx-5 -mb-5 p-4 flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline">최종 승인: FM 쩡이</span>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-variant text-on-surface font-label-md text-label-md transition-colors flex items-center gap-1.5" onclick="triggerSlotReplace('패키지 대표컷')">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+                교체
+              </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Filter & Search Controls Bar -->
+<div class="flex flex-col gap-4 bg-surface-container-low p-5 rounded-xl">
+<div class="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+<!-- Category Filters -->
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="font-label-sm text-label-sm text-outline mr-2">사진 분류:</span>
+<button class="cat-chip active px-3 py-1.5 rounded-full font-label-md text-label-md bg-primary text-on-primary transition-all" onclick="filterCategory('all', this)">전체 (38)</button>
+<button class="cat-chip px-3 py-1.5 rounded-full font-label-md text-label-md bg-surface-container-highest text-on-surface-variant hover:bg-surface-variant transition-all" onclick="filterCategory('homepage', this)">홈페이지 대표 (4)</button>
+<button class="cat-chip px-3 py-1.5 rounded-full font-label-md text-label-md bg-surface-container-highest text-on-surface-variant hover:bg-surface-variant transition-all" onclick="filterCategory('drone', this)">농장 드론 뷰 (8)</button>
+<button class="cat-chip px-3 py-1.5 rounded-full font-label-md text-label-md bg-surface-container-highest text-on-surface-variant hover:bg-surface-variant transition-all" onclick="filterCategory('vr360', this)">360° 현장스팟 (6)</button>
+<button class="cat-chip px-3 py-1.5 rounded-full font-label-md text-label-md bg-surface-container-highest text-on-surface-variant hover:bg-surface-variant transition-all" onclick="filterCategory('furrow', this)">고객 고랑별 사진 (15)</button>
+<button class="cat-chip px-3 py-1.5 rounded-full font-label-md text-label-md bg-surface-container-highest text-on-surface-variant hover:bg-surface-variant transition-all" onclick="filterCategory('package', this)">수확·패키지 (5)</button>
+</div>
+<!-- Scope & Search Filters -->
+<div class="flex items-center gap-3 flex-wrap">
+<div class="flex items-center gap-2 bg-surface-container-lowest px-3 py-1.5 rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-[18px] text-outline">visibility</span>
+<span class="font-label-sm text-label-sm text-outline">공개 범위:</span>
+<select class="bg-transparent font-label-md text-label-md text-on-surface outline-none cursor-pointer" id="scopeSelect" onchange="applyFilters()">
+<option selected="" value="all">전체 범위</option>
+<option value="public">공개 웹사이트 (Public)</option>
+<option value="customer">참여고객 전용 (비공개)</option>
+<option value="internal">관리자 내부용 (Internal)</option>
+</select>
+</div>
+<div class="flex items-center gap-2 bg-surface-container-lowest px-3 py-1.5 rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-[18px] text-outline">search</span>
+<input class="bg-transparent font-label-md text-label-md text-on-surface placeholder:text-outline outline-none w-48 focus:w-64 transition-all" id="searchInput" onkeyup="applyFilters()" placeholder="파일명, 구역(A-01), 태그 검색..." type="text"/>
+</div>
+</div>
+</div>
+<!-- Batch Actions Bar (Shown when items selected) -->
+<div class="hidden items-center justify-between px-4 py-2.5 rounded-lg bg-surface-container-highest" id="batchBar">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-[20px]">check_box</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold"><span id="selectedCount">0</span>개 항목 선택됨</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm hover:bg-primary-container transition-colors" onclick="batchApprove()">일괄 승인완료 변경</button>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm hover:bg-surface-variant transition-colors" onclick="batchChangeScope('customer')">참여고객 전용으로 변경</button>
+<button class="px-3 py-1.5 rounded-lg bg-error-container text-on-error-container font-label-sm text-label-sm hover:opacity-90 transition-colors" onclick="batchDelete()">일괄 삭제</button>
+</div>
+</div>
+</div>
+<!-- Media Data Table View -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm flex flex-col">
+<div class="p-5 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<h3 class="font-title-lg text-title-lg text-on-surface font-semibold">농장 미디어 에셋 라이브러리</h3>
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm" id="tableRecordCount">총 8개 표시 중</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-lg bg-surface-container-high text-primary" id="btnViewTable" onclick="toggleViewMode('table')"><span class="material-symbols-outlined text-[18px]">table_rows</span></button>
+<button class="p-2 rounded-lg bg-surface text-outline hover:text-on-surface" id="btnViewGrid" onclick="toggleViewMode('grid')"><span class="material-symbols-outlined text-[18px]">grid_view</span></button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left" id="mediaTable">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-3 px-4 w-12 text-center">
+<input class="w-4 h-4 rounded accent-primary cursor-pointer" id="selectAllCheckbox" onchange="toggleSelectAll(this)" type="checkbox"/>
+</th>
+<th class="py-3 px-4">썸네일 / 에셋명</th>
+<th class="py-3 px-4">촬영 농장 · 구역</th>
+<th class="py-3 px-4">촬영일자 / EXIF</th>
+<th class="py-3 px-4">콘텐츠 분류</th>
+<th class="py-3 px-4">공개 범위</th>
+<th class="py-3 px-4">승인 상태</th>
+<th class="py-3 px-4 text-right">관리 액션</th>
+</tr>
+</thead>
+<tbody class="divide-none text-on-surface font-body-md text-body-md" id="tableBody">
+<!-- Item 1 -->
+<tr class="media-row hover:bg-surface-container/50 transition-colors" data-category="homepage" data-id="1" data-name="DKS_20270412_HERO_SPRING.jpg" data-scope="public">
+<td class="py-3.5 px-4 text-center">
+<input class="row-checkbox w-4 h-4 rounded accent-primary cursor-pointer" onchange="updateSelectedCount()" type="checkbox"/>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-16 h-12 rounded-lg overflow-hidden bg-surface-container flex-shrink-0 relative group/thumb cursor-pointer" onclick="openPreviewModal('DKS_20270412_HERO_SPRING.jpg', '밀양 덕산농장 봄 들녘 전경 (홈페이지 대표)', '4.8 MB · 5472 × 3648')">
+<img class="w-full h-full object-cover" data-alt="High angle landscape photo of Miryang Deoksan potato field in South Korea, spring green morning, cinematic warm dawn light, sharp organic potato sprouts." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAExjyGJIIXZUQu0G77MQryfZv0FEe2xjnhrq1lChfHFt24-sFEPEj2bhvAw5pbOX7kOx-y0LQSX5H3--kk8qi0WryMrUowAJd2dntqjGd5khcY5vGuVDOXHYKye0zhGTHjfMMhP5-OJ7Paj6A1BE1K9XS4LJRVVouDqTw77RjXMjYMsVPs2MitgDKzJYn3Hhq_ivDdXZ79EygmQM8sh1bEPWY273Lkm6NxPL3Vv6s"/>
+<div class="absolute inset-0 bg-on-surface/30 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-surface text-[18px]">zoom_in</span>
+</div>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md font-semibold text-on-surface truncate">DKS_20270412_HERO_SPRING.jpg</span>
+<span class="font-label-sm text-label-sm text-outline truncate">4.8 MB · 5472 × 3648 · Sony α7R V</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface">밀양 덕산농장</span>
+<span class="font-label-sm text-label-sm text-outline">전체 들녘 (고랑 A·B 통합)</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">2027-04-12 08:34</span>
+<span class="font-label-sm text-label-sm text-primary flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">location_on</span>GPS 메타 태깅됨
+                  </span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm">홈페이지 대표</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full bg-primary/15 text-primary font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit">
+<span class="material-symbols-outlined text-[14px]">public</span>공개 웹사이트
+                </span>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit">
+<span class="material-symbols-outlined text-[14px]">verified</span>승인완료
+                </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-1.5">
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors" onclick="triggerSlotReplace('DKS_20270412_HERO_SPRING.jpg')" title="파일 교체">
+<span class="material-symbols-outlined text-[18px]">cached</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors" onclick="showToast('DKS_20270412_HERO_SPRING.jpg 원본 다운로드를 시작합니다.')" title="원본 다운로드">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-error-container/40 text-on-surface-variant hover:text-error transition-colors" onclick="confirmDeleteRow(this)" title="삭제">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Item 2 -->
+<tr class="media-row hover:bg-surface-container/50 transition-colors" data-category="furrow" data-id="2" data-name="FURROW_A04_SPROUT_01.jpg" data-scope="customer">
+<td class="py-3.5 px-4 text-center">
+<input class="row-checkbox w-4 h-4 rounded accent-primary cursor-pointer" onchange="updateSelectedCount()" type="checkbox"/>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-16 h-12 rounded-lg overflow-hidden bg-surface-container flex-shrink-0 relative group/thumb cursor-pointer" onclick="openPreviewModal('FURROW_A04_SPROUT_01.jpg', '고랑 A-04 새싹 본잎 전개 실측', '3.2 MB · 4032 × 3024')">
+<img class="w-full h-full object-cover" data-alt="Macro plant detail shot of young vibrant potato plant stem and leaf growing in damp dark agricultural compost soil, wooden tag marked A-04 in background, high definition natural daylight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHB3w0tDAaPY4aA3ifsyQsbMnbR8ASJO6ldq_YgH6_kewx2pywOs-VtGVx0T2xUay5psO0BoW6jWDl4qnPEHfVX5A4ihuAgNgjOh9GJxjeYYbNqJp_yiQGwFqQgetDYq7vK0-og1VbPZ0-qJ4Pn2eCDSdvNp8Msz-wgy946WyNlrmgnFzQRRD2syHhMKbGPJZT7ljVmDzfaPOEzduSuyP57iF5xK6YpHi-fUVYGBI"/>
+<div class="absolute inset-0 bg-on-surface/30 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-surface text-[18px]">zoom_in</span>
+</div>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md font-semibold text-on-surface truncate">FURROW_A04_SPROUT_01.jpg</span>
+<span class="font-label-sm text-label-sm text-outline truncate">3.2 MB · 4032 × 3024 · iPhone 16 Pro</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface">밀양 덕산농장</span>
+<span class="font-label-sm text-label-sm text-secondary font-medium">A구역 04번 고랑 (김*진 고객)</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">2027-04-11 14:15</span>
+<span class="font-label-sm text-label-sm text-outline">초장 18.5cm 기록 연동</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm">고객 고랑별 사진</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit">
+<span class="material-symbols-outlined text-[14px]">lock</span>참여고객 전용
+                </span>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit">
+<span class="material-symbols-outlined text-[14px]">verified</span>승인완료
+                </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-1.5">
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors" onclick="triggerSlotReplace('FURROW_A04_SPROUT_01.jpg')" title="파일 교체">
+<span class="material-symbols-outlined text-[18px]">cached</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors" onclick="showToast('FURROW_A04_SPROUT_01.jpg 원본 다운로드')" title="원본 다운로드">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-error-container/40 text-on-surface-variant hover:text-error transition-colors" onclick="confirmDeleteRow(this)" title="삭제">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Item 3 -->
+<tr class="media-row hover:bg-surface-container/50 transition-colors" data-category="vr360" data-id="3" data-name="DKS_PANO_ENTRANCE_360.jpg" data-scope="public">
+<td class="py-3.5 px-4 text-center">
+<input class="row-checkbox w-4 h-4 rounded accent-primary cursor-pointer" onchange="updateSelectedCount()" type="checkbox"/>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-16 h-12 rounded-lg overflow-hidden bg-surface-container flex-shrink-0 relative group/thumb cursor-pointer" onclick="openPreviewModal('DKS_PANO_ENTRANCE_360.jpg', '덕산농장 주입구 360° VR 파노라마', '12.4 MB · 7680 × 3840')">
+<img class="w-full h-full object-cover" data-alt="Equirectangular panorama of farm entrance with rustic wooden Florished OS farm signpost, gentle green hills in distance, warm sunny afternoon atmospheric haze." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzIw6nDBmZVyUp_AF5Llh4Yeb25lVaMJ2AFjCKJ3P25suUNrzuqbjkhOYlmtmgGcEdjpwK-VSXtVm4jME6zYKy5vHfiuLZiZfH8d3GUUysYZU9u_qyOL44UUwWUqcPD_wexW-0IucNWGCsPl6-6dySx0AiqA4Cmql4r6i-P1TUhfNxym6vHIeQiUfsz8FkWrmN19ZS0E6uVK6WvhvzaTjkKYGZUzgIkRLTXLiZ8NY"/>
+<div class="absolute inset-0 bg-on-surface/30 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-surface text-[18px]">360</span>
+</div>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md font-semibold text-on-surface truncate">DKS_PANO_ENTRANCE_360.jpg</span>
+<span class="font-label-sm text-label-sm text-outline truncate">12.4 MB · 7680 × 3840 · Insta360 Pro 2</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface">밀양 덕산농장</span>
+<span class="font-label-sm text-label-sm text-outline">정문 입구 광장 (스팟 #1)</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">2027-04-10 11:20</span>
+<span class="font-label-sm text-label-sm text-outline">FOV 360° Sphere</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm">360° 현장스팟</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full bg-primary/15 text-primary font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit">
+<span class="material-symbols-outlined text-[14px]">public</span>공개 웹사이트
+                </span>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit">
+<span class="material-symbols-outlined text-[14px]">verified</span>승인완료
+                </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-1.5">
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors" onclick="triggerSlotReplace('DKS_PANO_ENTRANCE_360.jpg')" title="파일 교체">
+<span class="material-symbols-outlined text-[18px]">cached</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors" onclick="showToast('DKS_PANO_ENTRANCE_360.jpg 원본 다운로드')" title="원본 다운로드">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-error-container/40 text-on-surface-variant hover:text-error transition-colors" onclick="confirmDeleteRow(this)" title="삭제">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Item 4 -->
+<tr class="media-row hover:bg-surface-container/50 transition-colors" data-category="drone" data-id="4" data-name="DKS_DRONE_GRID_A_WEEK06.mp4" data-scope="public">
+<td class="py-3.5 px-4 text-center">
+<input class="row-checkbox w-4 h-4 rounded accent-primary cursor-pointer" onchange="updateSelectedCount()" type="checkbox"/>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-16 h-12 rounded-lg overflow-hidden bg-surface-container flex-shrink-0 relative group/thumb cursor-pointer" onclick="openPreviewModal('DKS_DRONE_GRID_A_WEEK06.mp4', 'A구역 상공 30m 그리드 비행 영상', '84.6 MB · 4K 60fps · 00:45')">
+<img class="w-full h-full object-cover" data-alt="Aerial top-down drone photograph of organic potato rows forming precise geometrical lines on rich brown soil, deep green foliage sprouting evenly, soft morning sunlight casting faint angled shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMT90ALpzVg9eUeywmM-DGviY3g6PmcCqpDgmfGLNZAu9mxH6yDPd4AzgOnBuyHl4qEvZIcCNxjV53MHbbW9Ry6lkalj_lsyU1D30-384d_vL_5hMpSD3CKKY8L-VDbjwsbBNzs-zFOSiUast60O5CJYAcs8pIq-cWEAW6cmBCYnXhw_Ncc8E4wuYYapcrIezWF0LKnFmOnNIf0bstH2fKWgBzpMh0sEbk5c3o2zE"/>
+<div class="absolute inset-0 bg-on-surface/40 flex items-center justify-center">
+<span class="material-symbols-outlined text-surface text-[20px]">play_circle</span>
+</div>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md font-semibold text-on-surface truncate">DKS_DRONE_GRID_A_WEEK06.mp4</span>
+<span class="font-label-sm text-label-sm text-outline truncate">84.6 MB · 4K 60fps · DJI Mavic 3 Pro</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface">밀양 덕산농장</span>
+<span class="font-label-sm text-label-sm text-outline">A구역 전체 (01~40고랑)</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">2027-04-09 09:40</span>
+<span class="font-label-sm text-label-sm text-primary flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">flight</span>고도 30m 정점 비행
+                  </span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm">농장 드론 뷰</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full bg-primary/15 text-primary font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit">
+<span class="material-symbols-outlined text-[14px]">public</span>공개 웹사이트
+                </span>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit">
+<span class="material-symbols-outlined text-[14px]">verified</span>승인완료
+                </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-1.5">
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors" onclick="triggerSlotReplace('DKS_DRONE_GRID_A_WEEK06.mp4')" title="파일 교체">
+<span class="material-symbols-outlined text-[18px]">cached</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors" onclick="showToast('DKS_DRONE_GRID_A_WEEK06.mp4 원본 비디오 다운로드')" title="원본 다운로드">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-error-container/40 text-on-surface-variant hover:text-error transition-colors" onclick="confirmDeleteRow(this)" title="삭제">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Item 5: Pending Approval -->
+<tr class="media-row hover:bg-surface-container/50 transition-colors" data-category="package" data-id="5" data-name="PKG_2027_SAMPLE_FINAL_STORYBOOK.jpg" data-scope="customer">
+<td class="py-3.5 px-4 text-center">
+<input class="row-checkbox w-4 h-4 rounded accent-primary cursor-pointer" onchange="updateSelectedCount()" type="checkbox"/>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-16 h-12 rounded-lg overflow-hidden bg-surface-container flex-shrink-0 relative group/thumb cursor-pointer" onclick="openPreviewModal('PKG_2027_SAMPLE_FINAL_STORYBOOK.jpg', '2027 스토리북 및 패키지 실물 검수용 컷', '6.1 MB · 4500 × 3000')">
+<img class="w-full h-full object-cover" data-alt="Artisanal hardcover storybook lying open next to raw potatoes in rustic wooden box with Florished logo hot stamped, natural beige linen background, warm organic aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcdFPEyiH0QGZEYDa2IX4dNzcTS5n9HFGeqpw7ykrOvP5rfmAHO290FK4Lu3OXKhd3vwXXwaYUu39Bp_oc8Bj8CHliSQeyX_0krJBwZmOGJ1p4MQFH_zEdco88PkfKU7ehsPiEuZS3ARvXY69hRfPswK_f8Bwy72i2JhlYToaTCMLeB1OsgJS77rmVuWMW0d7-aD5QIptlepzBWEOKMM4oEpOlEWF-F8gvCm0aNgE"/>
+<div class="absolute inset-0 bg-on-surface/30 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-surface text-[18px]">zoom_in</span>
+</div>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md font-semibold text-on-surface truncate">PKG_2027_SAMPLE_FINAL_STORYBOOK.jpg</span>
+<span class="font-label-sm text-label-sm text-outline truncate">6.1 MB · 4500 × 3000 · Canon EOS R5</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface">밀양 패키징 스튜디오</span>
+<span class="font-label-sm text-label-sm text-outline">실물 스토리북 검수대</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">2027-04-12 16:40</span>
+<span class="font-label-sm text-label-sm text-secondary font-medium">조명 세팅: 3500K</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm">수확·패키지</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit">
+<span class="material-symbols-outlined text-[14px]">lock</span>참여고객 전용
+                </span>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit">
+<span class="material-symbols-outlined text-[14px]">pending_actions</span>검수대기
+                </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-1.5">
+<button class="px-2 py-1 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm hover:bg-primary-container transition-colors" onclick="approveSingleItem(this)">승인</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors" onclick="triggerSlotReplace('PKG_2027_SAMPLE_FINAL_STORYBOOK.jpg')" title="파일 교체">
+<span class="material-symbols-outlined text-[18px]">cached</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-error-container/40 text-on-surface-variant hover:text-error transition-colors" onclick="confirmDeleteRow(this)" title="삭제">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Item 6: Internal only -->
+<tr class="media-row hover:bg-surface-container/50 transition-colors" data-category="furrow" data-id="6" data-name="SOIL_EC_SENSOR_BOARD_CHECK.jpg" data-scope="internal">
+<td class="py-3.5 px-4 text-center">
+<input class="row-checkbox w-4 h-4 rounded accent-primary cursor-pointer" onchange="updateSelectedCount()" type="checkbox"/>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-16 h-12 rounded-lg overflow-hidden bg-surface-container flex-shrink-0 relative group/thumb cursor-pointer" onclick="openPreviewModal('SOIL_EC_SENSOR_BOARD_CHECK.jpg', '토양 수분·EC 센서 노드 #3 점검', '2.1 MB · 3024 × 4032')">
+<img class="w-full h-full object-cover" data-alt="Technical close-up photo of a black IoT soil moisture and EC sensor probe inserted into agricultural soil, wire running to weather-sealed control box on wooden stake, farm field background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsGQdEs8rhcz8LxQuN8nUlafi3J85ErFnZZY08usvAHzMZ7z-sOm2AbNoseWgJ_6Qvzmq_7xGm4pIO6HSKSiKzfDZVSMC1fCdvcM3y6wOGd5iijErvXZjwaA_UCeFN0JNNOYNi5MY44blFuoy56X3dUfiMgr0R50tz1LYTaOUWYOZavVC4HgHcM6dqQ5Cwc70lKVYFKNkSFupOrapnog_qq-61OWbzpJ_Z8HkGVEg"/>
+<div class="absolute inset-0 bg-on-surface/30 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-surface text-[18px]">zoom_in</span>
+</div>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md font-semibold text-on-surface truncate">SOIL_EC_SENSOR_BOARD_CHECK.jpg</span>
+<span class="font-label-sm text-label-sm text-outline truncate">2.1 MB · 3024 × 4032 · Galaxy S25</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface">밀양 덕산농장</span>
+<span class="font-label-sm text-label-sm text-outline">B구역 센서 중계기 노드</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">2027-04-08 17:10</span>
+<span class="font-label-sm text-label-sm text-outline">배터리 전압 4.1V 확인</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm">고객 고랑별 사진</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full bg-surface-variant text-on-surface-variant font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit">
+<span class="material-symbols-outlined text-[14px]">admin_panel_settings</span>관리자 내부용
+                </span>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit">
+<span class="material-symbols-outlined text-[14px]">verified</span>승인완료
+                </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-1.5">
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors" onclick="triggerSlotReplace('SOIL_EC_SENSOR_BOARD_CHECK.jpg')" title="파일 교체">
+<span class="material-symbols-outlined text-[18px]">cached</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors" onclick="showToast('SOIL_EC_SENSOR_BOARD_CHECK.jpg 원본 다운로드')" title="원본 다운로드">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-error-container/40 text-on-surface-variant hover:text-error transition-colors" onclick="confirmDeleteRow(this)" title="삭제">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Item 7 -->
+<tr class="media-row hover:bg-surface-container/50 transition-colors" data-category="drone" data-id="7" data-name="DKS_SUNSET_OVERVIEW_EXP.jpg" data-scope="public">
+<td class="py-3.5 px-4 text-center">
+<input class="row-checkbox w-4 h-4 rounded accent-primary cursor-pointer" onchange="updateSelectedCount()" type="checkbox"/>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-16 h-12 rounded-lg overflow-hidden bg-surface-container flex-shrink-0 relative group/thumb cursor-pointer" onclick="openPreviewModal('DKS_SUNSET_OVERVIEW_EXP.jpg', '덕산농장 노을빛 전경 드론 스틸컷', '7.4 MB · 5472 × 3648')">
+<img class="w-full h-full object-cover" data-alt="Breathtaking golden hour aerial drone sunset view over peaceful Korean farming village and green potato fields, golden sunlight spreading warm amber hues across ridges." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCU3m1BX8K1GvgIaBgORNGqpHCYLSH7aO39TEuls1teFfMUgaNfcRZOBg6Yw0idbrQpTDAzjdMck1fWEbV8IFsdmuVmdSdWg41-bwMZNnpH_0mKtcmRdZv15KYyh_6QwjvmD7X86zsDZTOM-FtxzxuGCMntdEygIw0lDCna1VAq3hK5MhuOh7iW3E2TgpRb3CRWsbgQcnTEB4ooAOkULqVvGjoljrd9z4-Y5v1lA3k"/>
+<div class="absolute inset-0 bg-on-surface/30 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-surface text-[18px]">zoom_in</span>
+</div>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md font-semibold text-on-surface truncate">DKS_SUNSET_OVERVIEW_EXP.jpg</span>
+<span class="font-label-sm text-label-sm text-outline truncate">7.4 MB · 5472 × 3648 · Mavic 3 Pro</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface">밀양 덕산농장</span>
+<span class="font-label-sm text-label-sm text-outline">농장 전경 파노라믹 앵글</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">2027-04-06 18:25</span>
+<span class="font-label-sm text-label-sm text-outline">골든아워 노출 보정완료</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm">농장 드론 뷰</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full bg-primary/15 text-primary font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit">
+<span class="material-symbols-outlined text-[14px]">public</span>공개 웹사이트
+                </span>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit">
+<span class="material-symbols-outlined text-[14px]">verified</span>승인완료
+                </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-1.5">
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors" onclick="triggerSlotReplace('DKS_SUNSET_OVERVIEW_EXP.jpg')" title="파일 교체">
+<span class="material-symbols-outlined text-[18px]">cached</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors" onclick="showToast('DKS_SUNSET_OVERVIEW_EXP.jpg 원본 다운로드')" title="원본 다운로드">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-error-container/40 text-on-surface-variant hover:text-error transition-colors" onclick="confirmDeleteRow(this)" title="삭제">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Item 8 -->
+<tr class="media-row hover:bg-surface-container/50 transition-colors" data-category="furrow" data-id="8" data-name="FURROW_A12_SOIL_LOAM_DETAIL.jpg" data-scope="customer">
+<td class="py-3.5 px-4 text-center">
+<input class="row-checkbox w-4 h-4 rounded accent-primary cursor-pointer" onchange="updateSelectedCount()" type="checkbox"/>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-16 h-12 rounded-lg overflow-hidden bg-surface-container flex-shrink-0 relative group/thumb cursor-pointer" onclick="openPreviewModal('FURROW_A12_SOIL_LOAM_DETAIL.jpg', '고랑 A-12 배수 상태 및 두둑 질감', '3.9 MB · 4032 × 3024')">
+<img class="w-full h-full object-cover" data-alt="Tactile macro close-up of dark crumbly fertile Korean agricultural soil ridge with fresh green potato sprout emerging, rich organic texture in natural daylight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDY7gjUZRpjozdrGeapSLR35l9JfxUz7Cxm0gIeT19z47JVTjOh7qZTKYeCw0_wb9M6PFdzL0jbsemB34T9pJK3ck5EF-K-S0uwgZH3A1fvGXbzupdoX6UhXQeYM7a9RQ0qrD7zYBQmwVrbwSzK55mUGmVxAQQcf48I0iw9LxhPAcf_f6vIwnx6eWGxbLOFyL5x2k_WpfdrY3GfbmZMYWLe2nOptlRNntjnvyKX9ig"/>
+<div class="absolute inset-0 bg-on-surface/30 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-surface text-[18px]">zoom_in</span>
+</div>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md font-semibold text-on-surface truncate">FURROW_A12_SOIL_LOAM_DETAIL.jpg</span>
+<span class="font-label-sm text-label-sm text-outline truncate">3.9 MB · 4032 × 3024 · iPhone 16 Pro</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface">밀양 덕산농장</span>
+<span class="font-label-sm text-label-sm text-secondary font-medium">A구역 12번 고랑 (박*훈 고객)</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">2027-04-05 15:02</span>
+<span class="font-label-sm text-label-sm text-outline">배수 등급 최우수 점검</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm">고객 고랑별 사진</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit">
+<span class="material-symbols-outlined text-[14px]">lock</span>참여고객 전용
+                </span>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit">
+<span class="material-symbols-outlined text-[14px]">verified</span>승인완료
+                </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-1.5">
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors" onclick="triggerSlotReplace('FURROW_A12_SOIL_LOAM_DETAIL.jpg')" title="파일 교체">
+<span class="material-symbols-outlined text-[18px]">cached</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors" onclick="showToast('FURROW_A12_SOIL_LOAM_DETAIL.jpg 원본 다운로드')" title="원본 다운로드">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-error-container/40 text-on-surface-variant hover:text-error transition-colors" onclick="confirmDeleteRow(this)" title="삭제">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="p-4 bg-surface-container-low flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline">페이지 1 / 5 (총 38개 에셋 보관)</span>
+<div class="flex items-center gap-1">
+<button class="px-2.5 py-1 rounded bg-surface text-outline hover:text-on-surface disabled:opacity-40" disabled="">이전</button>
+<button class="px-2.5 py-1 rounded bg-primary text-on-primary font-semibold">1</button>
+<button class="px-2.5 py-1 rounded bg-surface hover:bg-surface-container text-on-surface">2</button>
+<button class="px-2.5 py-1 rounded bg-surface hover:bg-surface-container text-on-surface">3</button>
+<button class="px-2.5 py-1 rounded bg-surface hover:bg-surface-container text-on-surface">4</button>
+<button class="px-2.5 py-1 rounded bg-surface hover:bg-surface-container text-on-surface">다음</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal: Upload New Media (Hidden by default) -->
+<div class="fixed inset-0 z-50 bg-inverse-surface/40 backdrop-blur-sm hidden items-center justify-center p-4" id="uploadModal">
+<div class="bg-surface-container-lowest rounded-2xl max-w-xl w-full p-6 shadow-2xl flex flex-col gap-6 transform transition-all">
+<div class="flex items-center justify-between pb-3 border-b-0">
+<div class="flex items-center gap-2.5">
+<div class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">cloud_upload</span>
+</div>
+<div>
+<h3 class="font-title-lg text-title-lg font-semibold text-on-surface">신규 농장 사진/영상 업로드</h3>
+<p class="font-label-sm text-label-sm text-outline">촬영 시점 메타데이터(EXIF)와 GPS 좌표가 자동 파싱됩니다.</p>
+</div>
+</div>
+<button class="p-1 rounded-lg text-outline hover:text-on-surface hover:bg-surface-container" onclick="closeUploadModal()">
+<span class="material-symbols-outlined text-[22px]">close</span>
+</button>
+</div>
+<!-- Drag & Drop Zone -->
+<div class="border-2 border-dashed border-outline-variant rounded-xl p-8 flex flex-col items-center justify-center gap-3 bg-surface hover:bg-surface-container transition-colors cursor-pointer text-center">
+<span class="material-symbols-outlined text-primary text-[44px]">add_photo_alternate</span>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md font-semibold text-on-surface">파일을 드래그하거나 클릭하여 선택하세요</span>
+<span class="font-body-md text-body-md text-on-surface-variant">JPG, PNG, MP4, 360 파노라마 포맷 (최대 500MB)</span>
+</div>
+<span class="px-3 py-1 rounded-full bg-surface-container text-outline font-label-sm text-label-sm">배치 다중 업로드 지원</span>
+</div>
+<!-- Upload Fields Form -->
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-outline font-semibold">대상 농장</label>
+<select class="bg-surface-container px-3 py-2 rounded-lg font-label-md text-label-md text-on-surface outline-none">
+<option>밀양 덕산농장</option>
+<option>신월농장</option>
+</select>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-outline font-semibold">구역 지정</label>
+<select class="bg-surface-container px-3 py-2 rounded-lg font-label-md text-label-md text-on-surface outline-none">
+<option>농장 전경 / 대표 뷰</option>
+<option>A구역 고랑 (A-01~A-40)</option>
+<option>B구역 실증포장</option>
+<option>패키징/스토리북 전용</option>
+</select>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-outline font-semibold">콘텐츠 카테고리</label>
+<select class="bg-surface-container px-3 py-2 rounded-lg font-label-md text-label-md text-on-surface outline-none">
+<option>고객 고랑별 사진</option>
+<option>홈페이지 대표</option>
+<option>농장 드론 뷰</option>
+<option>360° 현장스팟</option>
+<option>수확·패키지</option>
+</select>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-outline font-semibold">공개 범위 설정</label>
+<select class="bg-surface-container px-3 py-2 rounded-lg font-label-md text-label-md text-on-surface outline-none">
+<option>참여고객 전용(비공개)</option>
+<option>공개 웹사이트 (Public)</option>
+<option>관리자 내부용</option>
+</select>
+</div>
+</div>
+<div class="flex items-center justify-end gap-3 pt-2">
+<button class="px-4 py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors" onclick="closeUploadModal()">취소</button>
+<button class="px-5 py-2 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md shadow-sm transition-colors flex items-center gap-1.5" onclick="simulateUploadComplete()">
+<span class="material-symbols-outlined text-[18px]">upload</span>
+<span>업로드 및 승인 대기 등록</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Modal: Media Preview (Hidden by default) -->
+<div class="fixed inset-0 z-50 bg-inverse-surface/60 backdrop-blur-md hidden items-center justify-center p-6" id="previewModal">
+<div class="bg-surface-container-lowest rounded-2xl max-w-4xl w-full p-6 shadow-2xl flex flex-col gap-4 transform transition-all max-h-[921px] overflow-y-auto">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-[28px]">image</span>
+<div>
+<h3 class="font-title-lg text-title-lg font-semibold text-on-surface" id="previewTitle">에셋 미리보기</h3>
+<span class="font-label-sm text-label-sm text-outline" id="previewMeta">메타데이터 정보</span>
+</div>
+</div>
+<button class="p-1 rounded-lg text-outline hover:text-on-surface hover:bg-surface-container" onclick="closePreviewModal()">
+<span class="material-symbols-outlined text-[24px]">close</span>
+</button>
+</div>
+<div class="w-full h-96 rounded-xl bg-surface-container overflow-hidden flex items-center justify-center relative">
+<img class="w-full h-full object-cover" data-alt="High resolution detailed farm asset inspection view showing fine soil texture and healthy potato leaves in warm natural daylight." id="previewImg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjaPhMRNtQdK6vM9UOTFiUmjBippUBSqEgRy8Tb19KxGadHHyzcR1x97HDy9hbMqbZSSb9Kx10rLND5xZUwR5R6TMUa740VDKZ_6YHT-NTiUXb2T2Fb4U1zHM1-1lwndLPKAR-YkSLyHBwjESK2MUheQFgquPj_i_RTw-X1edVdmqkct_N68UUk_IPTUtirFKTg3S4z31HTreLPND46h78oDXDNXGpZ7X45D8KppE"/>
+</div>
+<div class="p-4 rounded-xl bg-surface-container-low flex flex-wrap items-center justify-between gap-4">
+<div class="flex items-center gap-6 text-outline font-label-sm text-label-sm">
+<span>촬영: 2027-04-12</span>
+<span>색공간: Display P3</span>
+<span>CDN 주소: cdn.flourished.kr/deoksan/2027/img_01.jpg</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-variant text-on-surface font-label-sm text-label-sm flex items-center gap-1" onclick="showToast('CDN 링크가 클립보드에 복사되었습니다.')">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+            URL 복사
+          </button>
+<button class="px-3 py-1.5 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm flex items-center gap-1" onclick="showToast('에셋을 기기에 저장했습니다.')">
+<span class="material-symbols-outlined text-[16px]">download</span>
+            다운로드
+          </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // UI Interaction Scripts
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toast-msg');
+    if (!toast || !toastMsg) return;
+    toastMsg.textContent = msg;
+    toast.classList.remove('translate-y-20', 'opacity-0');
+    toast.classList.add('translate-y-0', 'opacity-100');
+    setTimeout(() => {
+      toast.classList.add('translate-y-20', 'opacity-0');
+      toast.classList.remove('translate-y-0', 'opacity-100');
+    }, 2800);
+  }
+
+  // Filter Handling
+  let currentCategory = 'all';
+
+  function filterCategory(cat, btn) {
+    currentCategory = cat;
+    document.querySelectorAll('.cat-chip').forEach(el => {
+      el.classList.remove('bg-primary', 'text-on-primary', 'active');
+      el.classList.add('bg-surface-container-highest', 'text-on-surface-variant');
+    });
+    btn.classList.add('bg-primary', 'text-on-primary', 'active');
+    btn.classList.remove('bg-surface-container-highest', 'text-on-surface-variant');
+    applyFilters();
+  }
+
+  function applyFilters() {
+    const scopeVal = document.getElementById('scopeSelect').value;
+    const searchVal = document.getElementById('searchInput').value.toLowerCase().trim();
+    const rows = document.querySelectorAll('.media-row');
+    let visibleCount = 0;
+
+    rows.forEach(row => {
+      const rowCat = row.dataset.category;
+      const rowScope = row.dataset.scope;
+      const rowName = row.dataset.name.toLowerCase();
+      const rowText = row.innerText.toLowerCase();
+
+      const matchCat = (currentCategory === 'all') || (rowCat === currentCategory);
+      const matchScope = (scopeVal === 'all') || (rowScope === scopeVal);
+      const matchSearch = (!searchVal) || (rowName.includes(searchVal) || rowText.includes(searchVal));
+
+      if (matchCat && matchScope && matchSearch) {
+        row.style.display = '';
+        visibleCount++;
+      } else {
+        row.style.display = 'none';
+      }
+    });
+
+    const countLabel = document.getElementById('tableRecordCount');
+    if (countLabel) {
+      countLabel.textContent = `총 ${visibleCount}개 표시 중`;
+    }
+  }
+
+  // Checkbox & Batch selection
+  function updateSelectedCount() {
+    const checkedBoxes = document.querySelectorAll('.row-checkbox:checked');
+    const count = checkedBoxes.length;
+    const batchBar = document.getElementById('batchBar');
+    const selectedCount = document.getElementById('selectedCount');
+
+    if (count > 0) {
+      batchBar.classList.remove('hidden');
+      batchBar.classList.add('flex');
+      selectedCount.textContent = count;
+    } else {
+      batchBar.classList.add('hidden');
+      batchBar.classList.remove('flex');
+    }
+  }
+
+  function toggleSelectAll(master) {
+    const visibleCheckboxes = Array.from(document.querySelectorAll('.media-row'))
+      .filter(row => row.style.display !== 'none')
+      .map(row => row.querySelector('.row-checkbox'));
+
+    visibleCheckboxes.forEach(cb => {
+      if (cb) cb.checked = master.checked;
+    });
+    updateSelectedCount();
+  }
+
+  function batchApprove() {
+    const checkedBoxes = document.querySelectorAll('.row-checkbox:checked');
+    checkedBoxes.forEach(cb => {
+      const row = cb.closest('tr');
+      const statusCell = row.cells[6];
+      statusCell.innerHTML = `
+        <span class="px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit">
+          <span class="material-symbols-outlined text-[14px]">verified</span>승인완료
+        </span>`;
+    });
+    showToast(`${checkedBoxes.length}개 항목이 승인완료로 일괄 전환되었습니다.`);
+  }
+
+  function batchChangeScope(newScope) {
+    const checkedBoxes = document.querySelectorAll('.row-checkbox:checked');
+    checkedBoxes.forEach(cb => {
+      const row = cb.closest('tr');
+      row.dataset.scope = newScope;
+      const scopeCell = row.cells[5];
+      scopeCell.innerHTML = `
+        <span class="px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit">
+          <span class="material-symbols-outlined text-[14px]">lock</span>참여고객 전용
+        </span>`;
+    });
+    showToast(`${checkedBoxes.length}개 항목의 공개범위가 변경되었습니다.`);
+  }
+
+  function batchDelete() {
+    const checkedBoxes = document.querySelectorAll('.row-checkbox:checked');
+    if (confirm(`선택한 ${checkedBoxes.length}개 미디어 에셋을 라이브러리에서 완전히 삭제하시겠습니까?`)) {
+      checkedBoxes.forEach(cb => {
+        const row = cb.closest('tr');
+        row.remove();
+      });
+      updateSelectedCount();
+      applyFilters();
+      showToast('선택한 에셋이 삭제되었습니다.');
+    }
+  }
+
+  function approveSingleItem(btn) {
+    const row = btn.closest('tr');
+    const statusCell = row.cells[6];
+    statusCell.innerHTML = `
+      <span class="px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-semibold flex items-center gap-1 w-fit">
+        <span class="material-symbols-outlined text-[14px]">verified</span>승인완료
+      </span>`;
+    btn.remove();
+    showToast('해당 에셋이 정식 승인되었습니다.');
+  }
+
+  function confirmDeleteRow(btn) {
+    const row = btn.closest('tr');
+    const name = row.dataset.name;
+    if (confirm(`[${name}] 파일을 삭제하시겠습니까? 연동된 스토리북이나 슬롯에서 즉시 제외됩니다.`)) {
+      row.remove();
+      applyFilters();
+      showToast(`'${name}' 파일이 삭제되었습니다.`);
+    }
+  }
+
+  function triggerSlotReplace(slotName) {
+    showToast(`'${slotName}' 교체 마법사를 엽니다. 새 이미지 파일을 업로드해 주세요.`);
+    triggerUploadModal();
+  }
+
+  // Modals Handling
+  function triggerUploadModal() {
+    const modal = document.getElementById('uploadModal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  }
+
+  function closeUploadModal() {
+    const modal = document.getElementById('uploadModal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
+
+  function simulateUploadComplete() {
+    closeUploadModal();
+    showToast('새 사진 에셋 1건이 성공적으로 등록되었습니다. (검수 대기 중)');
+  }
+
+  function openPreviewModal(title, desc, meta) {
+    const modal = document.getElementById('previewModal');
+    document.getElementById('previewTitle').textContent = `${title} (${desc})`;
+    document.getElementById('previewMeta').textContent = meta;
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  }
+
+  function closePreviewModal() {
+    const modal = document.getElementById('previewModal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
+
+  function toggleViewMode(mode) {
+    const btnTable = document.getElementById('btnViewTable');
+    const btnGrid = document.getElementById('btnViewGrid');
+    if (mode === 'grid') {
+      btnGrid.classList.add('bg-surface-container-high', 'text-primary');
+      btnGrid.classList.remove('bg-surface', 'text-outline');
+      btnTable.classList.remove('bg-surface-container-high', 'text-primary');
+      btnTable.classList.add('bg-surface', 'text-outline');
+      showToast('그리드 뷰는 카드 모드로 전환 예정입니다.');
+    } else {
+      btnTable.classList.add('bg-surface-container-high', 'text-primary');
+      btnTable.classList.remove('bg-surface', 'text-outline');
+      btnGrid.classList.remove('bg-surface-container-high', 'text-primary');
+      btnGrid.classList.add('bg-surface', 'text-outline');
+    }
+  }
+
+  // Farm Tab Switching
+  document.querySelectorAll('.farm-tab-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.farm-tab-btn').forEach(b => {
+        b.classList.remove('bg-primary', 'text-on-primary', 'active');
+        b.classList.add('bg-surface-container', 'text-on-surface-variant');
+      });
+      this.classList.add('bg-primary', 'text-on-primary', 'active');
+      this.classList.remove('bg-surface-container', 'text-on-surface-variant');
+      showToast(`농장 전환: ${this.innerText.split('\n')[0].trim()} 데이터셋을 로드했습니다.`);
+    });
+  });
+</script></main></div></body></html>
