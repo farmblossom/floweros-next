@@ -7,7 +7,7 @@ export default function GatewayPage() {
       {/* 헤더 */}
       <header className="sticky top-0 z-50 bg-surface/90 backdrop-blur-xl border-b border-outline-variant/20">
         <div className="max-w-7xl mx-auto px-4 md:px-8 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <Link href="/" aria-label="꽃폈네 메인으로 이동">
             <Image
               src="/assets/brand/logo-farm-blossom.png"
               alt="꽃폈네 FARM BLOSSOM"
@@ -16,7 +16,7 @@ export default function GatewayPage() {
               className="h-10 w-auto rounded-lg"
               priority
             />
-          </div>
+          </Link>
           <nav className="hidden md:flex items-center gap-6">
             <a href="#farms" className="text-sm text-on-surface-variant hover:text-on-surface transition-colors">농장 탐방</a>
             <a href="#about" className="text-sm text-on-surface-variant hover:text-on-surface transition-colors">참여 안내</a>
@@ -205,15 +205,15 @@ export default function GatewayPage() {
                   <div className="text-xs text-on-surface-variant">실제 농업 판단과 모든 승인을 담당하는 꽃폈네 총괄 농장관리자</div>
                 </div>
 
-                {/* 퍼뜨기 — character-sheet 사용 */}
+                {/* 퍼뜨기 — 단독 원본 */}
                 <div className="flex flex-col gap-2">
                   <div className="w-full h-36 rounded-xl bg-white overflow-hidden border border-outline-variant/40 flex items-center justify-center">
                     <Image
-                      src="/assets/brand/character-sheet.png"
-                      alt="퍼뜨기·쑤담이 캐릭터 시트"
+                      src="/assets/brand/putteogi.png"
+                      alt="퍼뜨기 — 고구마 하트잎 캐릭터"
                       width={160}
                       height={144}
-                      className="h-full w-auto object-contain object-bottom"
+                      className="h-full w-auto object-contain"
                     />
                   </div>
                   <div className="font-semibold text-on-surface">퍼뜨기</div>
@@ -221,15 +221,15 @@ export default function GatewayPage() {
                   <div className="text-xs text-on-surface-variant">활발하게 농장 구석구석을 안내하는 꽃폈네의 첫 번째 캐릭터</div>
                 </div>
 
-                {/* 쑤담이 — character-sheet 사용 */}
+                {/* 쑤담이 — 단독 원본 */}
                 <div className="flex flex-col gap-2">
                   <div className="w-full h-36 rounded-xl bg-white overflow-hidden border border-outline-variant/40 flex items-center justify-center">
                     <Image
-                      src="/assets/brand/character-sheet.png"
-                      alt="퍼뜨기·쑤담이 캐릭터 시트"
+                      src="/assets/brand/ssudami.png"
+                      alt="쑤담이 — 감자꽃 캐릭터"
                       width={160}
                       height={144}
-                      className="h-full w-auto object-contain object-top"
+                      className="h-full w-auto object-contain"
                     />
                   </div>
                   <div className="font-semibold text-on-surface">쑤담이</div>

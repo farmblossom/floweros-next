@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 
 interface WorldHUDProps {
   farmName: string;
@@ -16,6 +17,19 @@ export default function WorldHUD({ farmName, farmId, isDemo = true }: WorldHUDPr
     <>
       <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-4 py-3 bg-gradient-to-b from-black/60 to-transparent pointer-events-none z-10">
         <div className="flex items-center gap-2">
+          <Link
+            href="/"
+            aria-label="꽃폈네 메인으로 이동"
+            className="flex items-center pointer-events-auto"
+          >
+            <Image
+              src="/assets/brand/logo-farm-blossom.png"
+              alt="꽃폈네"
+              width={72}
+              height={28}
+              className="h-7 w-auto rounded-md opacity-90 hover:opacity-100 transition-opacity"
+            />
+          </Link>
           <Link
             href="/"
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/50 text-white text-sm backdrop-blur-sm pointer-events-auto hover:bg-black/70 transition-colors"

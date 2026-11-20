@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 
 const farmData = {
@@ -34,22 +35,26 @@ const farmData = {
   },
 };
 
-export default function FarmPage({ params }: { params: { farmId: string } }) {
-  const farm = farmData[params.farmId as keyof typeof farmData];
+export default async function FarmPage({ params }: { params: Promise<{ farmId: string }> }) {
+  const { farmId } = await params;
+  const farm = farmData[farmId as keyof typeof farmData];
   if (!farm) notFound();
 
-  const otherFarm = params.farmId === "deoksan"
+  const otherFarm = farmId === "deoksan"
     ? { id: "sinwol", name: "신월리 농장" }
     : { id: "deoksan", name: "밀양 덕산농장" };
 
   return (
     <div className="min-h-screen bg-surface">
       <header className="sticky top-0 z-40 bg-surface/90 backdrop-blur-xl border-b border-outline-variant/20 px-4 md:px-8 h-14 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-primary-container flex items-center justify-center">
-            <span className="material-symbols-outlined text-on-primary-container text-[14px]">yard</span>
-          </div>
-          <span className="text-primary font-semibold">꽃폈네</span>
+        <Link href="/" aria-label="꽃폈네 메인으로 이동" className="flex items-center gap-2">
+          <Image
+            src="/assets/brand/logo-farm-blossom.png"
+            alt="꽃폈네"
+            width={90}
+            height={32}
+            className="h-8 w-auto rounded-md"
+          />
         </Link>
         <Link
           href={`/farm/${otherFarm.id}`}
@@ -61,7 +66,7 @@ export default function FarmPage({ params }: { params: { farmId: string } }) {
       </header>
 
       <div className={`h-52 md:h-72 flex items-end px-6 md:px-12 pb-8 ${
-        params.farmId === "deoksan"
+        farmId === "deoksan"
           ? "bg-gradient-to-br from-[#1e3a1e] via-[#2d5a2d] to-[#4a6243]"
           : "bg-gradient-to-br from-[#1a2e18] via-[#2a4a28] to-[#4a6243]"
       }`}>
@@ -106,7 +111,7 @@ export default function FarmPage({ params }: { params: { farmId: string } }) {
 
         <div className="flex flex-col sm:flex-row gap-3 pt-2">
           <Link
-            href={`/world/${params.farmId}`}
+            href={`/world/${farmId}`}
             className="flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-primary text-on-primary font-semibold hover:bg-primary/90 active:scale-95 transition-all shadow-lg flex-1"
           >
             <span className="material-symbols-outlined text-[22px]">3d_rotation</span>
