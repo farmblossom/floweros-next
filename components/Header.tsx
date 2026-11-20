@@ -27,7 +27,10 @@ export default function Header({ onMenuClick }: HeaderProps) {
         {/* 날씨 정보 */}
         <div className="hidden xl:flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
           <span className="material-symbols-outlined text-primary text-[18px]">wb_sunny</span>
-          <span>덕산농장: 21.4°C 맑음 (기상청 API 연동 예정 / FM 08:30 현장 육안 확인 완료)</span>
+          <span className="flex items-center gap-1.5">
+              <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-700 flex-shrink-0">DEMO</span>
+              날씨 — 기상청 API 연동 준비 중
+            </span>
         </div>
       </div>
 

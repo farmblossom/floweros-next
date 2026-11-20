@@ -205,11 +205,11 @@ export default function GatewayPage() {
                   <div className="text-xs text-on-surface-variant">실제 농업 판단과 모든 승인을 담당하는 꽃폈네 총괄 농장관리자</div>
                 </div>
 
-                {/* 퍼뜨기 — 단독 원본 */}
+                {/* 퍼뜨기 — 단독 원본 (고해상도 단독 JPG) */}
                 <div className="flex flex-col gap-2">
                   <div className="w-full h-36 rounded-xl bg-white overflow-hidden border border-outline-variant/40 flex items-center justify-center">
                     <Image
-                      src="/assets/brand/putteogi.png"
+                      src="/assets/brand/putteogi-original.jpg"
                       alt="퍼뜨기 — 고구마 하트잎 캐릭터"
                       width={160}
                       height={144}
@@ -221,11 +221,11 @@ export default function GatewayPage() {
                   <div className="text-xs text-on-surface-variant">활발하게 농장 구석구석을 안내하는 꽃폈네의 첫 번째 캐릭터</div>
                 </div>
 
-                {/* 쑤담이 — 단독 원본 */}
+                {/* 쑤담이 — 단독 원본 (고해상도 단독 JPG) */}
                 <div className="flex flex-col gap-2">
                   <div className="w-full h-36 rounded-xl bg-white overflow-hidden border border-outline-variant/40 flex items-center justify-center">
                     <Image
-                      src="/assets/brand/ssudami.png"
+                      src="/assets/brand/ssudami-original.jpg"
                       alt="쑤담이 — 감자꽃 캐릭터"
                       width={160}
                       height={144}
