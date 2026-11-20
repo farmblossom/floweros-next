@@ -1,5 +1,8 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
 const navItems = [
   { icon: "space_dashboard", label: "대시보드", path: "dashboard" },
   { icon: "groups", label: "고객·참여 관리", path: "customer-participation" },
@@ -7,7 +10,7 @@ const navItems = [
   { icon: "edit_note", label: "현장 영농일지", path: "field-journal" },
   { icon: "contact_support", label: "고객 요청", path: "customer-requests" },
   { icon: "local_shipping", label: "부분수확·배송", path: "harvest-delivery" },
-  { icon: "perm_media", label: "미디어·콘텐츠 관리", path: "media-content", active: true },
+  { icon: "perm_media", label: "미디어·콘텐츠 관리", path: "media-content" },
   { icon: "auto_stories", label: "AI 초안·스토리북 검수", path: "ai-draft-storybook" },
   { icon: "hub", label: "외부 채널 관리", path: "channel-management" },
   { icon: "settings", label: "설정", path: "settings" },
@@ -19,6 +22,8 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
+  const pathname = usePathname();
+
   return (
     <>
       {/* 모바일 오버레이 */}
@@ -59,30 +64,31 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
           {/* 네비게이션 */}
           <nav className="flex flex-col gap-1">
-            {navItems.map((item) =>
-              item.active ? (
-                <a
+            {navItems.map((item) => {
+              const isActive = pathname === `/${item.path}`;
+              return isActive ? (
+                <Link
                   key={item.path}
+                  href={`/${item.path}`}
                   aria-current="page"
                   className="flex items-center gap-3 px-3 py-2.5 transition-colors bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-sm"
-                  href="#"
                   onClick={onClose}
                 >
                   <span className="material-symbols-outlined text-[20px]">{item.icon}</span>
                   {item.label}
-                </a>
+                </Link>
               ) : (
-                <a
+                <Link
                   key={item.path}
+                  href={`/${item.path}`}
                   className="flex items-center gap-3 px-3 py-2.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
-                  href="#"
                   onClick={onClose}
                 >
                   <span className="material-symbols-outlined text-[20px]">{item.icon}</span>
                   {item.label}
-                </a>
-              )
-            )}
+                </Link>
+              );
+            })}
           </nav>
         </div>
 
