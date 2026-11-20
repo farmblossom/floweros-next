@@ -2,6 +2,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
+export function generateStaticParams() {
+  return [{ farmId: "deoksan" }, { farmId: "sinwol" }];
+}
+
 const farmData = {
   deoksan: {
     name: "밀양 덕산농장",

@@ -2,6 +2,10 @@ import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import AppShell from "./_components/AppShell";
 
+// cacheComponents(PPR) + cookies() 조합 → 빌드 타임 프리렌더 불가.
+// 관리자 인증은 요청마다 서버에서 검사해야 하므로 instant = false 로 request-time 렌더링 고정.
+export const instant = false;
+
 // Server Component — 페이지 렌더 전에 서버 인증 검사를 수행합니다.
 // proxy.ts(엣지)와 이중 보호: proxy가 실패해도 여기서 차단됩니다.
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
