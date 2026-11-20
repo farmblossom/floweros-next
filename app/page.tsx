@@ -1,16 +1,21 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function GatewayPage() {
   return (
     <div className="min-h-screen bg-surface flex flex-col">
+      {/* 헤더 */}
       <header className="sticky top-0 z-50 bg-surface/90 backdrop-blur-xl border-b border-outline-variant/20">
         <div className="max-w-7xl mx-auto px-4 md:px-8 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            {/* MISSING_ASSET: 꽃폈네 원본 로고 없음 — 아이콘 플레이스홀더 사용 */}
-            <div className="w-8 h-8 rounded-xl bg-primary-container flex items-center justify-center border-2 border-primary/30">
-              <span className="material-symbols-outlined text-on-primary-container text-[16px]">yard</span>
-            </div>
-            <span className="text-primary font-bold tracking-tight text-lg">꽃폈네</span>
+          <div className="flex items-center gap-2">
+            <Image
+              src="/assets/brand/logo-farm-blossom.png"
+              alt="꽃폈네 FARM BLOSSOM"
+              width={120}
+              height={40}
+              className="h-10 w-auto rounded-lg"
+              priority
+            />
           </div>
           <nav className="hidden md:flex items-center gap-6">
             <a href="#farms" className="text-sm text-on-surface-variant hover:text-on-surface transition-colors">농장 탐방</a>
@@ -20,27 +25,41 @@ export default function GatewayPage() {
       </header>
 
       <main className="flex-1">
-        {/* 히어로 */}
-        <section className="bg-gradient-to-b from-surface-container-low to-surface px-4 py-16 md:py-24 text-center">
-          <div className="max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-container/50 text-on-primary-container text-xs font-semibold mb-6">
-              <span className="material-symbols-outlined text-[13px]">eco</span>
-              2027 봄 · 밀양 덕산리 봄감자 실증 준비 중
+        {/* 히어로 — 포스터 + 텍스트 */}
+        <section className="bg-gradient-to-b from-surface-container-low to-surface px-4 py-12 md:py-20">
+          <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-8 md:gap-14">
+            {/* 텍스트 */}
+            <div className="flex-1 text-center md:text-left">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-container/50 text-on-primary-container text-xs font-semibold mb-6">
+                <span className="material-symbols-outlined text-[13px]">eco</span>
+                2027 봄 · 밀양 덕산리 봄감자 실증 준비 중
+              </div>
+              <h1 className="text-4xl md:text-5xl text-on-surface font-bold leading-tight mb-4">
+                꽃폈네, 두 농장의<br />계절을 걷다
+              </h1>
+              <p className="text-on-surface-variant max-w-xl mb-8">
+                실제 밀양 덕산리와 신월리 농장을 3D로 탐방하고, 내 감자가 자라는 고랑을 직접 만나보세요.
+                퍼뜨기·쑤담이와 함께하는 꽃폈네 가상농장입니다.
+              </p>
+              <div className="flex items-center justify-center md:justify-start gap-3 flex-wrap">
+                <a href="#farms" className="px-6 py-3 rounded-full bg-primary text-on-primary font-semibold hover:bg-primary/90 transition-colors">
+                  농장 선택하기
+                </a>
+                <a href="#about" className="px-6 py-3 rounded-full bg-surface-container text-on-surface font-semibold hover:bg-surface-container-high transition-colors">
+                  참여 안내
+                </a>
+              </div>
             </div>
-            <h1 className="text-4xl md:text-5xl text-on-surface font-bold leading-tight mb-4">
-              꽃폈네, 두 농장의<br />계절을 걷다
-            </h1>
-            <p className="text-on-surface-variant max-w-2xl mx-auto mb-8">
-              실제 밀양 덕산리와 신월리 농장을 3D로 탐방하고, 내 감자가 자라는 고랑을 직접 만나보세요.
-              퍼뜨기·쑤담이와 함께하는 꽃폈네 가상농장입니다.
-            </p>
-            <div className="flex items-center justify-center gap-3 flex-wrap">
-              <a href="#farms" className="px-6 py-3 rounded-full bg-primary text-on-primary font-semibold hover:bg-primary/90 transition-colors">
-                농장 선택하기
-              </a>
-              <a href="#about" className="px-6 py-3 rounded-full bg-surface-container text-on-surface font-semibold hover:bg-surface-container-high transition-colors">
-                참여 안내
-              </a>
+            {/* 브랜드 포스터 */}
+            <div className="flex-shrink-0">
+              <Image
+                src="/assets/brand/poster-brand.png"
+                alt="꽃폈네 브랜드 포스터 — 자연이 키운 건강한 선물"
+                width={240}
+                height={360}
+                className="rounded-2xl shadow-xl w-44 md:w-56 h-auto"
+                priority
+              />
             </div>
           </div>
         </section>
@@ -166,41 +185,74 @@ export default function GatewayPage() {
               ))}
             </div>
 
-            {/* 캐릭터 소개 (MISSING_ASSET 명시) */}
+            {/* 캐릭터 소개 — 실제 에셋 사용 */}
             <div className="mt-10 p-6 bg-surface-container rounded-2xl border border-outline-variant/30">
-              <h3 className="font-semibold text-on-surface mb-4">농장 안내 캐릭터</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {[
-                  { name: "FM 쩡이", role: "농장 운영자", desc: "실제 농업 판단과 모든 승인을 담당하는 꽃폈네 총괄 농장관리자" },
-                  { name: "퍼뜨기", role: "고구마 하트잎 캐릭터", desc: "활발하게 농장 구석구석을 안내하는 꽃폈네의 첫 번째 캐릭터" },
-                  { name: "쑤담이", role: "감자꽃 캐릭터", desc: "차분하게 생육 과정과 농장 이야기를 들려주는 두 번째 캐릭터" },
-                ].map((c) => (
-                  <div key={c.name} className="flex flex-col gap-2">
-                    {/* MISSING_ASSET: 원본 캐릭터/사진 없음 */}
-                    <div className="w-full h-24 rounded-xl bg-surface-container-high flex items-center justify-center border border-outline-variant/40">
-                      <div className="text-center">
-                        <span className="material-symbols-outlined text-on-surface-variant text-[28px] block">person</span>
-                        <span className="text-xs text-outline">원본 이미지 준비 중</span>
-                      </div>
-                    </div>
-                    <div className="font-semibold text-on-surface">{c.name}</div>
-                    <div className="text-xs text-secondary">{c.role}</div>
-                    <div className="text-xs text-on-surface-variant">{c.desc}</div>
+              <h3 className="font-semibold text-on-surface mb-6">농장 안내 캐릭터</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                {/* FM 쩡이 */}
+                <div className="flex flex-col gap-2">
+                  <div className="w-full h-36 rounded-xl bg-white overflow-hidden border border-outline-variant/40 flex items-center justify-center">
+                    <Image
+                      src="/assets/brand/fm-jeong-i.jpg"
+                      alt="FM 쩡이 — 꽃폈네 총괄 농장관리자"
+                      width={160}
+                      height={144}
+                      className="h-full w-auto object-contain"
+                    />
                   </div>
-                ))}
+                  <div className="font-semibold text-on-surface">FM 쩡이</div>
+                  <div className="text-xs text-secondary">농장 운영자</div>
+                  <div className="text-xs text-on-surface-variant">실제 농업 판단과 모든 승인을 담당하는 꽃폈네 총괄 농장관리자</div>
+                </div>
+
+                {/* 퍼뜨기 — character-sheet 사용 */}
+                <div className="flex flex-col gap-2">
+                  <div className="w-full h-36 rounded-xl bg-white overflow-hidden border border-outline-variant/40 flex items-center justify-center">
+                    <Image
+                      src="/assets/brand/character-sheet.png"
+                      alt="퍼뜨기·쑤담이 캐릭터 시트"
+                      width={160}
+                      height={144}
+                      className="h-full w-auto object-contain object-bottom"
+                    />
+                  </div>
+                  <div className="font-semibold text-on-surface">퍼뜨기</div>
+                  <div className="text-xs text-secondary">고구마 하트잎 캐릭터</div>
+                  <div className="text-xs text-on-surface-variant">활발하게 농장 구석구석을 안내하는 꽃폈네의 첫 번째 캐릭터</div>
+                </div>
+
+                {/* 쑤담이 — character-sheet 사용 */}
+                <div className="flex flex-col gap-2">
+                  <div className="w-full h-36 rounded-xl bg-white overflow-hidden border border-outline-variant/40 flex items-center justify-center">
+                    <Image
+                      src="/assets/brand/character-sheet.png"
+                      alt="퍼뜨기·쑤담이 캐릭터 시트"
+                      width={160}
+                      height={144}
+                      className="h-full w-auto object-contain object-top"
+                    />
+                  </div>
+                  <div className="font-semibold text-on-surface">쑤담이</div>
+                  <div className="text-xs text-secondary">감자꽃 캐릭터</div>
+                  <div className="text-xs text-on-surface-variant">차분하게 생육 과정과 농장 이야기를 들려주는 두 번째 캐릭터</div>
+                </div>
               </div>
             </div>
           </div>
         </section>
       </main>
 
+      {/* 푸터 */}
       <footer className="bg-surface-container px-4 md:px-8 py-10 border-t border-outline-variant/30">
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-7 h-7 rounded-lg bg-primary-container flex items-center justify-center">
-              <span className="material-symbols-outlined text-on-primary-container text-[14px]">yard</span>
-            </div>
-            <span className="text-primary font-bold">꽃폈네</span>
+            <Image
+              src="/assets/brand/logo-couple.png"
+              alt="꽃폈네 커플 로고"
+              width={80}
+              height={32}
+              className="h-8 w-auto rounded-md"
+            />
           </div>
           <p className="text-sm text-on-surface-variant mb-3">
             실제 농장 두 곳을 3D로 탐방하고, 계절의 변화를 관찰하며, 내 농작물 기록과 연결되는 참여형 가상농장 플랫폼입니다.
