@@ -5,22 +5,22 @@ import * as THREE from "three";
 import WorldHotspot from "./WorldHotspot";
 import CharacterSprite from "./CharacterSprite";
 
-// 퍼뜨기 순찰 경로 — 접근로 · 개간 구역 · 활엽수림 경계
+// 퍼뜨기 순찰 경로 — 서쪽 접근로 → 개간 구역 중앙 → 동쪽 경계
+// 드론 사진 반영: 접근로가 서쪽(왼쪽)에 위치
 const PUTTEOGI_WAYPOINTS: [number, number, number][] = [
-  [7, 0.2, 9],
-  [7, 0.2, 3],
+  [-9, 0.2, 9],
+  [-5, 0.3, 5],
+  [0, 0.3, 4],
+  [4, 0.3, 2],
+  [4, 0.3, 6],
   [0, 0.3, 4],
   [-5, 0.3, 5],
-  [-5, 0.3, 2],
-  [-2, 0.4, -2],
-  [0, 0.3, 4],
-  [7, 0.2, 3],
-  [7, 0.2, 9],
+  [-9, 0.2, 9],
 ];
 
 // 필지분석 데이터 반영 (경남 밀양시 초동면 신월리 98 · 0.18ha · 임지생산능력 Ⅱ급지(상))
 const PUTTEOGI_DIALOG = [
-  "신월리 98번지 0.18ha 과원 조성 현장이에요 🌿",
+  "신월리 98번지 0.18ha 개간 현장이에요 🌿",
   "31~40년생 활엽수림 — 지름 6~18cm, 울폐도 51~70% 분포해요",
   "밤나무 재배 최적지! 상수리나무 조림도 추천돼요 🌰",
   "남서향 경사지(10~15도) — 일조 좋은 과수 명당이에요 ☀️",
@@ -33,14 +33,13 @@ interface SinwolSceneProps {
 }
 
 // 지형: 남서향 경사 10~15도 (필지분석결과서 반영)
-// PlaneGeometry 로컬 Y → 월드 -Z 방향. SW방향 하향 경사 = NE가 높음
 function HillyTerrain() {
   const geometry = useMemo(() => {
-    const geo = new THREE.PlaneGeometry(70, 70, 44, 44);
+    const geo = new THREE.PlaneGeometry(80, 80, 44, 44);
     const positions = geo.attributes.position as THREE.BufferAttribute;
     for (let i = 0; i < positions.count; i++) {
       const x = positions.getX(i);
-      const z = positions.getY(i); // 로컬 Y → 월드 -Z (북 = 양수, 남 = 음수)
+      const z = positions.getY(i);
       // 남서향(SW facing): 북동쪽(+z,+x)이 높고 남서쪽(-z,-x)이 낮음
       const baseSlope = z * 0.07 + x * 0.04;
       const noise =
@@ -56,7 +55,6 @@ function HillyTerrain() {
 
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} geometry={geometry}>
-      {/* 활엽수림 하층 토양 — 양토, 짙은 산림 녹색 */}
       <meshStandardMaterial color="#435f28" roughness={0.96} />
     </mesh>
   );
@@ -66,17 +64,14 @@ function HillyTerrain() {
 function BroadleafTree({ position, scale = 1 }: { position: [number, number, number]; scale?: number }) {
   return (
     <group position={position} scale={scale}>
-      {/* 수간 — 중소형 (지름 6~18cm 반영, 스케일 조정) */}
       <mesh position={[0, 1.3, 0]}>
         <cylinderGeometry args={[0.16, 0.26, 2.6, 7]} />
         <meshStandardMaterial color="#3d2208" roughness={0.92} />
       </mesh>
-      {/* 주 수관 */}
       <mesh position={[0, 3.6, 0]}>
         <sphereGeometry args={[1.4, 8, 8]} />
         <meshStandardMaterial color="#1c4d14" roughness={0.86} />
       </mesh>
-      {/* 보조 수관 — 활엽수 불규칙 수형 */}
       <mesh position={[0.55, 2.9, 0.35]}>
         <sphereGeometry args={[0.85, 7, 7]} />
         <meshStandardMaterial color="#245c1a" roughness={0.84} />
@@ -93,17 +88,66 @@ function BroadleafTree({ position, scale = 1 }: { position: [number, number, num
 function ClearedZone() {
   return (
     <group>
-      {/* 개간 평탄지 — 양토(loam) 색상 */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[-5, 0.2, 5]}>
-        <planeGeometry args={[18, 14]} />
-        <meshStandardMaterial color="#9b7f55" roughness={0.92} />
+      {/* 개간 평탄지 — 드론 사진 붉은 흙 색상 반영 */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[-2, 0.15, 3]}>
+        <planeGeometry args={[18, 15]} />
+        <meshStandardMaterial color="#8c5e38" roughness={0.94} />
       </mesh>
       {/* 측량 경계 말뚝 */}
-      {([-13.5, 4.5] as number[]).flatMap((px) =>
-        ([-1.5, 12.5] as number[]).map((pz) => (
+      {([-10.5, 7.5] as number[]).flatMap((px) =>
+        ([-4.5, 10.5] as number[]).map((pz) => (
           <mesh key={`survey-${px}-${pz}`} position={[px, 0.4, pz]}>
             <cylinderGeometry args={[0.07, 0.09, 1.4, 6]} />
             <meshStandardMaterial color="#5a3a18" roughness={0.8} />
+          </mesh>
+        ))
+      )}
+    </group>
+  );
+}
+
+// 드론 사진 반영: 동쪽 경계 옹벽 (사진에서 오른쪽 가장자리 단차)
+function RetainingWall() {
+  return (
+    <group>
+      <mesh position={[8.0, 0.55, 3]}>
+        <boxGeometry args={[0.6, 1.1, 16]} />
+        <meshStandardMaterial color="#7a6e60" roughness={0.9} />
+      </mesh>
+      {/* 옹벽 상단 모서리 */}
+      <mesh position={[8.0, 1.12, 3]}>
+        <boxGeometry args={[0.8, 0.12, 16.2]} />
+        <meshStandardMaterial color="#8a7e70" roughness={0.85} />
+      </mesh>
+    </group>
+  );
+}
+
+// 드론 사진 반영: 개간지 북쪽에 흰색 차량
+function FarmVehicle({ position }: { position: [number, number, number] }) {
+  return (
+    <group position={position}>
+      {/* 차체 */}
+      <mesh position={[0, 0.5, 0]}>
+        <boxGeometry args={[2.0, 0.85, 4.2]} />
+        <meshStandardMaterial color="#f0eeea" roughness={0.6} />
+      </mesh>
+      {/* 운전석/캡 */}
+      <mesh position={[0, 1.15, -0.7]}>
+        <boxGeometry args={[1.85, 0.75, 2.1]} />
+        <meshStandardMaterial color="#dddbd5" roughness={0.55} />
+      </mesh>
+      {/* 창문 */}
+      <mesh position={[0, 1.22, -1.76]}>
+        <boxGeometry args={[1.5, 0.5, 0.06]} />
+        <meshStandardMaterial color="#a0c8e0" roughness={0.1} metalness={0.2} />
+      </mesh>
+      {/* 바퀴 */}
+      {([-1.0, 1.0] as number[]).flatMap((x) =>
+        ([-1.5, 1.5] as number[]).map((z) => (
+          <mesh key={`w-${x}-${z}`} position={[x, 0.22, z]} rotation={[0, 0, Math.PI / 2]}>
+            <cylinderGeometry args={[0.24, 0.24, 0.2, 10]} />
+            <meshStandardMaterial color="#111111" roughness={0.95} />
           </mesh>
         ))
       )}
@@ -123,7 +167,6 @@ function ChestnutPlantingSpot({ position }: { position: [number, number, number]
         <cylinderGeometry args={[0.07, 0.09, 1.5, 6]} />
         <meshStandardMaterial color="#b45309" roughness={0.5} />
       </mesh>
-      {/* 밤나무 표식 구 — 주황색 */}
       <mesh position={[0, 1.6, 0]}>
         <sphereGeometry args={[0.13, 7, 7]} />
         <meshStandardMaterial color="#f97316" roughness={0.4} />
@@ -152,32 +195,36 @@ function OakPlantingSpot({ position }: { position: [number, number, number] }) {
   );
 }
 
-// 활엽수 위치 — 울폐도 51~70% (중간 밀도)
-const forestPositions: [number, number, number][] = [
-  [-18, 0, -20], [-11, 0.5, -22], [-5, 1, -24], [1, 1.5, -25], [7, 2, -24],
-  [13, 1.8, -22], [19, 1.2, -20], [-20, 0, -12], [20, 0.8, -12],
-  [-21, -0.5, 0], [21, 0.3, 0], [-17, 0, -6], [17, 0.6, -8],
-  [-14, 0.5, -14], [14, 1.0, -15],
+// 활엽수 위치 — 울폐도 51~70%
+// 드론 사진 반영: 동쪽·북쪽 삼림 밀집, 서쪽(접근로 쪽) 희박
+const eastForest: [number, number, number][] = [
+  [11, 0, -10], [11, 0, -5], [11, 0, 0], [11, 0, 5], [11, 0, 10], [11, 0, 15],
+  [14, 0, -8], [14, 0, -3], [14, 0, 2], [14, 0, 7], [14, 0, 12],
+  [17, 0, -6], [17, 0, 0], [17, 0, 6],
 ];
-const midTreePositions: [number, number, number][] = [
-  [-8, 1, -10], [4, 1.5, -12], [-2, 0.8, -8], [10, 1.2, -10], [-6, 0.8, -5],
+const northForest: [number, number, number][] = [
+  [-8, 0, -13], [-4, 0, -13], [0, 0, -13], [4, 0, -13], [8, 0, -13],
+  [-6, 0, -16], [-2, 0, -16], [2, 0, -16], [6, 0, -16],
+];
+const westSparseForest: [number, number, number][] = [
+  [-15, 0, -4], [-15, 0, 2], [-15, 0, 8],
 ];
 
 // 밤나무 식재 예정지 — 개간 구역 내 2열 배치
 const chestnutPositions: [number, number, number][] = [
-  [-10, 0.3, 1.5], [-6, 0.3, 1.5], [-2, 0.3, 1.5], [2, 0.3, 1.5],
-  [-10, 0.3, 5.5], [-6, 0.3, 5.5], [-2, 0.3, 5.5], [2, 0.3, 5.5],
+  [-8, 0.3, 1.5], [-4, 0.3, 1.5], [0, 0.3, 1.5], [4, 0.3, 1.5],
+  [-8, 0.3, 5.5], [-4, 0.3, 5.5], [0, 0.3, 5.5], [4, 0.3, 5.5],
 ];
 
 // 상수리나무 조림 예정 — 활엽수림 경계 인근
 const oakPositions: [number, number, number][] = [
-  [-12, 0.4, -2], [-9, 0.7, -4.5], [-5, 0.7, -6],
+  [-10, 0.4, -2], [-7, 0.7, -4.5], [-4, 0.7, -6],
 ];
 
 export default function SinwolScene({ onHotspotSelect, walkMode = false }: SinwolSceneProps) {
   return (
     <>
-      <PerspectiveCamera makeDefault position={[5, 12, 20]} fov={68} />
+      <PerspectiveCamera makeDefault position={[0, 12, 22]} fov={68} />
 
       {/* 남서향 오후 햇살 — 남서향 경사지 반영 */}
       <Sky sunPosition={[-25, 38, 18]} turbidity={3.5} rayleigh={1.3} />
@@ -188,12 +235,21 @@ export default function SinwolScene({ onHotspotSelect, walkMode = false }: Sinwo
       <HillyTerrain />
       <ClearedZone />
 
-      {/* 기존 활엽수림 — 31~40년생, 울폐도 51~70% */}
-      {forestPositions.map((pos, i) => (
-        <BroadleafTree key={i} position={pos} scale={0.9} />
+      {/* 동쪽 경계 옹벽 (드론 사진 오른쪽 가장자리 단차 반영) */}
+      <RetainingWall />
+
+      {/* 북쪽 개간지 입구: 흰색 차량 (드론 사진 반영) */}
+      <FarmVehicle position={[-2, 0.3, -4]} />
+
+      {/* 기존 활엽수림 — 동쪽·북쪽 밀집, 서쪽(접근로) 희박 */}
+      {eastForest.map((pos, i) => (
+        <BroadleafTree key={`e-${i}`} position={pos} scale={0.9} />
       ))}
-      {midTreePositions.map((pos, i) => (
-        <BroadleafTree key={`mid-${i}`} position={pos} scale={0.65} />
+      {northForest.map((pos, i) => (
+        <BroadleafTree key={`n-${i}`} position={pos} scale={0.95} />
+      ))}
+      {westSparseForest.map((pos, i) => (
+        <BroadleafTree key={`w-${i}`} position={pos} scale={0.75} />
       ))}
 
       {/* 밤나무 식재 예정지 (임업분석 최적, amber 말뚝) */}
@@ -206,21 +262,21 @@ export default function SinwolScene({ onHotspotSelect, walkMode = false }: Sinwo
         <OakPlantingSpot key={`oak-${i}`} position={pos} />
       ))}
 
-      {/* 접근로 — 필지 동쪽 경계 */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[8, 0.15, 5]}>
-        <planeGeometry args={[2.5, 20]} />
-        <meshStandardMaterial color="#9a7858" roughness={0.9} />
+      {/* 접근로 — 서쪽(왼쪽) 경계, 드론 사진 반영 */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[-10.5, 0.1, 2]}>
+        <planeGeometry args={[2.5, 24]} />
+        <meshStandardMaterial color="#8a7050" roughness={0.92} />
       </mesh>
 
       {/* 핫스팟 — 실제 임업분석 데이터 반영 */}
       <WorldHotspot
-        position={[-5, 0.5, 5]}
+        position={[-3, 0.5, 5]}
         label="🌰 밤나무 조성 예정지"
-        info="임업분석 최적 수종 — 밤나무. 개간 구역(0.18ha) 내 식재 계획 중. 임지생산능력 Ⅱ급지(상), 양토 토양 (토심 30cm 미만), 남서향 경사 10~15도. 오렌지 말뚝 = 밤나무 식재 예정 위치"
+        info="임업분석 최적 수종 — 밤나무. 개간 구역(0.18ha) 내 식재 계획 중. 임지생산능력 Ⅱ급지(상), 양토 토양(토심 30cm 미만), 남서향 경사 10~15도. 오렌지 말뚝 = 밤나무 식재 예정 위치"
         onSelect={onHotspotSelect}
       />
       <WorldHotspot
-        position={[-2, 1.5, -8]}
+        position={[2, 1.5, -9]}
         label="🌳 기존 활엽수림"
         info="31~40년생 기타활엽수 — 가슴높이 지름 6~18cm, 울폐도 51~70%. 보존 구역과 개간 범위 경계 확정 중. 적정조림수종: 상수리나무 (초록 말뚝 구역)"
         onSelect={onHotspotSelect}
@@ -232,9 +288,9 @@ export default function SinwolScene({ onHotspotSelect, walkMode = false }: Sinwo
         onSelect={onHotspotSelect}
       />
       <WorldHotspot
-        position={[7, 0.3, 7]}
-        label="📍 필지 경계 · 접근로"
-        info="신월리 98번지 · 0.18ha(토지대장). 지목: 전. 계획관리지역, 성장관리계획구역. 연락처·방문 일정은 꽃폈네 채널에서 확인하세요"
+        position={[-10, 0.2, 7]}
+        label="📍 서쪽 접근로 · 필지 경계"
+        info="신월리 98번지 · 0.18ha(토지대장). 지목: 전. 계획관리지역, 성장관리계획구역. 드론 사진 기반 접근로 위치 반영 (서쪽 경계)"
         onSelect={onHotspotSelect}
       />
 
