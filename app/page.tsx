@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-// ── 아이소메트릭 미니맵 헬퍼 (farmblossom-web 포팅) ──────────────
+// ── 아이소메트릭 미니맵 헬퍼 ──────────────────────────────────────
 const iP = (x: number, y: number) => ({
   x: 485 + (x - y) * 26,
   y: 85 + (x + y) * 13,
@@ -149,11 +149,8 @@ function BrandArtMini() {
       <rect width="400" height="280" fill="url(#bg-brand)" />
       <circle cx="200" cy="140" r="128" fill="none" stroke="#ffffff8c" strokeWidth="1.3" transform="rotate(-20 200 140)" />
       <circle cx="200" cy="140" r="172" fill="none" stroke="#ffffff55" strokeWidth="1" />
-      {/* Plant ✳ */}
       <text x="200" y="118" textAnchor="middle" fontSize="68" fill="#497d56" opacity=".88">✳</text>
-      {/* Stem */}
       <rect x="195" y="118" width="10" height="38" rx="5" fill="#5a8a4a" opacity=".6" />
-      {/* Brand box */}
       <g transform="translate(200 198) rotate(-8)">
         <rect x="-60" y="-42" width="120" height="74" rx="3" fill="#bf9865" />
         <rect x="-60" y="-42" width="120" height="74" rx="3" fill="none" stroke="#aa8457" strokeWidth="3" />
@@ -168,209 +165,419 @@ function BrandArtMini() {
   );
 }
 
-// ── 메인 홈페이지 ─────────────────────────────────────────────────
+// ── 소셜 아이콘 목록 ─────────────────────────────────────────────
+const socialLinks = [
+  { icon: "article",      title: "네이버 블로그" },
+  { icon: "storefront",   title: "스마트스토어" },
+  { icon: "groups",       title: "밴드 커뮤니티" },
+  { icon: "play_circle",  title: "유튜브" },
+  { icon: "photo_camera", title: "인스타그램" },
+];
+
+// ── 메인 홈페이지 ────────────────────────────────────────────────
 export default function GatewayPage() {
   return (
-    <div className="min-h-screen bg-[#fbfaf6] flex flex-col">
-      {/* 헤더 */}
-      <header className="sticky top-0 z-50 bg-[#fbfaf6]/98 backdrop-blur-xl border-b border-[#e4e6db]">
-        <div className="max-w-7xl mx-auto px-5 md:px-10 h-16 flex items-center justify-between">
-          <Link href="/" aria-label="꽃폈네 메인">
-            <Image src="/assets/brand/logo-farm-blossom.png" alt="꽃폈네 FARMBLOSSOM" width={110} height={36} className="h-9 w-auto rounded-md" priority />
+    <div className="min-h-screen bg-surface flex flex-col">
+
+      {/* ── 헤더 (Stitch: 80px, warm shadow) ── */}
+      <header className="sticky top-0 z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(112,85,68,0.06)]">
+        <div className="h-20 max-w-[1440px] mx-auto px-5 md:px-[3rem] flex items-center justify-between gap-4">
+
+          {/* 로고 */}
+          <Link href="/" className="flex items-center gap-2.5 shrink-0" aria-label="꽃폈네 홈">
+            <Image
+              src="/assets/brand/logo-farm-blossom.png"
+              alt=""
+              width={36}
+              height={36}
+              className="w-9 h-9 rounded-lg object-contain"
+              priority
+            />
+            <div className="flex flex-col leading-none">
+              <span className="text-primary font-bold tracking-tight text-[17px]">꽃폈네</span>
+              <span className="text-on-surface-variant text-[11px] font-medium mt-0.5">Farmblossom OS</span>
+            </div>
           </Link>
-          <nav className="flex items-center gap-6 md:gap-8" aria-label="주요 메뉴">
-            <Link href="/farm/sinwol" className="text-[13px] font-bold text-[#5d7364] hover:text-[#19462f] transition-colors">신월농장</Link>
-            <Link href="/farm/deoksan" className="text-[13px] font-bold text-[#5d7364] hover:text-[#19462f] transition-colors">덕산농장</Link>
-            <Link href="/brand" className="text-[13px] font-bold text-[#5d7364] hover:text-[#19462f] transition-colors">브랜드 안내</Link>
+
+          {/* 네비게이션 */}
+          <nav className="hidden xl:flex items-center gap-1" aria-label="주요 메뉴">
+            {[
+              { href: "/farm/sinwol",   label: "신월농장" },
+              { href: "/farm/deoksan",  label: "덕산농장" },
+              { href: "/brand",         label: "브랜드 안내" },
+              { href: "/world/deoksan", label: "3D 가상농장" },
+            ].map(({ href, label }) => (
+              <Link
+                key={href}
+                href={href}
+                className="px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors text-[14px] font-medium"
+              >
+                {label}
+              </Link>
+            ))}
           </nav>
+
+          {/* 우측: 날씨 칩 + 소셜 + 관리자 */}
+          <div className="flex items-center gap-2 shrink-0">
+            {/* 날씨 — API 미연결, 임의 수치 표시 없음 */}
+            <div className="hidden 2xl:flex items-center gap-2 bg-surface-container px-3 py-1.5 rounded-lg">
+              <span className="material-symbols-outlined text-outline text-[18px]">cloud_off</span>
+              <div className="flex flex-col text-left">
+                <span className="text-on-surface-variant text-[11px] font-medium leading-tight">기상청 연동 준비 중</span>
+                <span className="text-outline text-[10px] leading-tight">덕산리 현장 관측 예정</span>
+              </div>
+            </div>
+
+            {/* 소셜 아이콘 — 미확인 링크는 # 보류 */}
+            <div className="hidden lg:flex items-center gap-0.5 text-on-surface-variant">
+              {socialLinks.map((s) => (
+                <a
+                  key={s.icon}
+                  href="#"
+                  title={s.title}
+                  aria-label={s.title}
+                  className="p-1.5 rounded-full hover:bg-surface-container-high hover:text-on-surface transition-colors"
+                >
+                  <span className="material-symbols-outlined text-[18px]">{s.icon}</span>
+                </a>
+              ))}
+            </div>
+
+            {/* 관리자 */}
+            <Link
+              href="/login"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 bg-secondary text-on-secondary rounded-lg text-[13px] font-semibold hover:opacity-90 transition-opacity shadow-sm"
+            >
+              <span className="material-symbols-outlined text-[15px]">tune</span>
+              FM 관리자
+            </Link>
+          </div>
         </div>
       </header>
 
       <main className="flex-1">
-        {/* 히어로 */}
-        <section className="text-center px-5 pt-14 pb-10 md:pt-20 md:pb-14">
-          <div className="inline-flex items-center gap-2 text-[10px] font-bold tracking-widest text-[#64836d] mb-5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#7daa6c] animate-pulse inline-block" />
-            WELCOME TO FARMBLOSSOM
+
+        {/* ── 히어로 (Stitch: surface-container-low/70, 12칼럼 그리드) ── */}
+        <section className="w-full bg-surface-container-low/70 relative overflow-hidden py-10 md:py-16">
+          {/* 유기적 블롭 장식 */}
+          <div className="absolute -right-24 -top-24 w-96 h-96 rounded-full bg-primary/5 blur-3xl pointer-events-none" aria-hidden="true" />
+          <div className="absolute left-1/4 bottom-0 w-80 h-80 rounded-full bg-secondary-container/40 blur-3xl pointer-events-none" aria-hidden="true" />
+
+          <div className="max-w-[1440px] mx-auto px-5 md:px-[3rem] relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+
+              {/* 텍스트 칼럼 (7칼럼) */}
+              <div className="lg:col-span-7 flex flex-col items-start">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary-container text-on-secondary-container font-semibold text-[12px] mb-5">
+                  <span className="material-symbols-outlined text-[14px]">nest_eco_leaf</span>
+                  자연순환 생태농원 · 꽃폈네 (Farmblossom)
+                </div>
+
+                {/* 헤드라인: Stitch text-secondary (로암 브라운) */}
+                <h1
+                  className="text-[30px] md:text-[40px] font-bold leading-tight tracking-[-0.02em] text-secondary mb-5"
+                  style={{ wordBreak: "keep-all" }}
+                >
+                  농장을 걷고,<br />
+                  계절의 이야기를 만나다
+                </h1>
+
+                <p
+                  className="text-[15px] md:text-[16px] text-on-surface-variant leading-relaxed mb-7 max-w-lg"
+                  style={{ wordBreak: "keep-all" }}
+                >
+                  씨앗에서 수확까지, 꽃폈네의 두 농장과 브랜드 이야기를 만나보세요.
+                  신월농장·덕산농장을 3D로 탐방하고 캐릭터들의 여정에 함께하세요.
+                </p>
+
+                <div className="flex flex-wrap items-center gap-3 mb-7">
+                  <Link
+                    href="/world/deoksan"
+                    className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-primary text-on-primary font-semibold text-[14px] hover:opacity-90 transition-all shadow-md hover:shadow-lg active:scale-95"
+                  >
+                    <span className="material-symbols-outlined text-[18px]">view_in_ar</span>
+                    3D 가상 농장 산책하기
+                  </Link>
+                  <Link
+                    href="/brand"
+                    className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-surface-container text-on-surface font-semibold text-[14px] hover:bg-surface-container-high transition-all shadow-sm"
+                  >
+                    <span className="material-symbols-outlined text-[18px]">auto_stories</span>
+                    브랜드 이야기
+                  </Link>
+                </div>
+
+                {/* 실증 목표 안내 — 수치 과장 없음 */}
+                <div className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-surface-container text-on-surface-variant text-[12px] font-medium border border-outline-variant/40">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse flex-shrink-0" />
+                  2027 봄감자 · 밀양 덕산리 · 40팀 참여 목표 (실증 준비 중)
+                </div>
+              </div>
+
+              {/* 비주얼 칼럼 (5칼럼) */}
+              <div className="lg:col-span-5 relative mt-6 lg:mt-0">
+                <div className="relative bg-surface rounded-2xl p-6 shadow-[0_8px_32px_-4px_rgba(112,85,68,0.12)] overflow-hidden flex flex-col items-center text-center">
+                  <div className="absolute inset-0 bg-gradient-to-b from-surface-container-low/80 via-transparent to-surface-container/40 pointer-events-none" />
+
+                  {/* 브랜드 로고 */}
+                  <div className="relative z-10 mb-5">
+                    <Image
+                      src="/assets/brand/logo-farm-blossom.png"
+                      alt="꽃폈네 로고"
+                      width={140}
+                      height={56}
+                      className="h-14 w-auto mx-auto object-contain drop-shadow-sm"
+                    />
+                  </div>
+
+                  {/* 캐릭터 */}
+                  <div className="relative z-10 w-full rounded-xl overflow-hidden bg-surface-container-lowest/90 p-4 shadow-inner">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="flex flex-col items-center gap-2">
+                        <Image
+                          src="/assets/brand/putteogi-original.jpg"
+                          alt="퍼뜨기"
+                          width={120}
+                          height={120}
+                          className="w-full aspect-square object-contain rounded-lg"
+                        />
+                        <span className="text-secondary text-[12px] font-semibold bg-surface-container-high px-3 py-1 rounded-full">🌱 퍼뜨기</span>
+                      </div>
+                      <div className="flex flex-col items-center gap-2">
+                        <Image
+                          src="/assets/brand/ssudami-original.jpg"
+                          alt="쑤담이"
+                          width={120}
+                          height={120}
+                          className="w-full aspect-square object-contain rounded-lg"
+                        />
+                        <span className="text-primary text-[12px] font-semibold bg-surface-container-high px-3 py-1 rounded-full">🌸 쑤담이</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p className="relative z-10 text-on-surface-variant text-[13px] leading-relaxed mt-4" style={{ wordBreak: "keep-all" }}>
+                    꽃폈네의 첫 번째 가족이 되어보세요
+                  </p>
+                </div>
+              </div>
+
+            </div>
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-[#193a2a] leading-tight mb-4" style={{ wordBreak: "keep-all" }}>
-            농장을 걷고,<br />
-            <em className="not-italic text-[#b68d57]">계절의 이야기를</em> 만나다.
-          </h1>
-          <p className="text-sm md:text-base text-[#627b69] max-w-lg mx-auto leading-relaxed">
-            씨앗에서 수확까지. 꽃폈네의 두 농장과 브랜드 이야기 중<br className="hidden md:block" />
-            오늘 둘러보고 싶은 공간을 선택해 보세요.
-          </p>
-          <p className="inline-flex items-center gap-2 mt-5 bg-[#edf2e8] text-[#406c4d] text-xs font-bold px-4 py-2.5 rounded-full">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#7daa6c] inline-block" />
-            가상 농장 체험 시제품 · 키보드와 터치로 탐방할 수 있어요
-          </p>
         </section>
 
-        {/* 3개 포털 카드 */}
-        <section className="px-5 md:px-10 pb-16 max-w-[1500px] mx-auto" aria-label="세 가지 공간 입구">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
+        {/* ── 세 가지 입구 (3 포털 카드) ── */}
+        <section className="w-full py-12 md:py-16 bg-surface" aria-label="세 가지 공간 입구">
+          <div className="max-w-[1440px] mx-auto px-5 md:px-[3rem]">
 
-            {/* 01 — 신월농장 */}
-            <div className="group border border-[#dfe5d8] rounded-[18px] overflow-hidden bg-white hover:-translate-y-1.5 hover:shadow-2xl hover:border-[#aac7ab] transition-all duration-200 flex flex-col md:flex-col flex-row">
-              {/* 비주얼 — 아이소메트릭 미니맵 */}
-              <div className="relative h-72 md:h-72 w-[43%] md:w-auto flex-shrink-0 overflow-hidden bg-[#dfeada]">
-                <div className="absolute inset-0 group-hover:scale-105 transition-transform duration-500">
-                  <ShinwolMiniMap />
-                </div>
-                <span className="absolute top-4 left-4 bg-white/85 backdrop-blur-sm text-[#375a40] text-[10px] font-bold tracking-widest px-3 py-2 rounded-full">
-                  01 / FARM
-                </span>
+            {/* 섹션 헤더 */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-3">
+              <div>
+                <span className="text-secondary text-[12px] font-semibold uppercase tracking-wider">두 농장 · 하나의 브랜드</span>
+                <h2 className="text-[24px] md:text-[30px] font-bold text-on-surface tracking-tight mt-1" style={{ wordBreak: "keep-all" }}>
+                  탐방할 공간을 선택하세요
+                </h2>
               </div>
-              {/* 정보 */}
-              <div className="flex flex-col justify-between flex-1 p-6 md:p-7">
-                <div>
-                  <span className="text-[10px] font-bold tracking-widest text-[#ad8b63]">SHINWOL FARM</span>
-                  <h2 className="text-2xl md:text-3xl font-bold text-[#193a2a] tracking-tight mt-2 mb-2">신월농장</h2>
-                  <p className="text-sm text-[#6f8275] leading-relaxed">새로운 과원이 만들어지는 기록<br /><span className="text-xs text-[#9aad8f]">경남 밀양시 초동면 신월리 98 · 0.18ha</span></p>
-                  <div className="flex flex-wrap gap-1.5 mt-3">
+              <p className="text-on-surface-variant text-[14px] max-w-sm leading-relaxed" style={{ wordBreak: "keep-all" }}>
+                각 농장을 3D로 탐방하거나 2D 맵으로 직접 걸어보세요
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+              {/* 01 — 신월농장 */}
+              <div className="group bg-surface-container-low rounded-2xl overflow-hidden shadow-[0_4px_16px_-2px_rgba(112,85,68,0.06)] hover:shadow-[0_8px_32px_-4px_rgba(112,85,68,0.14)] hover:-translate-y-1 transition-all duration-200 flex flex-col">
+                <div className="relative h-52 overflow-hidden bg-[#dfeada]">
+                  <div className="absolute inset-0 group-hover:scale-105 transition-transform duration-500">
+                    <ShinwolMiniMap />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
+                  <span className="absolute top-3 left-3 bg-surface/85 backdrop-blur-sm text-on-surface text-[10px] font-bold tracking-widest px-3 py-1.5 rounded-full">
+                    01 / FARM
+                  </span>
+                  <span className="absolute bottom-3 right-3 bg-surface/80 backdrop-blur-sm text-on-surface-variant text-[10px] font-medium px-2.5 py-1 rounded-full">
+                    신월리 · 0.18ha
+                  </span>
+                </div>
+
+                <div className="flex flex-col flex-1 p-6">
+                  <span className="text-secondary text-[11px] font-bold tracking-widest uppercase">Shinwol Farm</span>
+                  <h3 className="text-[22px] font-bold text-on-surface tracking-tight mt-1.5 mb-2">신월농장</h3>
+                  <p className="text-on-surface-variant text-[14px] leading-relaxed mb-3" style={{ wordBreak: "keep-all" }}>
+                    새로운 과원이 조성 중인 경남 밀양시 초동면의 농장입니다.
+                  </p>
+                  <div className="flex flex-wrap gap-1.5 mb-5">
                     {["과원 조성 중", "남서향 경사지", "활엽수림"].map((tag) => (
-                      <span key={tag} className="text-[10px] text-[#56745a] bg-[#edf3e8] px-2.5 py-1 rounded-full font-medium">{tag}</span>
+                      <span key={tag} className="text-[11px] text-primary bg-primary-fixed/60 px-2.5 py-1 rounded-full font-medium">{tag}</span>
                     ))}
                   </div>
-                </div>
-                <div className="flex flex-col gap-2 mt-5">
-                  <Link href="/world/sinwol" className="flex items-center justify-between gap-2 px-4 py-3 rounded-xl bg-[#214c32] text-white text-sm font-bold hover:bg-[#1a3d28] transition-colors">
-                    <span className="flex items-center gap-1.5">
-                      <span className="material-symbols-outlined text-[16px]">3d_rotation</span>
-                      3D 농장 탐방
-                    </span>
-                    <span className="text-base">↗</span>
-                  </Link>
-                  <Link href="/farm/sinwol" className="flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl border border-[#d6e3d2] text-[#51785d] text-sm font-semibold hover:bg-[#f2f7ee] transition-colors">
-                    농장 소개 보기
-                  </Link>
+                  <div className="flex flex-col gap-2 mt-auto">
+                    <Link
+                      href="/world/sinwol"
+                      className="flex items-center justify-between gap-2 px-4 py-3 rounded-xl bg-primary text-on-primary text-[14px] font-semibold hover:opacity-90 transition-opacity shadow-sm"
+                    >
+                      <span className="flex items-center gap-1.5">
+                        <span className="material-symbols-outlined text-[16px]">3d_rotation</span>
+                        3D 농장 탐방
+                      </span>
+                      <span>↗</span>
+                    </Link>
+                    <Link
+                      href="/farm/sinwol"
+                      className="flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl border border-outline-variant text-on-surface-variant text-[13px] font-medium hover:bg-surface-container transition-colors"
+                    >
+                      농장 소개 보기
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* 02 — 덕산농장 */}
-            <div className="group border border-[#dfe5d8] rounded-[18px] overflow-hidden bg-white hover:-translate-y-1.5 hover:shadow-2xl hover:border-[#c8bb8a] transition-all duration-200 flex flex-col md:flex-col flex-row">
-              <div className="relative h-72 md:h-72 w-[43%] md:w-auto flex-shrink-0 overflow-hidden bg-[#e8e4c9]">
-                <div className="absolute inset-0 group-hover:scale-105 transition-transform duration-500">
-                  <DeoksanMiniMap />
+              {/* 02 — 덕산농장 */}
+              <div className="group bg-surface-container-low rounded-2xl overflow-hidden shadow-[0_4px_16px_-2px_rgba(112,85,68,0.06)] hover:shadow-[0_8px_32px_-4px_rgba(112,85,68,0.14)] hover:-translate-y-1 transition-all duration-200 flex flex-col">
+                <div className="relative h-52 overflow-hidden bg-[#e8e4c9]">
+                  <div className="absolute inset-0 group-hover:scale-105 transition-transform duration-500">
+                    <DeoksanMiniMap />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
+                  <span className="absolute top-3 left-3 bg-surface/85 backdrop-blur-sm text-on-surface text-[10px] font-bold tracking-widest px-3 py-1.5 rounded-full">
+                    02 / FARM
+                  </span>
+                  <span className="absolute top-3 right-3 flex items-center gap-1 bg-primary-fixed/90 backdrop-blur-sm text-on-primary-fixed text-[10px] font-bold px-2.5 py-1.5 rounded-full">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                    2027 준비 중
+                  </span>
                 </div>
-                <span className="absolute top-4 left-4 bg-white/85 backdrop-blur-sm text-[#375a40] text-[10px] font-bold tracking-widest px-3 py-2 rounded-full">
-                  02 / FARM
-                </span>
-                <span className="absolute top-4 right-4 flex items-center gap-1 bg-green-400/20 text-green-700 text-[10px] font-bold px-2.5 py-1.5 rounded-full backdrop-blur-sm">
-                  <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse inline-block" />
-                  2027 준비 중
-                </span>
-              </div>
-              <div className="flex flex-col justify-between flex-1 p-6 md:p-7">
-                <div>
-                  <span className="text-[10px] font-bold tracking-widest text-[#ad8b63]">DEOKSAN FARM</span>
-                  <h2 className="text-2xl md:text-3xl font-bold text-[#193a2a] tracking-tight mt-2 mb-2">덕산농장</h2>
-                  <p className="text-sm text-[#6f8275] leading-relaxed">감자가 자라고 이야기가 쌓이는 곳<br /><span className="text-xs text-[#9aad8f]">경남 밀양시 덕산리 756 · 봄감자 40팀</span></p>
-                  <div className="flex flex-wrap gap-1.5 mt-3">
+
+                <div className="flex flex-col flex-1 p-6">
+                  <span className="text-secondary text-[11px] font-bold tracking-widest uppercase">Deoksan Farm</span>
+                  <h3 className="text-[22px] font-bold text-on-surface tracking-tight mt-1.5 mb-2">덕산농장</h3>
+                  <p className="text-on-surface-variant text-[14px] leading-relaxed mb-3" style={{ wordBreak: "keep-all" }}>
+                    감자가 자라고 이야기가 쌓이는 밀양 덕산리의 주요 운영 농장입니다.
+                  </p>
+                  <div className="flex flex-wrap gap-1.5 mb-5">
                     {["봄감자", "고랑 40구획", "참여형 농장"].map((tag) => (
-                      <span key={tag} className="text-[10px] text-[#56745a] bg-[#edf3e8] px-2.5 py-1 rounded-full font-medium">{tag}</span>
+                      <span key={tag} className="text-[11px] text-secondary bg-secondary-container/50 px-2.5 py-1 rounded-full font-medium">{tag}</span>
                     ))}
                   </div>
-                </div>
-                <div className="flex flex-col gap-2 mt-5">
-                  <Link href="/world/deoksan" className="flex items-center justify-between gap-2 px-4 py-3 rounded-xl bg-[#214c32] text-white text-sm font-bold hover:bg-[#1a3d28] transition-colors">
-                    <span className="flex items-center gap-1.5">
-                      <span className="material-symbols-outlined text-[16px]">3d_rotation</span>
-                      3D 농장 탐방
-                    </span>
-                    <span className="text-base">↗</span>
-                  </Link>
-                  <Link href="/farm/deoksan" className="flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl border border-[#d6e3d2] text-[#51785d] text-sm font-semibold hover:bg-[#f2f7ee] transition-colors">
-                    농장 소개 보기
-                  </Link>
+                  <div className="flex flex-col gap-2 mt-auto">
+                    <Link
+                      href="/world/deoksan"
+                      className="flex items-center justify-between gap-2 px-4 py-3 rounded-xl bg-primary text-on-primary text-[14px] font-semibold hover:opacity-90 transition-opacity shadow-sm"
+                    >
+                      <span className="flex items-center gap-1.5">
+                        <span className="material-symbols-outlined text-[16px]">3d_rotation</span>
+                        3D 농장 탐방
+                      </span>
+                      <span>↗</span>
+                    </Link>
+                    <Link
+                      href="/farm/deoksan"
+                      className="flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl border border-outline-variant text-on-surface-variant text-[13px] font-medium hover:bg-surface-container transition-colors"
+                    >
+                      농장 소개 보기
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* 03 — 꽃폈네 브랜드 */}
-            <div className="group border border-[#dfe5d8] rounded-[18px] overflow-hidden bg-white hover:-translate-y-1.5 hover:shadow-2xl hover:border-[#c8b890] transition-all duration-200 flex flex-col md:flex-col flex-row">
-              <div className="relative h-72 md:h-72 w-[43%] md:w-auto flex-shrink-0 overflow-hidden bg-[#e9dfca]">
-                <div className="absolute inset-0 group-hover:scale-105 transition-transform duration-500">
-                  <BrandArtMini />
+              {/* 03 — 꽃폈네 브랜드 */}
+              <div className="group bg-surface-container-low rounded-2xl overflow-hidden shadow-[0_4px_16px_-2px_rgba(112,85,68,0.06)] hover:shadow-[0_8px_32px_-4px_rgba(112,85,68,0.14)] hover:-translate-y-1 transition-all duration-200 flex flex-col">
+                <div className="relative h-52 overflow-hidden bg-surface-container">
+                  <div className="absolute inset-0 group-hover:scale-105 transition-transform duration-500">
+                    <BrandArtMini />
+                  </div>
+                  <span className="absolute top-3 left-3 bg-surface/85 backdrop-blur-sm text-on-surface text-[10px] font-bold tracking-widest px-3 py-1.5 rounded-full">
+                    03 / BRAND
+                  </span>
                 </div>
-                <span className="absolute top-4 left-4 bg-white/85 backdrop-blur-sm text-[#5a4a2a] text-[10px] font-bold tracking-widest px-3 py-2 rounded-full">
-                  03 / BRAND
-                </span>
-              </div>
-              <div className="flex flex-col justify-between flex-1 p-6 md:p-7">
-                <div>
-                  <span className="text-[10px] font-bold tracking-widest text-[#ad8b63]">OUR STORY</span>
-                  <h2 className="text-2xl md:text-3xl font-bold text-[#193a2a] tracking-tight mt-2 mb-2">꽃폈네 브랜드</h2>
-                  <p className="text-sm text-[#6f8275] leading-relaxed">꽃이 피어야 열매를 맺는 이유<br /><span className="text-xs text-[#9aad8f]">퍼뜨기·쑤담이와 함께하는 꽃폈네 이야기</span></p>
-                  <div className="flex flex-wrap gap-1.5 mt-3">
+
+                <div className="flex flex-col flex-1 p-6">
+                  <span className="text-secondary text-[11px] font-bold tracking-widest uppercase">Our Brand</span>
+                  <h3 className="text-[22px] font-bold text-on-surface tracking-tight mt-1.5 mb-2">꽃폈네 브랜드</h3>
+                  <p className="text-on-surface-variant text-[14px] leading-relaxed mb-3" style={{ wordBreak: "keep-all" }}>
+                    꽃이 피어야 열매를 맺는 이유. 퍼뜨기·쑤담이와 꽃폈네의 이야기를 만나보세요.
+                  </p>
+                  <div className="flex flex-wrap gap-1.5 mb-5">
                     {["브랜드 철학", "캐릭터 소개", "스토리박스"].map((tag) => (
-                      <span key={tag} className="text-[10px] text-[#7a6040] bg-[#f5ece0] px-2.5 py-1 rounded-full font-medium">{tag}</span>
+                      <span key={tag} className="text-[11px] text-tertiary bg-tertiary-fixed/40 px-2.5 py-1 rounded-full font-medium">{tag}</span>
                     ))}
                   </div>
-                </div>
-                <div className="flex flex-col gap-2 mt-5">
-                  <Link href="/brand" className="flex items-center justify-between gap-2 px-4 py-3 rounded-xl bg-[#4a3418] text-white text-sm font-bold hover:bg-[#3a2810] transition-colors">
-                    <span className="flex items-center gap-1.5">
-                      <span className="material-symbols-outlined text-[16px]">auto_stories</span>
-                      브랜드 이야기 보기
-                    </span>
-                    <span className="text-base">↗</span>
-                  </Link>
+                  <div className="flex flex-col gap-2 mt-auto">
+                    <Link
+                      href="/brand"
+                      className="flex items-center justify-between gap-2 px-4 py-3 rounded-xl bg-secondary text-on-secondary text-[14px] font-semibold hover:opacity-90 transition-opacity shadow-sm"
+                    >
+                      <span className="flex items-center gap-1.5">
+                        <span className="material-symbols-outlined text-[16px]">auto_stories</span>
+                        브랜드 이야기 보기
+                      </span>
+                      <span>↗</span>
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
 
+            </div>
           </div>
         </section>
 
-        {/* 캐릭터 소개 */}
-        <section className="bg-[#f2f7ee] px-5 md:px-10 py-14 border-t border-[#e2e7dc]">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-[10px] font-bold tracking-widest text-[#64836d] text-center mb-3">OUR CHARACTERS</div>
-            <h3 className="text-xl md:text-2xl font-bold text-[#193a2a] text-center mb-8 tracking-tight">농장을 함께 걷는 안내자</h3>
-            <div className="grid grid-cols-3 gap-4 md:gap-6 max-w-2xl mx-auto">
-              {[
-                { src: "/assets/brand/fm-jeong-i.jpg", name: "FM 쩡이", role: "농장 운영자", desc: "실제 농업 판단과 모든 승인을 담당하는 꽃폈네 총괄 농장관리자" },
-                { src: "/assets/brand/putteogi-original.jpg", name: "퍼뜨기", role: "고구마 하트잎 캐릭터", desc: "활발하게 농장 구석구석을 안내하는 꽃폈네의 첫 번째 캐릭터" },
-                { src: "/assets/brand/ssudami-original.jpg", name: "쑤담이", role: "감자꽃 캐릭터", desc: "차분하게 생육 과정과 농장 이야기를 들려주는 두 번째 캐릭터" },
-              ].map((c) => (
-                <div key={c.name} className="flex flex-col gap-2.5">
-                  <div className="rounded-xl overflow-hidden border border-[#d6e3d2] bg-white aspect-square flex items-center justify-center">
-                    <Image src={c.src} alt={c.name} width={160} height={160} className="w-full h-full object-contain" />
-                  </div>
-                  <div className="font-bold text-[#193a2a] text-sm">{c.name}</div>
-                  <div className="text-[10px] text-[#7a9480] font-semibold">{c.role}</div>
-                  <div className="text-[11px] text-[#7a8f7a] leading-relaxed hidden md:block">{c.desc}</div>
+        {/* ── FM 쩡이 소개 (소형) ── */}
+        <section className="w-full bg-surface-container py-10 border-t border-outline-variant/20">
+          <div className="max-w-[1440px] mx-auto px-5 md:px-[3rem]">
+            <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10">
+              <div className="flex items-center gap-4 shrink-0">
+                <Image
+                  src="/assets/brand/fm-jeong-i.jpg"
+                  alt="FM 쩡이 농장관리자"
+                  width={56}
+                  height={56}
+                  className="w-14 h-14 rounded-full object-cover ring-2 ring-primary-fixed"
+                />
+                <div>
+                  <div className="text-on-surface font-bold text-[15px]">FM 쩡이</div>
+                  <div className="text-on-surface-variant text-[12px]">꽃폈네 농장관리자 · 운영 총괄</div>
                 </div>
-              ))}
+              </div>
+              <p className="text-on-surface-variant text-[14px] leading-relaxed max-w-xl" style={{ wordBreak: "keep-all" }}>
+                실제 농장의 모든 판단과 승인을 담당하는 꽃폈네 총괄 농장관리자입니다.
+                두 농장의 성장 과정을 직접 기록하고 함께 나눕니다.
+              </p>
+              <Link
+                href="/brand"
+                className="ml-auto shrink-0 text-primary text-[13px] font-semibold hover:underline hidden md:block"
+              >
+                꽃폈네 이야기 →
+              </Link>
             </div>
           </div>
         </section>
 
-        {/* 하단 안내 */}
-        <section className="px-5 py-10 text-center border-t border-[#e2e7dc]">
-          <p className="text-sm text-[#8b9a8b] mb-1">계절이 익으면, 꽃폈네가 보내드릴게요.</p>
-          <p className="text-[10px] font-bold tracking-widest text-[#b4c0b4]">SCROLL LESS, EXPLORE MORE · 2026</p>
-        </section>
       </main>
 
-      {/* 푸터 */}
-      <footer className="border-t border-[#e2e7dc] px-5 md:px-10 py-8 bg-[#fbfaf6]">
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      {/* ── 푸터 ── */}
+      <footer className="border-t border-outline-variant/30 px-5 md:px-[3rem] py-10 bg-surface-container-low">
+        <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div>
-            <Image src="/assets/brand/logo-couple.png" alt="꽃폈네 커플 로고" width={80} height={30} className="h-7 w-auto rounded-md mb-3" />
-            <p className="text-xs text-[#8b9a8b] max-w-sm leading-relaxed">
-              실제 농장 두 곳을 3D로 탐방하고, 계절의 변화를 관찰하며 농작물 기록과 연결되는 참여형 가상농장 플랫폼입니다.
+            <Image
+              src="/assets/brand/logo-couple.png"
+              alt="꽃폈네 커플 로고"
+              width={80}
+              height={30}
+              className="h-7 w-auto rounded-md mb-3"
+            />
+            <p className="text-on-surface-variant text-[13px] max-w-sm leading-relaxed" style={{ wordBreak: "keep-all" }}>
+              실제 농장 두 곳을 3D로 탐방하고, 계절의 변화를 관찰하는 참여형 가상농장 플랫폼입니다.
             </p>
-            <p className="text-[11px] text-[#b4c0b4] mt-2">© 2027 꽃폈네 · FM 쩡이 운영 · 3D 장면과 샘플 데이터는 2027년 실증을 위한 시뮬레이션입니다</p>
+            <p className="text-outline text-[11px] mt-2">
+              © 2027 꽃폈네 · FM 쩡이 운영 · 3D 장면과 샘플 데이터는 2027년 실증을 위한 시뮬레이션입니다
+            </p>
           </div>
-          <Link href="/login" className="text-xs text-[#a0b0a0] hover:text-[#56745a] transition-colors">
-            관리자 로그인
+          <Link href="/login" className="text-on-surface-variant hover:text-on-surface text-[12px] transition-colors">
+            관리자 로그인 →
           </Link>
         </div>
       </footer>
+
     </div>
   );
 }

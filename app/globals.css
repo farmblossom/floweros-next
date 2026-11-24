@@ -129,7 +129,7 @@
 body {
   background-color: #fff8f5;
   color: #1e1b18;
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: "Plus Jakarta Sans", var(--font-noto-sans-kr, "Noto Sans KR"), "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   -webkit-font-smoothing: antialiased;
   overscroll-behavior: none;
 }
