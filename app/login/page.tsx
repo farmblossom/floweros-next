@@ -4,11 +4,21 @@ import { createClient } from "@/lib/supabase/client";
 import Image from "next/image";
 import Link from "next/link";
 
+// 빌드 시점에 환경변수 존재 여부 확인 (NEXT_PUBLIC_* 은 빌드 시 인라인됨)
+const supabaseConfigured = !!(
+  process.env.NEXT_PUBLIC_SUPABASE_URL &&
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
+);
+
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   async function handleGoogleLogin() {
+    if (!supabaseConfigured) {
+      setError("Supabase 환경변수가 설정되지 않았습니다. .env.local 파일을 확인해 주세요.");
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
@@ -21,8 +31,13 @@ export default function LoginPage() {
         },
       });
       if (error) throw error;
-    } catch {
-      setError("로그인 중 오류가 발생했습니다. Supabase 설정을 확인해주세요.");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      if (msg.includes("환경변수") || msg.includes("URL") || !supabaseConfigured) {
+        setError("Supabase 환경변수가 설정되지 않았습니다. .env.local 파일을 확인해 주세요.");
+      } else {
+        setError("로그인 중 오류가 발생했습니다. Supabase 대시보드에서 Google OAuth 설정을 확인해 주세요.");
+      }
       setLoading(false);
     }
   }
@@ -45,15 +60,29 @@ export default function LoginPage() {
         </div>
 
         <div className="bg-surface-container rounded-2xl p-6 shadow-sm border border-outline-variant/30">
+          {!supabaseConfigured && (
+            <div className="mb-4 p-4 rounded-lg bg-surface-container-high border border-outline-variant text-sm">
+              <div className="flex items-start gap-2">
+                <span className="material-symbols-outlined text-outline text-[18px] flex-shrink-0 mt-0.5">settings</span>
+                <div>
+                  <div className="font-semibold text-on-surface mb-1">Supabase 연결 필요</div>
+                  <p className="text-on-surface-variant leading-relaxed">
+                    로컬 개발 환경에서 로그인하려면 프로젝트 루트에 <code className="bg-surface-container-highest px-1 py-0.5 rounded text-xs">.env.local</code> 파일을 생성하고 환경변수를 설정해야 합니다.
+                  </p>
+                  <p className="text-outline text-xs mt-2">.env.example 파일을 참고하세요.</p>
+                </div>
+              </div>
+            </div>
+          )}
           {error && (
-            <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">
+            <div className="mb-4 p-3 rounded-lg bg-error-container/40 border border-error/20 text-on-error-container text-sm">
               {error}
             </div>
           )}
           <button
             onClick={handleGoogleLogin}
-            disabled={loading}
-            className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-xl bg-white border border-outline-variant/50 text-on-surface font-semibold hover:bg-surface-container-low transition-colors disabled:opacity-60 disabled:cursor-not-allowed shadow-sm"
+            disabled={loading || !supabaseConfigured}
+            className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-xl bg-white border border-outline-variant/50 text-on-surface font-semibold hover:bg-surface-container-low transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
           >
             <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>

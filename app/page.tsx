@@ -228,18 +228,16 @@ export default function GatewayPage() {
               </div>
             </div>
 
-            {/* 소셜 아이콘 — 미확인 링크는 # 보류 */}
-            <div className="hidden lg:flex items-center gap-0.5 text-on-surface-variant">
+            {/* 소셜 아이콘 — 실제 URL 미확인, 비활성 표시 */}
+            <div className="hidden lg:flex items-center gap-0.5 text-on-surface-variant/40" title="SNS 채널 연결 준비 중">
               {socialLinks.map((s) => (
-                <a
+                <span
                   key={s.icon}
-                  href="#"
-                  title={s.title}
-                  aria-label={s.title}
-                  className="p-1.5 rounded-full hover:bg-surface-container-high hover:text-on-surface transition-colors"
+                  aria-label={`${s.title} (준비 중)`}
+                  className="p-1.5 rounded-full cursor-default select-none"
                 >
                   <span className="material-symbols-outlined text-[18px]">{s.icon}</span>
-                </a>
+                </span>
               ))}
             </div>
 
