@@ -5,9 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 // 빌드 시점에 환경변수 존재 여부 확인 (NEXT_PUBLIC_* 은 빌드 시 인라인됨)
+// PUBLISHABLE_KEY(신규) 또는 ANON_KEY(구 명칭) 중 하나라도 있으면 통과
 const supabaseConfigured = !!(
   process.env.NEXT_PUBLIC_SUPABASE_URL &&
-  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
+  (process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
 );
 
 export default function LoginPage() {

@@ -24,10 +24,11 @@ export async function proxy(request: NextRequest) {
   }
 
   // 환경변수 미설정 → admin 경로 항상 차단 (보안 기본값: deny)
-  if (
-    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-    !process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
-  ) {
+  // PUBLISHABLE_KEY(신규) 또는 ANON_KEY(구 명칭) 중 하나라도 있으면 통과
+  const hasPublishableKey =
+    !!process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+    !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !hasPublishableKey) {
     const loginUrl = new URL("/login", request.url);
     loginUrl.searchParams.set("redirectTo", pathname);
     return NextResponse.redirect(loginUrl);

@@ -10,10 +10,11 @@ export const instant = false;
 // proxy.ts(엣지)와 이중 보호: proxy가 실패해도 여기서 차단됩니다.
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   // 환경변수 미설정 → 항상 거부 (보안 기본값: deny)
-  if (
-    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-    !process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
-  ) {
+  // PUBLISHABLE_KEY(신규) 또는 ANON_KEY(구 명칭) 중 하나라도 있어야 함
+  const hasPublishableKey =
+    !!process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+    !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !hasPublishableKey) {
     redirect("/login");
   }
 
