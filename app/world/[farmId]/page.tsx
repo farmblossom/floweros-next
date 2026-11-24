@@ -9,6 +9,7 @@ const DeoksanScene = dynamic(() => import("@/components/world/DeoksanScene"), { 
 const SinwolScene = dynamic(() => import("@/components/world/SinwolScene"), { ssr: false });
 const WalkController = dynamic(() => import("@/components/world/WalkController"), { ssr: false });
 const MobileJoystick = dynamic(() => import("@/components/world/MobileJoystick"), { ssr: false });
+const IsoFarmMap = dynamic(() => import("@/components/world/IsoFarmMap"), { ssr: false });
 
 const farmMeta: Record<string, { name: string }> = {
   deoksan: { name: "밀양 덕산농장" },
@@ -22,10 +23,13 @@ const farmBounds: Record<string, { minX: number; maxX: number; minZ: number; max
 
 interface JoystickState { x: number; y: number; }
 
+type ViewMode = "3d" | "2d";
+
 export default function WorldPage({ params }: { params: Promise<{ farmId: string }> }) {
   const [farmId, setFarmId] = useState<string>("");
   const [hotspot, setHotspot] = useState<{ label: string; info: string } | null>(null);
   const [walkMode, setWalkMode] = useState(false);
+  const [viewMode, setViewMode] = useState<ViewMode>("3d");
   const joystickRef = useRef<JoystickState>({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -51,6 +55,17 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
   }
 
   const bounds = farmBounds[farmId] ?? farmBounds.deoksan;
+  const isoFarm = farmId as "sinwol" | "deoksan";
+
+  // 2D 맵 뷰 (3D 위에 올라오는 오버레이)
+  if (viewMode === "2d") {
+    return (
+      <IsoFarmMap
+        farm={isoFarm}
+        onClose={() => setViewMode("3d")}
+      />
+    );
+  }
 
   return (
     <div className="fixed inset-0 bg-black">
@@ -87,7 +102,17 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
         }}
       />
 
-      {/* 모바일 조이스틱 — 걷기 모드에서만 표시 */}
+      {/* 2D 맵 전환 버튼 */}
+      <button
+        onClick={() => { setViewMode("2d"); setHotspot(null); setWalkMode(false); }}
+        className="absolute bottom-20 right-4 z-20 flex items-center gap-1.5 px-3 py-2 rounded-full bg-black/60 text-white text-xs font-bold backdrop-blur-sm hover:bg-black/80 transition-colors"
+        aria-label="2D 아이소메트릭 맵으로 전환"
+      >
+        <span className="material-symbols-outlined text-[15px]">map</span>
+        <span className="hidden sm:inline">2D 맵 탐방</span>
+      </button>
+
+      {/* 모바일 조이스틱 */}
       {walkMode && <MobileJoystick joystickRef={joystickRef} />}
 
       {hotspot && (
