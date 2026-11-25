@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+
+export const metadata: Metadata = {
+  title: "꽃폈네 — FM 쩡이와 함께하는 참여형 농장",
+  description: "경남 밀양 봄감자 40팀 참여형 농장을 준비하는 꽃폈네 디지털 플랫폼. 덕산농장·신월리 농장·3D 가상농장을 만나보세요.",
+};
 
 // ── 아이소메트릭 미니맵 헬퍼 ──────────────────────────────────────
 const iP = (x: number, y: number) => ({

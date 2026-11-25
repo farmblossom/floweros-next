@@ -1,9 +1,37 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
 export function generateStaticParams() {
   return [{ farmId: "deoksan" }, { farmId: "sinwol" }];
+}
+
+const farmMeta: Record<string, { title: string; description: string }> = {
+  deoksan: {
+    title: "밀양 덕산농장",
+    description: "경남 밀양 덕산리 꽃폈네 1호 농장. 2027년 봄감자 40팀 실증을 준비 중이며, 수미·조풍 품종을 고객과 함께 가꿀 예정입니다.",
+  },
+  sinwol: {
+    title: "신월리 농장",
+    description: "경남 밀양시 초동면 신월리 541평, 꽃폈네 2호 농장. 2026년 11월 경계 측량을 완료하고 과원 조성을 준비 중입니다.",
+  },
+};
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ farmId: string }>;
+}): Promise<Metadata> {
+  const { farmId } = await params;
+  const meta = farmMeta[farmId] ?? {
+    title: "농장 소개",
+    description: "꽃폈네 농장을 소개합니다.",
+  };
+  return {
+    title: meta.title,
+    description: meta.description,
+  };
 }
 
 const farmData = {

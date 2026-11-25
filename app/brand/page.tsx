@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+
+export const metadata: Metadata = {
+  title: "브랜드 소개",
+  description: "FM 쩡이·퍼뜨기·쑤담이와 함께하는 꽃폈네 브랜드 이야기. 심고 가꾸고 수확하고 전하는 농장 플랫폼입니다.",
+};
 
 // 재배 과정 4단계 (siteContent.js 반영)
 const farmingSteps = [

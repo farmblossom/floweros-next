@@ -17,8 +17,27 @@ const notoSansKR = Noto_Sans_KR({
 });
 
 export const metadata: Metadata = {
-  title: "꽃폈네 OS",
-  description: "FM 쩡이 관리자 센터",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL?.startsWith("https://")
+      ? process.env.NEXT_PUBLIC_SITE_URL
+      : "https://floweros-next.vercel.app"
+  ),
+  title: {
+    default: "꽃폈네",
+    template: "%s — 꽃폈네",
+  },
+  description: "FM 쩡이와 함께하는 참여형 농장 — 밀양 봄감자를 직접 가꾸는 꽃폈네 디지털 플랫폼",
+  openGraph: {
+    siteName: "꽃폈네",
+    locale: "ko_KR",
+    type: "website",
+  },
+  verification: {
+    google: "YFYMtrQ5oVG6nH9GMe2kJfG5GLb1hnjSWcWEZfap-a0",
+    other: {
+      "naver-site-verification": ["d67f6562c7f171486689c774354ddc007c46f306"],
+    },
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
