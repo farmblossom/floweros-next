@@ -149,7 +149,7 @@ export default function NpcFigure({
       </Billboard>
 
       {/* 이름 · 역할 */}
-      <Html position={[0, height + 0.34, 0]} center distanceFactor={12} zIndexRange={[8, 20]}>
+      <Html position={[0, height + 0.34, 0]} center distanceFactor={20} zIndexRange={[8, 20]}>
         <div
           style={{
             display: "flex",
@@ -192,7 +192,7 @@ export default function NpcFigure({
 
       {/* 근접 안내 */}
       {hint ? (
-        <Html position={[0, height * 0.55, 0]} center distanceFactor={12} zIndexRange={[6, 18]}>
+        <Html position={[0, height * 0.55, 0]} center distanceFactor={22} zIndexRange={[6, 18]}>
           <div
             style={{
               background: "rgba(255,255,255,0.9)",
@@ -213,7 +213,7 @@ export default function NpcFigure({
 
       {/* 대사 말풍선 */}
       {lineIdx !== null ? (
-        <Html position={[0, height + 1.05, 0]} center distanceFactor={11} zIndexRange={[9, 22]}>
+        <Html position={[0, height + 1.05, 0]} center distanceFactor={17} zIndexRange={[9, 22]}>
           <div
             style={{
               background: "rgba(255,255,255,0.97)",

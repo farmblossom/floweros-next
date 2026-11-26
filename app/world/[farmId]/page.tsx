@@ -28,12 +28,12 @@ const farmMeta: Record<
   deoksan: {
     name: "밀양 덕산농장",
     subtitle: "덕산리 756번지 · 2027 봄감자 40구획",
-    start: [0, 0, 8.6],
+    start: [0, 0, 5.6],
   },
   sinwol: {
     name: "신월리 농장",
     subtitle: "초동면 신월리 98번지 · 자두 유무·호밀밭",
-    start: [-9.6, 0, 8.4],
+    start: [-10.6, 0, 11.4],
   },
 };
 
@@ -185,7 +185,11 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
       </button>
 
       {/* 모바일 조이스틱 */}
-      {walkMode && <MobileJoystick joystickRef={joystickRef} />}
+      {walkMode && (
+        <div className="md:hidden">
+          <MobileJoystick joystickRef={joystickRef} />
+        </div>
+      )}
 
       {/* 구역·지기 정보 패널 */}
       {hotspot && (

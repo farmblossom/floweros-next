@@ -75,7 +75,7 @@ export default function WorldHotspot({ position, label, info, onSelect, playerRe
           roughness={0.4}
         />
       </mesh>
-      <Html position={[0, 1.25, 0]} center distanceFactor={16} zIndexRange={[5, 14]}>
+      <Html position={[0, 1.25, 0]} center distanceFactor={28} zIndexRange={[5, 14]}>
         <div
           style={{
             background: active ? "rgba(255,255,255,0.95)" : "rgba(30,40,28,0.7)",

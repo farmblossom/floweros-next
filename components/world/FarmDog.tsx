@@ -285,7 +285,7 @@ export default function FarmDog({
         </group>
 
         {/* 이름표 */}
-        <Html position={[0, 1.35 * s, 0]} center distanceFactor={14} zIndexRange={[6, 16]}>
+        <Html position={[0, 1.35 * s, 0]} center distanceFactor={20} zIndexRange={[6, 16]}>
           <div
             style={{
               display: "flex",
@@ -319,7 +319,7 @@ export default function FarmDog({
 
         {/* 말풍선 */}
         {lineIdx !== null ? (
-          <Html position={[0, 1.9 * s, 0]} center distanceFactor={12} zIndexRange={[8, 20]}>
+          <Html position={[0, 1.9 * s, 0]} center distanceFactor={17} zIndexRange={[8, 20]}>
             <div
               style={{
                 background: "rgba(255,255,255,0.97)",

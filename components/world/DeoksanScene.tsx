@@ -280,14 +280,14 @@ export default function DeoksanScene({ onHotspotSelect, walkMode = false, player
 
   return (
     <>
-      <PerspectiveCamera makeDefault position={[0, 11, 21]} fov={60} />
+      <PerspectiveCamera makeDefault position={[0, 13, 21]} fov={58} />
 
-      <HorizonGround y={-0.6} color="#51702f" />
+      <HorizonGround y={-0.4} color="#547331" />
       <MountainRidge radiusBase={70} heightBase={12} />
 
       {/* 평탄한 감자밭 */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.01, 0]} receiveShadow>
-        <planeGeometry args={[110, 110]} />
+        <planeGeometry args={[400, 400]} />
         <meshStandardMaterial color="#5d7f3a" roughness={0.96} />
       </mesh>
 
@@ -336,8 +336,8 @@ export default function DeoksanScene({ onHotspotSelect, walkMode = false, player
               background: "rgba(74,98,67,0.94)",
               color: "#fff8ec",
               borderRadius: 8,
-              padding: "3px 12px",
-              fontSize: 13,
+              padding: "2px 10px",
+              fontSize: 11,
               fontWeight: 700,
               letterSpacing: "0.04em",
               whiteSpace: "nowrap",
@@ -364,7 +364,7 @@ export default function DeoksanScene({ onHotspotSelect, walkMode = false, player
         role="농장 지킴이 · 황구"
         coat="#d9a85a"
         socks="#f3e3c4"
-        size={1}
+        size={1.35}
         tether={IO_TETHER}
         speed={1.7}
         playerRef={playerRef}
@@ -380,7 +380,7 @@ export default function DeoksanScene({ onHotspotSelect, walkMode = false, player
         role="농장 지킴이 · 재구"
         coat="#6b5b4a"
         socks="#f8f4ec"
-        size={1.15}
+        size={1.5}
         tether={IRYUK_TETHER}
         speed={1.1}
         timid

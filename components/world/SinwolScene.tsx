@@ -308,7 +308,7 @@ export default function SinwolScene({ onHotspotSelect, walkMode = false, playerR
     <>
       <PerspectiveCamera makeDefault position={[13, 10, 23]} fov={58} />
 
-      <HorizonGround y={-2.2} />
+      <HorizonGround y={-2.6} />
       <MountainRidge />
       <HillyTerrain />
       <ClearedZone />
