@@ -306,7 +306,7 @@ export default function SinwolScene({ onHotspotSelect, walkMode = false, playerR
 
   return (
     <>
-      <PerspectiveCamera makeDefault position={[12, 11, 26]} fov={60} />
+      <PerspectiveCamera makeDefault position={[13, 10, 23]} fov={58} />
 
       <HorizonGround y={-2.2} />
       <MountainRidge />
@@ -401,6 +401,7 @@ export default function SinwolScene({ onHotspotSelect, walkMode = false, playerR
           height={npc.height}
           greetRadius={npc.greetRadius}
           accent={npc.accent}
+          greetEnabled={walkMode}
         />
       ))}
 

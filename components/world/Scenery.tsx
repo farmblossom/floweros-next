@@ -16,14 +16,14 @@ export function HorizonGround({ color = "#4a6a34", y = -1.6 }: { color?: string;
 export function MountainRidge({ radiusBase = 62, heightBase = 14 }: { radiusBase?: number; heightBase?: number }) {
   const peaks = useMemo(() => {
     const items: { pos: [number, number, number]; r: number; h: number; color: string }[] = [];
-    const colors = ["#4d6a54", "#415c4a", "#587761", "#3c5544"];
+    const colors = ["#6d8a74", "#62806c", "#77957f", "#5b7a66"];
     for (let i = 0; i < 16; i++) {
       const angle = (i / 16) * Math.PI * 2 + 0.22;
-      const radius = radiusBase + ((i * 7) % 26);
-      const h = heightBase + ((i * 11) % 16);
+      const radius = radiusBase + ((i * 9) % 34);
+      const h = heightBase + ((i * 11) % 12);
       items.push({
         pos: [Math.cos(angle) * radius, -1, Math.sin(angle) * radius],
-        r: 12 + ((i * 5) % 9),
+        r: 16 + ((i * 5) % 12),
         h,
         color: colors[i % colors.length],
       });
@@ -34,8 +34,8 @@ export function MountainRidge({ radiusBase = 62, heightBase = 14 }: { radiusBase
   return (
     <group>
       {peaks.map((p, i) => (
-        <mesh key={i} position={[p.pos[0], p.pos[1] + p.h / 2, p.pos[2]]}>
-          <coneGeometry args={[p.r, p.h, 7]} />
+        <mesh key={i} position={[p.pos[0], p.pos[1] + p.h * 0.22, p.pos[2]]} scale={[p.r, p.h * 0.62, p.r]}>
+          <sphereGeometry args={[0.5, 18, 12, 0, Math.PI * 2, 0, Math.PI / 2]} />
           <meshStandardMaterial color={p.color} roughness={1} />
         </mesh>
       ))}

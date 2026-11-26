@@ -18,6 +18,8 @@ interface NpcFigureProps {
   /** 이 거리 안으로 들어오면 먼저 인사한다 */
   greetRadius?: number;
   accent?: string;
+  /** 걷기 모드일 때만 다가가면 인사 (조감 화면에서 말풍선이 겹치지 않게) */
+  greetEnabled?: boolean;
 }
 
 /**
@@ -34,6 +36,7 @@ export default function NpcFigure({
   height = 1.75,
   greetRadius = 3.4,
   accent = "#4a6243",
+  greetEnabled = true,
 }: NpcFigureProps) {
   const texture = useTexture(textureUrl);
   const [lineIdx, setLineIdx] = useState<number | null>(null);
@@ -72,7 +75,7 @@ export default function NpcFigure({
     const dx = p.x - position[0];
     const dz = p.z - position[2];
     const dist = Math.hypot(dx, dz);
-    const near = dist < greetRadius;
+    const near = greetEnabled && dist < greetRadius;
 
     if (near && !greetedRef.current) {
       greetedRef.current = true;
@@ -217,7 +220,8 @@ export default function NpcFigure({
               border: `2px solid ${accent}`,
               borderRadius: 14,
               padding: "9px 12px",
-              maxWidth: 210,
+              width: 200,
+              boxSizing: "border-box",
               fontSize: 11.5,
               lineHeight: 1.55,
               color: "#1e1b18",
@@ -225,6 +229,7 @@ export default function NpcFigure({
               whiteSpace: "pre-wrap",
               boxShadow: "0 4px 16px rgba(0,0,0,0.22)",
               pointerEvents: "none",
+              wordBreak: "keep-all",
               fontFamily: "system-ui, -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif",
             }}
           >

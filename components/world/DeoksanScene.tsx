@@ -102,7 +102,7 @@ function PotatoField({ onHotspotSelect }: { onHotspotSelect: (label: string, inf
 
       {/* 이랑 명판 */}
       {plots
-        .filter((plot) => plot.z > 0)
+        .filter((plot) => plot.z > 0 && plot.index % 2 === 1)
         .map((plot) => (
           <group key={`sign-${plot.id}`} position={[plot.x, 0.62, 9.1]}>
             <mesh castShadow>
@@ -280,7 +280,7 @@ export default function DeoksanScene({ onHotspotSelect, walkMode = false, player
 
   return (
     <>
-      <PerspectiveCamera makeDefault position={[0, 10, 26]} fov={62} />
+      <PerspectiveCamera makeDefault position={[0, 11, 21]} fov={60} />
 
       <HorizonGround y={-0.6} color="#51702f" />
       <MountainRidge radiusBase={70} heightBase={12} />
@@ -449,6 +449,7 @@ export default function DeoksanScene({ onHotspotSelect, walkMode = false, player
           height={npc.height}
           greetRadius={npc.greetRadius}
           accent={npc.accent}
+          greetEnabled={walkMode}
         />
       ))}
 

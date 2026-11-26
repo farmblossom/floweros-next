@@ -57,8 +57,8 @@ export default function WorldHotspot({ position, label, info, onSelect, playerRe
         rotation={[-Math.PI / 2, 0, 0]}
         scale={0.001}
       >
-        <ringGeometry args={[0.5, 0.72, 32]} />
-        <meshBasicMaterial color="#d9f0c8" transparent opacity={0.5} side={THREE.DoubleSide} depthWrite={false} />
+        <ringGeometry args={[0.42, 0.55, 32]} />
+        <meshBasicMaterial color="#cfe9bb" transparent opacity={0.22} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
       <mesh
         ref={meshRef}
