@@ -108,15 +108,15 @@ function Clouds({ count, color, opacity }: { count: number; color: string; opaci
         <group key={puff.key} position={puff.position} scale={[puff.scale, puff.scale * 0.52, puff.scale * 0.8]}>
           <mesh>
             <sphereGeometry args={[1, 10, 8]} />
-            <meshStandardMaterial color={color} transparent opacity={opacity} roughness={1} depthWrite={false} />
+            <meshBasicMaterial color={color} transparent opacity={opacity} depthWrite={false} />
           </mesh>
           <mesh position={[1.1, -0.1, 0.2]}>
             <sphereGeometry args={[0.72, 9, 7]} />
-            <meshStandardMaterial color={color} transparent opacity={opacity * 0.9} roughness={1} depthWrite={false} />
+            <meshBasicMaterial color={color} transparent opacity={opacity * 0.9} depthWrite={false} />
           </mesh>
           <mesh position={[-1.05, -0.15, -0.25]}>
             <sphereGeometry args={[0.66, 9, 7]} />
-            <meshStandardMaterial color={color} transparent opacity={opacity * 0.85} roughness={1} depthWrite={false} />
+            <meshBasicMaterial color={color} transparent opacity={opacity * 0.85} depthWrite={false} />
           </mesh>
         </group>
       ))}
