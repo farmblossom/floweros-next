@@ -242,7 +242,7 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
           />
           <RemoteVisitors farm={isoFarm} peerIds={peerIds} peersRef={peersRef} />
           <PhotoCamera
-            view={cameraView ? scaledView(cameraView.view, portrait ? 2.8 : 1) : scaledView(DEFAULT_VIEW[isoFarm], portrait ? 1.45 : 1)}
+            view={cameraView ? scaledView(cameraView.view, portrait ? 2 : 1) : scaledView(DEFAULT_VIEW[isoFarm], portrait ? 1.45 : 1)}
             requestId={photoSpot ? photoSpot.id : `home-${isoFarm}-${homeTick}`}
             onAnimating={setCameraBusy}
           />

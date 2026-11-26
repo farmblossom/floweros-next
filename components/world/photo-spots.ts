@@ -82,31 +82,31 @@ export const PHOTO_SPOTS: PhotoSpot[] = [
   /* ── 신월리 농장 ─────────────────────────────────────────── */
   spot("sinwol", "sinwol-cleared", "🌱 개간지 밭길", "새로 일군 밭길과 산자락이 배경", {
     center: [-3.0, 4.6],
-    eye: [-5.06, 2.78],
-    eyeHeight: 1.35,
-    targetHeight: 0.8,
+    eye: [-5.7, 2.22],
+    eyeHeight: 1.5,
+    targetHeight: 0.85,
     sign: { x: -3.9, z: 7.8, rotY: 2.5 },
   }),
   spot("sinwol", "sinwol-plum", "🍑 자두 유목밭", "어린 자두나무 사이에서", {
     center: [-3.0, -6.6],
-    eye: [-3.0, -3.85],
-    eyeHeight: 1.33,
-    targetHeight: 0.8,
+    eye: [-3.0, -3.0],
+    eyeHeight: 1.48,
+    targetHeight: 0.85,
     sign: { x: 0.3, z: -8.2, rotY: -0.6 },
   }),
   /* ── 덕산농장 ────────────────────────────────────────────── */
   spot("deoksan", "deoksan-arch", "🚪 덕산농장 입구 아치", "‘꽃폈네 덕산농장’ 아치 간판 배경", {
     center: [0, 9.4],
-    eye: [0, 6.65],
-    eyeHeight: 1.35,
-    targetHeight: 0.8,
+    eye: [0, 5.8],
+    eyeHeight: 1.5,
+    targetHeight: 0.85,
     sign: { x: -3.0, z: 10.8, rotY: 2.5 },
   }),
   spot("deoksan", "deoksan-field", "🥔 감자밭 고랑길", "고랑이 길게 뻗은 감자밭 배경", {
     center: [0, 4.6],
-    eye: [1.75, 2.48],
-    eyeHeight: 1.35,
-    targetHeight: 0.8,
+    eye: [2.29, 1.82],
+    eyeHeight: 1.5,
+    targetHeight: 0.85,
     sign: { x: -3.2, z: 3.8, rotY: 1.8 },
   }),
 ];
