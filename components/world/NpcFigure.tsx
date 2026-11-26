@@ -22,6 +22,7 @@ interface NpcFigureProps {
   accent?: string;
   /** 걷기 모드일 때만 다가가면 인사 */
   greetEnabled?: boolean;
+  walkAxis?: "x" | "z";
 }
 
 /**
@@ -41,6 +42,7 @@ export default function NpcFigure({
   greetRadius = 3.6,
   accent = "#4a6243",
   greetEnabled = true,
+  walkAxis = "x",
 }: NpcFigureProps) {
   const [lineIdx, setLineIdx] = useState<number | null>(null);
   const [hint, setHint] = useState(false);
@@ -99,7 +101,7 @@ export default function NpcFigure({
       </mesh>
 
       <group onClick={handleClick}>
-        <NpcCharacter kind={kind} scale={scale} waving={waving} />
+        <NpcCharacter kind={kind} scale={scale} waving={waving} walkAxis={walkAxis} />
       </group>
 
       {/* 이름 · 역할 */}

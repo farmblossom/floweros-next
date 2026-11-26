@@ -1,5 +1,5 @@
 "use client";
-import { useLayoutEffect, useMemo, useRef } from "react";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Html, OrbitControls, PerspectiveCamera, Text } from "@react-three/drei";
 import * as THREE from "three";
 import WorldHotspot from "./WorldHotspot";
@@ -192,6 +192,123 @@ function Greenhouse({ position }: { position: [number, number, number] }) {
   );
 }
 
+
+// ── 빨간 트랙터 (창고 옆 공터) ─────────────────────────────────
+function Tractor({ position, rotation = 0 }: { position: [number, number, number]; rotation?: number }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <group position={position} rotation={[0, rotation, 0]}>
+      <group
+        onClick={(e) => {
+          e.stopPropagation();
+          setOpen((v) => !v);
+        }}
+      >
+        {/* 차체 */}
+        <mesh position={[0, 0.95, 0]} castShadow receiveShadow>
+          <boxGeometry args={[1.05, 0.85, 2.9]} />
+          <meshStandardMaterial color="#b8231f" roughness={0.42} metalness={0.22} />
+        </mesh>
+        {/* 보닛 */}
+        <mesh position={[0, 1.0, 1.35]} castShadow>
+          <boxGeometry args={[1.0, 0.8, 1.1]} />
+          <meshStandardMaterial color="#c92a24" roughness={0.4} metalness={0.25} />
+        </mesh>
+        <mesh position={[0, 0.98, 1.92]}>
+          <boxGeometry args={[0.9, 0.5, 0.06]} />
+          <meshStandardMaterial color="#3a3a3a" roughness={0.5} metalness={0.4} />
+        </mesh>
+        {/* 운전석 · 캐빈 */}
+        <mesh position={[0, 1.85, -0.55]} castShadow>
+          <boxGeometry args={[1.0, 1.15, 1.0]} />
+          <meshStandardMaterial color="#1e4a6b" transparent opacity={0.55} roughness={0.15} metalness={0.1} />
+        </mesh>
+        <mesh position={[0, 2.46, -0.55]} castShadow>
+          <boxGeometry args={[1.2, 0.12, 1.2]} />
+          <meshStandardMaterial color="#b8231f" roughness={0.45} metalness={0.2} />
+        </mesh>
+        {/* 좌석 · 핸들 */}
+        <mesh position={[0, 1.55, -0.55]}>
+          <boxGeometry args={[0.45, 0.16, 0.4]} />
+          <meshStandardMaterial color="#2b2b2b" roughness={0.8} />
+        </mesh>
+        <mesh position={[0, 1.78, -0.12]} rotation={[0.5, 0, 0]}>
+          <torusGeometry args={[0.16, 0.025, 8, 16]} />
+          <meshStandardMaterial color="#1b1b1b" roughness={0.6} />
+        </mesh>
+        {/* 굴뚝 */}
+        <mesh position={[0.32, 1.75, 1.55]} castShadow>
+          <cylinderGeometry args={[0.05, 0.06, 0.9, 8]} />
+          <meshStandardMaterial color="#2b2b2b" metalness={0.5} roughness={0.5} />
+        </mesh>
+        <mesh position={[0.32, 2.22, 1.55]}>
+          <cylinderGeometry args={[0.075, 0.06, 0.12, 8]} />
+          <meshStandardMaterial color="#c92a24" metalness={0.4} roughness={0.5} />
+        </mesh>
+        {/* 뒷바퀴 (큰 것) */}
+        {[-0.62, 0.62].map((x) => (
+          <mesh key={`rw-${x}`} position={[x, 0.78, -0.85]} rotation={[0, 0, Math.PI / 2]} castShadow>
+            <cylinderGeometry args={[0.78, 0.78, 0.42, 20]} />
+            <meshStandardMaterial color="#1c1c1c" roughness={0.95} />
+          </mesh>
+        ))}
+        {[-0.62, 0.62].map((x) => (
+          <mesh key={`rh-${x}`} position={[x, 0.78, -0.85]} rotation={[0, 0, Math.PI / 2]}>
+            <cylinderGeometry args={[0.34, 0.34, 0.45, 16]} />
+            <meshStandardMaterial color="#d8c37a" roughness={0.6} metalness={0.2} />
+          </mesh>
+        ))}
+        {/* 앞바퀴 (작은 것) */}
+        {[-0.55, 0.55].map((x) => (
+          <mesh key={`fw-${x}`} position={[x, 0.42, 1.35]} rotation={[0, 0, Math.PI / 2]} castShadow>
+            <cylinderGeometry args={[0.42, 0.42, 0.3, 18]} />
+            <meshStandardMaterial color="#1c1c1c" roughness={0.95} />
+          </mesh>
+        ))}
+        {/* 로터리 작업기 */}
+        <mesh position={[0, 0.35, -2.05]} castShadow>
+          <boxGeometry args={[1.5, 0.35, 0.3]} />
+          <meshStandardMaterial color="#8a1f1b" roughness={0.55} metalness={0.25} />
+        </mesh>
+        {[-0.5, -0.17, 0.17, 0.5].map((x) => (
+          <mesh key={`blade-${x}`} position={[x, 0.18, -2.05]} rotation={[0.4, 0, 0]}>
+            <boxGeometry args={[0.16, 0.2, 0.08]} />
+            <meshStandardMaterial color="#b9c0c6" metalness={0.6} roughness={0.4} />
+          </mesh>
+        ))}
+      </group>
+
+      {open ? (
+        <Html position={[0, 3.1, 0]} center distanceFactor={16} zIndexRange={[8, 20]}>
+          <div
+            style={{
+              background: "rgba(255,255,255,0.97)",
+              border: "2px solid #b8231f",
+              borderRadius: 14,
+              padding: "8px 12px",
+              width: 210,
+              boxSizing: "border-box",
+              fontSize: 11,
+              lineHeight: 1.55,
+              color: "#1e1b18",
+              textAlign: "left",
+              wordBreak: "keep-all",
+              boxShadow: "0 4px 16px rgba(0,0,0,0.22)",
+              pointerEvents: "none",
+              fontFamily: "system-ui, -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif",
+            }}
+          >
+            🚜 <b>덕산농장 트랙터</b>
+            <div style={{ marginTop: 3 }}>
+              로터리로 흙을 곱게 갈고, 경운 작업으로 고랑을 만듭니다. 봄감자 심기 전 밭 준비는 이 친구가 맡아요.
+            </div>
+          </div>
+        </Html>
+      ) : null}
+    </group>
+  );
+}
+
 // ── 개집 ──────────────────────────────────────────────────────────
 function DogHouse({ position }: { position: [number, number, number] }) {
   return (
@@ -335,6 +452,7 @@ export default function DeoksanScene({ onHotspotSelect, walkMode = false, player
       <Greenhouse position={[10.5, 0, -11.5]} />
       <Tools position={[-9.6, 0, -8.4]} />
       <DogHouse position={DOG_HOUSE} />
+      <Tractor position={[-10.6, 0, -12.6]} rotation={-0.55} />
       <LampPost position={[-4.2, 0, 11.4]} />
       <LampPost position={[-11.9, 0, -8.2]} />
 
@@ -431,6 +549,7 @@ export default function DeoksanScene({ onHotspotSelect, walkMode = false, player
           greetRadius={npc.greetRadius}
           accent={npc.accent}
           greetEnabled={walkMode}
+          walkAxis={npc.walkAxis ?? "x"}
         />
       ))}
 

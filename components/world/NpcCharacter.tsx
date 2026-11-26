@@ -20,58 +20,140 @@ interface NpcCharacterProps {
   kind: NpcKind;
   scale?: number;
   waving?: boolean;
+  walkAxis?: "x" | "z";
 }
 
-export default function NpcCharacter({ kind, scale = 1, waving = false }: NpcCharacterProps) {
+export default function NpcCharacter({ kind, scale = 1, waving = false, walkAxis = "x" }: NpcCharacterProps) {
   return (
     <group scale={[scale, scale, scale]}>
       {kind === "putteogi" || kind === "ssudami" ? (
-        <PotatoMascot variant={kind} waving={waving} />
+        <PotatoMascot variant={kind} waving={waving} walkAxis={walkAxis} />
       ) : kind === "fm" ? (
-        <FmManager waving={waving} />
+        <FmManager waving={waving} walkAxis={walkAxis} />
       ) : (
-        <SweetPotatoMascot variant={kind} waving={waving} />
+        <SweetPotatoMascot variant={kind} waving={waving} walkAxis={walkAxis} />
       )}
     </group>
   );
 }
 
 /* ── 애니메이션 ─────────────────────────────────────────────── */
-function useMascotMotion(waving: boolean) {
+type Action = "water" | "soil" | "walk" | "wave" | "stretch" | "visit";
+
+/**
+ * 몇 초마다 행동을 바꿔 가며 일하는 루틴.
+ * 밭일(soil) → 물 주기(water) → 다른 곳으로 이동(walk) → 기지개(stretch) → 손 흔들기(wave) 순환.
+ */
+function useMascotMotion(waving: boolean, actions: Action[] = ["soil", "walk", "wave"], walkAxis: "x" | "z" = "x") {
+  const rootRef = useRef<THREE.Group>(null);
   const bodyRef = useRef<THREE.Group>(null);
   const armLRef = useRef<THREE.Group>(null);
   const armRRef = useRef<THREE.Group>(null);
   const headRef = useRef<THREE.Group>(null);
   const seed = useRef(Math.random() * 8);
   const waveRef = useRef(0);
+  const actionIdxRef = useRef(0);
+  const actionStartRef = useRef(0);
+  const actionDurRef = useRef(5);
+  const offsetRef = useRef(new THREE.Vector3(0, 0, 0));
+  const startedRef = useRef(false);
 
   useFrame((state, delta) => {
     const t = state.clock.elapsedTime + seed.current;
-    const breath = Math.sin(t * 2.1) * 0.028;
+    const dt = Math.min(delta, 0.05);
+
+    if (!startedRef.current) {
+      startedRef.current = true;
+      actionStartRef.current = t;
+      actionDurRef.current = 4 + Math.random() * 3;
+    }
+    if (t - actionStartRef.current > actionDurRef.current) {
+      actionStartRef.current = t;
+      actionIdxRef.current = (actionIdxRef.current + 1) % actions.length;
+      actionDurRef.current = 4.5 + Math.random() * 4;
+    }
+
+    const action: Action = waving ? "wave" : actions[actionIdxRef.current];
+    const local = t - actionStartRef.current;
+
+    let bend = 0;
+    let armX = 0;
+    let targetX = 0;
+    let targetZ = 0;
+
+    switch (action) {
+      case "water":
+        bend = 0.24 + Math.sin(local * 3) * 0.07;
+        armX = -0.95;
+        break;
+      case "soil":
+        bend = 0.28 + Math.max(0, Math.sin(local * 2.4)) * 0.18;
+        armX = -0.45 + Math.sin(local * 4) * 0.3;
+        break;
+      case "walk":
+        // 작물을 밟지 않도록 통로 방향으로만 오간다
+        if (walkAxis === "x") {
+          targetX = Math.sin(local * 0.55) * 1.4;
+        } else {
+          targetZ = Math.sin(local * 0.5) * 1.4;
+        }
+        break;
+      case "stretch":
+        bend = -0.07;
+        armX = -1.15 + Math.sin(local * 1.6) * 0.15;
+        break;
+      case "visit":
+        targetX = 1.9;
+        targetZ = -1.9;
+        bend = local > 2.6 ? 0.42 : 0.05;
+        armX = local > 2.6 ? -0.75 : 0;
+        break;
+      case "wave":
+      default:
+        bend = 0;
+        armX = -0.2;
+        break;
+    }
+
+    offsetRef.current.x = THREE.MathUtils.lerp(offsetRef.current.x, targetX, Math.min(1, dt * 0.8));
+    offsetRef.current.z = THREE.MathUtils.lerp(offsetRef.current.z, targetZ, Math.min(1, dt * 0.8));
+    const moving = action === "walk" || action === "visit";
+
+    if (rootRef.current) {
+      rootRef.current.position.x = offsetRef.current.x;
+      rootRef.current.position.z = offsetRef.current.z;
+      const heading = moving
+        ? Math.atan2(targetX - offsetRef.current.x, targetZ - offsetRef.current.z)
+        : Math.sin(t * 0.16) * 0.45;
+      rootRef.current.rotation.y = THREE.MathUtils.lerp(rootRef.current.rotation.y, heading, Math.min(1, dt * 2));
+    }
 
     if (bodyRef.current) {
+      const breath = Math.sin(t * 2.1) * 0.028;
       bodyRef.current.scale.set(1 + breath * 0.5, 1 - breath * 0.4, 1 + breath * 0.5);
-      bodyRef.current.position.y = Math.abs(Math.sin(t * 1.25)) * 0.045;
-      bodyRef.current.rotation.z = Math.sin(t * 0.9) * 0.018;
+      bodyRef.current.position.y = Math.abs(Math.sin(t * (moving ? 7 : 1.25))) * (moving ? 0.035 : 0.028);
+      bodyRef.current.rotation.z = Math.sin(t * 0.9) * 0.015;
+      bodyRef.current.rotation.x = THREE.MathUtils.lerp(bodyRef.current.rotation.x, bend, Math.min(1, dt * 3));
     }
     if (headRef.current) {
       headRef.current.rotation.z = Math.sin(t * 1.05) * 0.04;
       headRef.current.rotation.x = Math.sin(t * 0.75) * 0.025;
     }
-    waveRef.current += ((waving ? 1 : 0) - waveRef.current) * Math.min(1, delta * 4);
-    const wave = Math.sin(t * 8) * 0.6 * waveRef.current;
+
+    waveRef.current += ((waving ? 1 : 0) - waveRef.current) * Math.min(1, dt * 4);
+    const wave = Math.sin(t * 9) * 0.6 * waveRef.current;
 
     if (armRRef.current) {
-      armRRef.current.rotation.z = -0.5 * waveRef.current + wave;
-      armRRef.current.rotation.x = Math.sin(t * 2) * 0.07;
+      armRRef.current.rotation.z = THREE.MathUtils.lerp(armRRef.current.rotation.z, -0.5 * waveRef.current + wave, Math.min(1, dt * 4));
+      armRRef.current.rotation.x = THREE.MathUtils.lerp(armRRef.current.rotation.x, armX, Math.min(1, dt * 3));
     }
     if (armLRef.current) {
-      armLRef.current.rotation.z = 0.5 * waveRef.current - wave * 0.3;
-      armLRef.current.rotation.x = -Math.sin(t * 2) * 0.07;
+      armLRef.current.rotation.z = THREE.MathUtils.lerp(armLRef.current.rotation.z, 0.5 * waveRef.current - wave * 0.3, Math.min(1, dt * 4));
+      armLRef.current.rotation.x = THREE.MathUtils.lerp(armLRef.current.rotation.x, armX * 0.5, Math.min(1, dt * 3));
     }
   });
 
-  return { bodyRef, armLRef, armRRef, headRef };
+  return { rootRef, bodyRef, armLRef, armRRef, headRef };
 }
 
 /** 만화풍 외곽선이 있는 둥근 몸통 */
@@ -116,10 +198,17 @@ function FacePlane({ style, position, size }: { style: FaceStyle; position: [num
 }
 
 /* ── 퍼뜨기 · 쑤담이 ─────────────────────────────────────────── */
-function PotatoMascot({ variant, waving }: { variant: "putteogi" | "ssudami"; waving: boolean }) {
-  const { bodyRef, armLRef, armRRef, headRef } = useMascotMotion(waving);
+function PotatoMascot({ variant, waving, walkAxis = "x" }: { variant: "putteogi" | "ssudami"; waving: boolean; walkAxis?: "x" | "z" }) {
+  const { rootRef, bodyRef, armLRef, armRRef, headRef } = useMascotMotion(
+    waving,
+    variant === "putteogi"
+      ? ["water", "walk", "soil", "wave", "stretch"]
+      : ["soil", "walk", "water", "wave", "stretch"],
+    walkAxis
+  );
 
   return (
+    <group ref={rootRef}>
     <group ref={bodyRef}>
       <ToonEllipsoid scale={[0.5, 0.47, 0.48]} color="#fdf6e3" roughness={0.72} position={[0, 0.6, 0]} />
 
@@ -187,6 +276,36 @@ function PotatoMascot({ variant, waving }: { variant: "putteogi" | "ssudami"; wa
           </mesh>
         </group>
       )}
+
+      {/* 일 도구 — 퍼뜨기는 물뿌리개, 쑤담이는 작은 호미 */}
+      {variant === "putteogi" ? (
+        <group position={[0.42, 0.42, 0.28]} rotation={[0, -0.5, 0.15]}>
+          <mesh castShadow>
+            <cylinderGeometry args={[0.1, 0.12, 0.16, 12]} />
+            <meshStandardMaterial color="#6e9bb5" roughness={0.6} metalness={0.25} />
+          </mesh>
+          <mesh position={[0.14, 0.02, 0]} rotation={[0, 0, -0.6]}>
+            <cylinderGeometry args={[0.02, 0.025, 0.2, 8]} />
+            <meshStandardMaterial color="#6e9bb5" roughness={0.6} metalness={0.25} />
+          </mesh>
+          <mesh position={[-0.12, 0.05, 0]} rotation={[0, 0, 0.5]}>
+            <torusGeometry args={[0.07, 0.014, 6, 12, Math.PI]} />
+            <meshStandardMaterial color="#6e9bb5" roughness={0.6} metalness={0.25} />
+          </mesh>
+        </group>
+      ) : (
+        <group position={[0.4, 0.3, 0.3]} rotation={[0.3, -0.4, 0.35]}>
+          <mesh>
+            <cylinderGeometry args={[0.018, 0.022, 0.3, 8]} />
+            <meshStandardMaterial color="#8a6238" roughness={0.9} />
+          </mesh>
+          <mesh position={[0, -0.19, 0]} rotation={[0, 0, 0]}>
+            <boxGeometry args={[0.09, 0.03, 0.16]} />
+            <meshStandardMaterial color="#a9b0b6" metalness={0.55} roughness={0.45} />
+          </mesh>
+        </group>
+      )}
+    </group>
     </group>
   );
 }
@@ -195,11 +314,13 @@ function PotatoMascot({ variant, waving }: { variant: "putteogi" | "ssudami"; wa
 function SweetPotatoMascot({
   variant,
   waving,
+  walkAxis = "x",
 }: {
   variant: "dangoma" | "kkuloma" | "jjongoma";
   waving: boolean;
+  walkAxis?: "x" | "z";
 }) {
-  const { bodyRef, armLRef, armRRef, headRef } = useMascotMotion(waving);
+  const { rootRef, bodyRef, armLRef, armRRef, headRef } = useMascotMotion(waving, ["walk", "soil", "stretch", "wave"], walkAxis);
 
   const config =
     variant === "dangoma"
@@ -209,6 +330,7 @@ function SweetPotatoMascot({
         : { body: [0.3, 0.68, 0.3] as [number, number, number], color: "#e8b638", belly: "#f6d472", rot: 0.2, rough: 0.36 };
 
   return (
+    <group ref={rootRef}>
     <group ref={bodyRef}>
       <group position={[0, 0.72, 0]} rotation={[0, 0, config.rot]}>
         {/* 당고매: 자줏빛 껍질 + 흙 묻은 결 */}
@@ -333,14 +455,16 @@ function SweetPotatoMascot({
       <ToonEllipsoid scale={[0.085, 0.06, 0.12]} color="#6b4a2c" roughness={0.9} outline={0.08} position={[-0.13, 0.07, 0.1]} />
       <ToonEllipsoid scale={[0.085, 0.06, 0.12]} color="#6b4a2c" roughness={0.9} outline={0.08} position={[0.13, 0.07, 0.1]} />
     </group>
+    </group>
   );
 }
 
 /* ── FM 쩡이 ────────────────────────────────────────────────── */
-function FmManager({ waving }: { waving: boolean }) {
-  const { bodyRef, armLRef, armRRef, headRef } = useMascotMotion(waving);
+function FmManager({ waving, walkAxis = "x" }: { waving: boolean; walkAxis?: "x" | "z" }) {
+  const { rootRef, bodyRef, armLRef, armRRef, headRef } = useMascotMotion(waving, ["wave", "visit", "walk", "soil"], walkAxis);
 
   return (
+    <group ref={rootRef}>
     <group ref={bodyRef}>
       <mesh position={[-0.1, 0.42, 0]} castShadow>
         <cylinderGeometry args={[0.075, 0.07, 0.7, 10]} />
@@ -452,6 +576,7 @@ function FmManager({ waving }: { waving: boolean }) {
           <meshStandardMaterial color="#e9e2cf" roughness={0.9} />
         </mesh>
       </group>
+    </group>
     </group>
   );
 }

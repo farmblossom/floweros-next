@@ -165,6 +165,81 @@ function GrassTufts() {
   );
 }
 
+
+/** 남동쪽 모서리의 커다란 팽나무와 그늘 쉼터 */
+function ZelkovaShade({ position }: { position: [number, number, number] }) {
+  return (
+    <group position={position}>
+      {/* 굵은 줄기 */}
+      <mesh position={[0, 2.2, 0]} castShadow receiveShadow>
+        <cylinderGeometry args={[0.55, 0.85, 4.4, 12]} />
+        <meshStandardMaterial color="#4a3520" roughness={0.95} />
+      </mesh>
+      {/* 뿌리 둔덕 */}
+      <mesh position={[0, 0.2, 0]} scale={[1.5, 0.25, 1.4]}>
+        <sphereGeometry args={[1, 18, 12]} />
+        <meshStandardMaterial color="#5d4a2c" roughness={1} />
+      </mesh>
+      {/* 큰 가지 */}
+      {[
+        [0.9, 4.2, 0.4, 0.22, 2.2, 0.6],
+        [-0.8, 4.3, -0.3, 0.2, 2.0, -0.7],
+        [0.2, 4.4, -0.8, 0.18, 1.8, -0.9],
+      ].map(([x, y, z, r, len, tilt], i) => (
+        <mesh key={`branch-${i}`} position={[x, y, z]} rotation={[tilt, 0, i === 1 ? 0.5 : -0.5]} castShadow>
+          <cylinderGeometry args={[r * 0.6, r, len, 8]} />
+          <meshStandardMaterial color="#4a3520" roughness={0.95} />
+        </mesh>
+      ))}
+      {/* 넓게 퍼진 잎 — 팽나무 특유의 둥근 수관 */}
+      {[
+        [0, 6.4, 0, 3.6, 2.2],
+        [2.6, 5.9, 0.7, 2.6, 1.8],
+        [-2.5, 5.8, -0.6, 2.5, 1.7],
+        [0.7, 5.6, 2.6, 2.4, 1.6],
+        [-0.9, 5.7, -2.6, 2.3, 1.6],
+        [1.9, 7.2, -1.4, 2.2, 1.5],
+        [-1.7, 7.1, 1.5, 2.1, 1.4],
+      ].map(([x, y, z, r, ry], i) => (
+        <mesh key={`canopy-${i}`} position={[x, y, z]} scale={[r, ry, r]} castShadow>
+          <sphereGeometry args={[1, 14, 12]} />
+          <meshStandardMaterial color={i % 2 ? "#2f6b26" : "#3a7d2c"} roughness={0.88} />
+        </mesh>
+      ))}
+
+      {/* 나무 평상 */}
+      <group position={[1.9, 0.0, 1.3]} rotation={[0, -0.3, 0]}>
+        <mesh position={[0, 0.42, 0]} castShadow receiveShadow>
+          <boxGeometry args={[2.6, 0.14, 1.8]} />
+          <meshStandardMaterial color="#b1895a" roughness={0.9} />
+        </mesh>
+        {[
+          [-1.15, 0.38, -0.75],
+          [1.15, 0.38, -0.75],
+          [-1.15, 0.38, 0.75],
+          [1.15, 0.38, 0.75],
+        ].map((p, i) => (
+          <mesh key={`leg-${i}`} position={p as [number, number, number]} castShadow>
+            <boxGeometry args={[0.16, 0.76, 0.16]} />
+            <meshStandardMaterial color="#8a6640" roughness={0.92} />
+          </mesh>
+        ))}
+        {/* 방석 */}
+        <mesh position={[0, 0.53, 0]}>
+          <boxGeometry args={[1.4, 0.08, 1.0]} />
+          <meshStandardMaterial color="#d9b48a" roughness={0.95} />
+        </mesh>
+      </group>
+
+      {/* 그늘 바닥 */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0.4, 0.03, 0.2]}>
+        <circleGeometry args={[4.6, 32]} />
+        <meshBasicMaterial color="#22301c" transparent opacity={0.16} depthWrite={false} />
+      </mesh>
+    </group>
+  );
+}
+
 /** 개간 구역 — 양토 노출, 경계 측량 말뚝 (지형에 밀착) */
 function ClearedZone() {
   const patch = useMemo(() => terrainPatchGeometry(16, 13, -3, 2.5, 0.08, 28), []);
@@ -312,6 +387,9 @@ export default function SinwolScene({ onHotspotSelect, walkMode = false, playerR
 
       <LampPost position={[-11.2, sinwolHeight(-11.2, 9.6), 9.6]} />
 
+      {/* 남동쪽 모서리 — 커다란 팽나무 그늘 쉼터 */}
+      <ZelkovaShade position={[12.2, sinwolHeight(12.2, 13.2), 13.2]} />
+
       {/* 접근로 (지형 밀착) */}
       <mesh geometry={accessPath} rotation={[-Math.PI / 2, 0, 0]} position={[-10.5, 0, 4]}>
         <meshStandardMaterial color="#8a7050" roughness={0.92} />
@@ -354,6 +432,13 @@ export default function SinwolScene({ onHotspotSelect, walkMode = false, playerR
         playerRef={playerRef}
       />
       <WorldHotspot
+        position={[12.2, sinwolHeight(12.2, 13.2) + 1.2, 13.2]}
+        label="🌳 팽나무 그늘 쉼터"
+        info="신월리 농장 남동쪽 모서리의 큰 팽나무. 잎이 넓게 퍼져 한여름에도 시원한 그늘을 만들어 줍니다. 그 아래 평상에 앉아 밭을 바라보며 쉬어 가세요."
+        onSelect={onHotspotSelect}
+        playerRef={playerRef}
+      />
+      <WorldHotspot
         position={[-5, 0.7, -10]}
         label="🍑 자두 유목"
         info="자두 어린 나무 8주를 2열로 식재한 구역. 앞으로 2~3년 뒤 첫 열매를 목표로 관리합니다."
@@ -376,6 +461,7 @@ export default function SinwolScene({ onHotspotSelect, walkMode = false, playerR
           greetRadius={npc.greetRadius}
           accent={npc.accent}
           greetEnabled={walkMode}
+          walkAxis={npc.walkAxis ?? "x"}
         />
       ))}
 

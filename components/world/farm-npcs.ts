@@ -16,6 +16,8 @@ export interface FarmNpc {
   accent: string;
   /** 메인 캐릭터(퍼뜨기·쑤담이)는 조금 더 크게 */
   main?: boolean;
+  /** 작물을 피해 오갈 통로 방향 */
+  walkAxis?: "x" | "z";
 }
 
 const CHARS = "/assets/brand/chars";
@@ -47,7 +49,8 @@ export const FARM_NPCS: Record<FarmId, FarmNpc[]> = {
       name: "쑤담이",
       role: "신월농장 안내 지기",
       textureUrl: `${CHARS}/ssudami.png`,
-      xz: [-8.4, 5.0],
+      xz: [-9.4, 5.4],
+      walkAxis: "z",
       height: 1.9,
       greetRadius: 4.0,
       accent: "#4a6243",
@@ -149,7 +152,8 @@ export const FARM_NPCS: Record<FarmId, FarmNpc[]> = {
       name: "퍼뜨기",
       role: "덕산농장 입구 지기",
       textureUrl: `${CHARS}/putteogi.png`,
-      xz: [2.4, 10.4],
+      xz: [2.6, 9.4],
+      walkAxis: "x",
       height: 1.9,
       greetRadius: 4.0,
       accent: "#4a6243",
@@ -166,7 +170,8 @@ export const FARM_NPCS: Record<FarmId, FarmNpc[]> = {
       name: "당고매",
       role: "원물 수확 지기",
       textureUrl: `${CHARS}/dangoma.png`,
-      xz: [-5.2, 4.2],
+      xz: [-12.3, 3.2],
+      walkAxis: "z",
       height: 1.95,
       greetRadius: 3.6,
       accent: "#a05f4a",
@@ -182,7 +187,8 @@ export const FARM_NPCS: Record<FarmId, FarmNpc[]> = {
       name: "꿀고매",
       role: "찐·군고구마 지기",
       textureUrl: `${CHARS}/kkuloma.png`,
-      xz: [-10.6, -6.6],
+      xz: [-12.3, -6.4],
+      walkAxis: "z",
       height: 1.95,
       greetRadius: 3.6,
       accent: "#b08422",
@@ -198,7 +204,8 @@ export const FARM_NPCS: Record<FarmId, FarmNpc[]> = {
       name: "쫀고매",
       role: "말랭이 가공 지기",
       textureUrl: `${CHARS}/jjongoma.png`,
-      xz: [-3.6, -8.8],
+      xz: [-3.4, -9.5],
+      walkAxis: "x",
       height: 1.95,
       greetRadius: 3.6,
       accent: "#8a6d1f",
@@ -214,7 +221,8 @@ export const FARM_NPCS: Record<FarmId, FarmNpc[]> = {
       name: "FM 쩡이",
       role: "총괄 농장관리자",
       textureUrl: `${CHARS}/fm-jjeongi.png`,
-      xz: [-2.2, 11.4],
+      xz: [-2.2, 11.2],
+      walkAxis: "x",
       height: 1.95,
       greetRadius: 3.6,
       accent: "#2f5d7c",
