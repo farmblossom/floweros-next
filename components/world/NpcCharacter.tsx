@@ -277,7 +277,7 @@ function PotatoMascot({
         </group>
       ) : (
         /* 쑤담이 — 오른쪽 머리 위, 뾰족한 흰색 5잎 감자꽃 + 노란 별 꽃술 */
-        <group position={[0.2, 1.02, 0.06]}>
+        <group position={[0.175, 1.035, 0.045]}>
           <PotatoFlowerTopper />
         </group>
       )}

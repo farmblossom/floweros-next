@@ -128,10 +128,10 @@ function usePetalGeometry() {
     const s = new THREE.Shape();
     // 뾰족한 끝의 감자꽃 잎 — 밑동에서 좁아졌다가 끝에서 뾰족하게
     s.moveTo(0, 0.02);
-    s.bezierCurveTo(0.17, 0.13, 0.3, 0.5, 0.17, 0.8);
-    s.quadraticCurveTo(0.07, 0.97, 0, 1.04);
-    s.quadraticCurveTo(-0.07, 0.97, -0.17, 0.8);
-    s.bezierCurveTo(-0.3, 0.5, -0.17, 0.13, 0, 0.02);
+    s.bezierCurveTo(0.2, 0.12, 0.36, 0.5, 0.2, 0.82);
+    s.quadraticCurveTo(0.08, 0.98, 0, 1.04);
+    s.quadraticCurveTo(-0.08, 0.98, -0.2, 0.82);
+    s.bezierCurveTo(-0.36, 0.5, -0.2, 0.12, 0, 0.02);
     return cupGeometry(s, { depth: 0.035, bevel: 0.028, cup: 0.1, curveSegments: 22 });
   }, []);
 }
@@ -191,7 +191,7 @@ export function PotatoFlowerTopper({ scale = 1 }: { scale?: number }) {
           const a = -Math.PI / 2 + (i * Math.PI * 2) / 5;
           return (
             <group key={i} rotation={[0, 0, a]}>
-              <mesh geometry={petal} scale={[0.23, 0.255, 0.24]} rotation={[0.2, 0, 0]} castShadow>
+              <mesh geometry={petal} scale={[0.255, 0.25, 0.24]} rotation={[0.2, 0, 0]} castShadow>
                 <meshStandardMaterial color="#fdfdf7" roughness={0.42} metalness={0.01} />
               </mesh>
             </group>
@@ -199,11 +199,11 @@ export function PotatoFlowerTopper({ scale = 1 }: { scale?: number }) {
         })}
 
         {/* 노란 꽃술 — 별 모양 5각 + 둥근 심 */}
-        <mesh position={[0, 0, 0.05]} rotation={[Math.PI / 2, 0, 0]} scale={[0.07, 0.07, 0.07]}>
+        <mesh position={[0, 0, 0.048]} rotation={[Math.PI / 2, 0, 0]} scale={[0.076, 0.076, 0.076]}>
           <cylinderGeometry args={[0.95, 1, 1, 14]} />
           <meshStandardMaterial color="#f6ce3c" roughness={0.38} />
         </mesh>
-        <mesh geometry={star} position={[0, 0, 0.062]} scale={[0.07, 0.07, 0.09]} castShadow>
+        <mesh geometry={star} position={[0, 0, 0.058]} scale={[0.062, 0.062, 0.06]} castShadow>
           <meshStandardMaterial color="#f0bb23" roughness={0.35} />
         </mesh>
         <mesh position={[0, 0, 0.095]} scale={[0.018, 0.018, 0.018]}>
