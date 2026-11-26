@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import WeatherChip from "@/components/WeatherChip";
 
 export const metadata: Metadata = {
   title: "꽃폈네 — FM 쩡이와 함께하는 참여형 농장",
@@ -225,13 +226,9 @@ export default function GatewayPage() {
 
           {/* 우측: 날씨 칩 + 소셜 + 관리자 */}
           <div className="flex items-center gap-2 shrink-0">
-            {/* 날씨 — API 미연결, 임의 수치 표시 없음 */}
-            <div className="hidden 2xl:flex items-center gap-2 bg-surface-container px-3 py-1.5 rounded-lg">
-              <span className="material-symbols-outlined text-outline text-[18px]">cloud_off</span>
-              <div className="flex flex-col text-left">
-                <span className="text-on-surface-variant text-[11px] font-medium leading-tight">기상청 연동 준비 중</span>
-                <span className="text-outline text-[10px] leading-tight">덕산리 현장 관측 예정</span>
-              </div>
+            {/* 날씨 — 밀양 초동면(신월리·덕산리) 실시간 */}
+            <div className="hidden 2xl:flex">
+              <WeatherChip variant="home" />
             </div>
 
             {/* 소셜 아이콘 — 실제 URL 미확인, 비활성 표시 */}
