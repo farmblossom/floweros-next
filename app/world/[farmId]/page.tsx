@@ -6,7 +6,7 @@ import * as THREE from "three";
 import WorldHUD from "@/components/world/WorldHUD";
 import type { AvatarPresetId } from "@/components/world/VisitorAvatar";
 import { resolveMood, FARM_BOUNDS, type PreviewMode, type PlayerPosition } from "@/components/world/world-mood";
-import { DEFAULT_VIEW, spotById, spotsFor } from "@/components/world/photo-spots";
+import { DEFAULT_VIEW, scaledView, spotById, spotsFor } from "@/components/world/photo-spots";
 import PhotoStudio, { playShutter } from "@/components/world/PhotoStudio";
 import useFarmPresence from "@/components/world/useFarmPresence";
 import { sunDirection } from "@/lib/weather";
@@ -71,6 +71,8 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
   const [shot, setShot] = useState<string | null>(null);
   const [flash, setFlash] = useState(false);
   const [cameraBusy, setCameraBusy] = useState(false);
+  const [homeTick, setHomeTick] = useState(0);
+  const [portrait, setPortrait] = useState(false);
   const joystickRef = useRef<JoystickState>({ x: 0, y: 0 });
   const playerRef = useRef<PlayerPosition>({ x: 0, y: 0, z: 0 });
   const compassRef = useRef(0);
@@ -91,6 +93,26 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
   useEffect(() => {
     params.then((p) => setFarmId(p.farmId));
   }, [params]);
+
+  // 세로(모바일) 화면 — 카메라를 뒤로 물려 밭 전체가 들어오게
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 700px)");
+    const on = () => setPortrait(mq.matches);
+    on();
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
+
+  // 농장을 바꾸면 보던 시점·패널은 초기화
+  useEffect(() => {
+    setPhotoSpotId(null);
+    setWalkMode(false);
+    setHotspot(null);
+    setActiveNpc(null);
+    setShot(null);
+    setSpotPanel(false);
+    setHomeTick((v) => v + 1);
+  }, [farmId]);
 
   const meta = farmMeta[farmId];
   const start = useMemo<[number, number, number]>(() => meta?.start ?? [0, 0, 8], [meta]);
@@ -189,6 +211,7 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
               photoMode={!!photoSpot || cameraBusy}
               orbitTarget={orbitTarget as [number, number, number]}
               onPhotoSpotSelect={openSpot}
+              portrait={portrait}
             />
           ) : (
             <SinwolScene
@@ -201,6 +224,7 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
               photoMode={!!photoSpot || cameraBusy}
               orbitTarget={orbitTarget as [number, number, number]}
               onPhotoSpotSelect={openSpot}
+              portrait={portrait}
             />
           )}
           <WalkController
@@ -218,8 +242,8 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
           />
           <RemoteVisitors farm={isoFarm} peerIds={peerIds} peersRef={peersRef} />
           <PhotoCamera
-            view={cameraView ? cameraView.view : DEFAULT_VIEW[isoFarm]}
-            requestId={photoSpot ? photoSpot.id : `home-${isoFarm}`}
+            view={cameraView ? scaledView(cameraView.view, portrait ? 1.3 : 1) : scaledView(DEFAULT_VIEW[isoFarm], portrait ? 1.45 : 1)}
+            requestId={photoSpot ? photoSpot.id : `home-${isoFarm}-${homeTick}`}
             onAnimating={setCameraBusy}
           />
           <CaptureBridge captureRef={captureRef} />          <CameraCompassTracker yawRef={compassRef} />
@@ -249,8 +273,8 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
       {/* 동서남북 나침반 */}
       <Compass yawRef={compassRef} />
 
-      {/* 📷 사진 찍기 · 포토존 */}
-      <div className="absolute bottom-28 left-4 z-20 flex flex-col items-start gap-2">
+      {/* 📷 사진 찍기 · 포토존 · 전체 보기 */}
+      <div className="absolute right-3 bottom-16 z-20 flex flex-col items-end gap-1.5 sm:right-auto sm:bottom-28 sm:left-4 sm:items-start">
         {photoSpot ? (
           <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[#3f6b34]/85 text-white text-[11px] backdrop-blur-sm">
             <span className="material-symbols-outlined text-[13px]">photo_camera</span>
@@ -283,6 +307,21 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
           >
             <span className="material-symbols-outlined text-[16px]">photo_camera_front</span>
             <span className="hidden sm:inline">포토존</span>
+          </button>
+          <button
+            onClick={() => {
+              setWalkMode(false);
+              setPhotoSpotId(null);
+              setSpotPanel(false);
+              setHotspot(null);
+              setHomeTick((v) => v + 1);
+            }}
+            className="flex items-center gap-1.5 px-3 py-2.5 rounded-full bg-black/55 text-white text-sm backdrop-blur-sm hover:bg-black/75 transition-colors"
+            aria-label="농장 전체 보기로 시점 초기화"
+            title="농장 전체 보기"
+          >
+            <span className="material-symbols-outlined text-[16px]">fit_screen</span>
+            <span className="hidden sm:inline">전체 보기</span>
           </button>
         </div>
 
@@ -321,7 +360,7 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
           setWalkMode(false);
           setPhotoSpotId(null);
         }}
-        className="absolute bottom-20 right-4 z-20 flex items-center gap-1.5 px-3 py-2 rounded-full bg-black/60 text-white text-xs font-bold backdrop-blur-sm hover:bg-black/80 transition-colors"
+        className="absolute right-3 bottom-4 z-20 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-full bg-black/60 text-white text-xs font-bold backdrop-blur-sm hover:bg-black/80 transition-colors sm:right-4 sm:bottom-16"
         aria-label="2D 아이소메트릭 맵으로 전환"
       >
         <span className="material-symbols-outlined text-[15px]">map</span>

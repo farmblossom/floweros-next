@@ -22,6 +22,8 @@ interface SinwolSceneProps {
   photoMode?: boolean;
   orbitTarget?: [number, number, number];
   onPhotoSpotSelect?: (id: string) => void;
+  /** 세로(모바일) 화면 — 카메라를 뒤로 물린다 */
+  portrait?: boolean;
 }
 
 // 지형: 남서향 경사 10~15도 (필지분석결과서 반영) + 잔디 색 얼룩
@@ -366,6 +368,7 @@ export default function SinwolScene({
   photoMode = false,
   orbitTarget = [0, 1, 2],
   onPhotoSpotSelect,
+  portrait = false,
 }: SinwolSceneProps) {
   const npcs = FARM_NPCS.sinwol;
   const accessPath = useMemo(() => terrainPatchGeometry(2.5, 22, -10.5, 4, 0.09, 18), []);
@@ -383,7 +386,11 @@ export default function SinwolScene({
 
   return (
     <>
-      <PerspectiveCamera makeDefault position={[13, 10, 23]} fov={58} />
+      <PerspectiveCamera
+        makeDefault
+        position={portrait ? [19.5, 15, 34] : [13, 10, 23]}
+        fov={portrait ? 60 : 58}
+      />
 
       <HorizonGround y={-2.6} />
       <MountainRidge />
@@ -514,8 +521,8 @@ export default function SinwolScene({
           makeDefault
           enabled={!photoMode}
           maxPolarAngle={Math.PI / 2.02}
-          minDistance={4}
-          maxDistance={46}
+          minDistance={portrait ? 3.5 : 4}
+          maxDistance={portrait ? 95 : 46}
           enablePan
           target={orbitTarget}
           enableDamping

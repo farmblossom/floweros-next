@@ -268,12 +268,12 @@ function PotatoMascot({
 
       {variant === "putteogi" ? (
         /* 퍼뜨기 — 정수리에서 올라온 짧은 줄기 위, 입체 하트 고구마잎 */
-        <group position={[0, 1.01, -0.02]}>
+        <group position={[0, 1.03, -0.03]}>
           <HeartLeafTopper />
         </group>
       ) : (
         /* 쑤담이 — 오른쪽 머리 위, 뾰족한 흰색 5잎 감자꽃 + 노란 별 꽃술 */
-        <group position={[0.185, 0.99, 0.05]}>
+        <group position={[0.2, 1.02, 0.06]}>
           <PotatoFlowerTopper />
         </group>
       )}

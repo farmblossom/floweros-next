@@ -22,6 +22,8 @@ interface DeoksanSceneProps {
   photoMode?: boolean;
   orbitTarget?: [number, number, number];
   onPhotoSpotSelect?: (id: string) => void;
+  /** 세로(모바일) 화면 — 카메라를 뒤로 물린다 */
+  portrait?: boolean;
 }
 
 const ROW_COUNT = 20;
@@ -288,7 +290,7 @@ function Tractor({ position, rotation = 0 }: { position: [number, number, number
       </group>
 
       {open ? (
-        <Html position={[0, 3.1, 0]} center distanceFactor={16} zIndexRange={[8, 20]}>
+        <Html position={[0, 3.1, 0]} center pointerEvents="none" zIndexRange={[8, 20]}>
           <div
             style={{
               background: "rgba(255,255,255,0.97)",
@@ -389,6 +391,7 @@ export default function DeoksanScene({
   photoMode = false,
   orbitTarget = [0, 0.5, 2.5],
   onPhotoSpotSelect,
+  portrait = false,
 }: DeoksanSceneProps) {
   const npcs = FARM_NPCS.deoksan;
   const mainNpcs = useMemo(() => npcs.filter((n) => n.main), [npcs]);
@@ -404,7 +407,11 @@ export default function DeoksanScene({
 
   return (
     <>
-      <PerspectiveCamera makeDefault position={[0, 13.5, 25]} fov={58} />
+      <PerspectiveCamera
+        makeDefault
+        position={portrait ? [0, 20, 37] : [0, 13.5, 25]}
+        fov={portrait ? 60 : 58}
+      />
 
       <HorizonGround y={-0.4} color="#547331" />
       <MountainRidge radiusBase={70} heightBase={12} />
@@ -455,7 +462,7 @@ export default function DeoksanScene({
           <boxGeometry args={[3.5, 0.3, 0.3]} />
           <meshStandardMaterial color="#5a3a18" roughness={0.9} />
         </mesh>
-        <Html position={[0, 3.55, 0]} center distanceFactor={18} zIndexRange={[4, 12]}>
+        <Html position={[0, 3.55, 0]} center pointerEvents="none" zIndexRange={[4, 12]}>
           <div
             style={{
               background: "rgba(74,98,67,0.94)",
@@ -607,8 +614,8 @@ export default function DeoksanScene({
           makeDefault
           enabled={!photoMode}
           maxPolarAngle={Math.PI / 2.05}
-          minDistance={4}
-          maxDistance={40}
+          minDistance={portrait ? 3.5 : 4}
+          maxDistance={portrait ? 80 : 40}
           enablePan
           target={orbitTarget}
           enableDamping

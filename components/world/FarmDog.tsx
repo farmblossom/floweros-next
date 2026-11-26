@@ -326,7 +326,7 @@ export default function FarmDog({
           </group>
         </group>
 
-        <Html position={[0, 1.35 * s, 0]} center distanceFactor={20} zIndexRange={[6, 16]}>
+        <Html position={[0, 1.35 * s, 0]} center pointerEvents="none" zIndexRange={[6, 16]}>
           <div
             style={{
               display: "flex",
@@ -359,7 +359,7 @@ export default function FarmDog({
         </Html>
 
         {active ? (
-          <Html position={[0, 1.9 * s, 0]} center distanceFactor={17} zIndexRange={[8, 20]}>
+          <Html position={[0, 1.9 * s, 0]} center pointerEvents="none" zIndexRange={[8, 20]}>
             <div
               style={{
                 background: "rgba(255,255,255,0.97)",
@@ -388,7 +388,7 @@ export default function FarmDog({
         ) : null}
 
         {hint && !active ? (
-          <Html position={[0, 1.05 * s, 0]} center distanceFactor={22} zIndexRange={[5, 14]}>
+          <Html position={[0, 1.05 * s, 0]} center pointerEvents="none" zIndexRange={[5, 14]}>
             <div
               style={{
                 background: "rgba(255,255,255,0.9)",

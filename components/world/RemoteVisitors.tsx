@@ -37,7 +37,7 @@ function PeerAvatar({ peer, farm }: { peer: Peer; farm: FarmId }) {
   return (
     <group ref={groupRef} position={[peer.x, 0, peer.z]}>
       <VisitorAvatar preset={peer.avatar} movingState={movingRef} />
-      <Html position={[0, 2.05, 0]} center distanceFactor={24} zIndexRange={[7, 16]}>
+      <Html position={[0, 2.05, 0]} center pointerEvents="none" zIndexRange={[7, 16]}>
         <div
           style={{
             display: "flex",

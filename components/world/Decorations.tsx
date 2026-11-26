@@ -77,7 +77,7 @@ export function HeartLeafTopper({ scale = 1 }: { scale?: number }) {
     // 잎 면이 정면 살짝 위쪽을 향하고, 오른쪽으로 비스듬히 기울어진 자세
     const n = new THREE.Vector3(-0.22, 0.5, 0.84).normalize();
     const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), n);
-    const roll = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), 0.34);
+    const roll = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), -0.42);
     return q.multiply(roll);
   }, []);
 
@@ -99,7 +99,7 @@ export function HeartLeafTopper({ scale = 1 }: { scale?: number }) {
           <meshStandardMaterial color="#2f7d29" roughness={0.58} metalness={0.02} />
         </mesh>
         {/* 잎맥 — 가운데 줄기 */}
-        <mesh geometry={vein} position={[0, 0.06, 0.2]} rotation={[0.06, 0, 0]} scale={[1, 0.44, 1]}>
+        <mesh geometry={vein} position={[0, 0.07, 0.335]} rotation={[0.06, 0, 0]} scale={[1, 0.42, 1]}>
           <meshStandardMaterial color="#3f9c33" roughness={0.5} />
         </mesh>
         {/* 잎맥 — 좌우 갈래 */}
@@ -107,7 +107,7 @@ export function HeartLeafTopper({ scale = 1 }: { scale?: number }) {
           <mesh
             key={i}
             geometry={vein}
-            position={[v.x, v.y, 0.2 + Math.abs(v.x) * 0.4]}
+            position={[v.x, v.y, 0.325 + Math.abs(v.x) * 0.06]}
             rotation={[0.05, 0, v.rot]}
             scale={[0.62, v.len, 0.62]}
           >

@@ -124,3 +124,14 @@ export function spotById(farm: FarmId, id: string | null): PhotoSpot | null {
   if (!id) return null;
   return PHOTO_SPOTS.find((s) => s.farm === farm && s.id === id) ?? null;
 }
+
+/** 세로 화면(모바일)에서는 같은 구도가 잘리지 않도록 카메라를 뒤로 물린다 */
+export function scaledView(view: CameraView, k: number): CameraView {
+  if (k === 1) return view;
+  const [ex, ey, ez] = view.eye;
+  const [tx, ty, tz] = view.target;
+  return {
+    eye: [tx + (ex - tx) * k, ty + (ey - ty) * k, tz + (ez - tz) * k],
+    target: view.target,
+  };
+}

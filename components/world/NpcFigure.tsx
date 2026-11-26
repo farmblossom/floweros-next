@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Html } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import type { ThreeEvent } from "@react-three/fiber";
@@ -59,6 +59,15 @@ export default function NpcFigure({
   const [showName, setShowName] = useState(true);
   const hintRef = useRef(false);
   const active = activeId === id;
+  // 작은 화면에서는 이름표를 더 작게·가까울 때만 보여 준다
+  const [compact, setCompact] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 700px)");
+    const on = () => setCompact(mq.matches);
+    on();
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
 
   const scale = height / NPC_NATURAL_HEIGHT[kind];
   const width = Math.max(1, height * 0.62);
@@ -71,7 +80,7 @@ export default function NpcFigure({
   useFrame((state) => {
     // 카메라가 멀면 이름표를 숨겨 글씨 겹침을 줄인다
     const camDist = state.camera.position.distanceTo(state.camera.position.clone().set(position[0], position[1] + height * 0.7, position[2]));
-    const shouldShow = camDist < 30;
+    const shouldShow = camDist < (compact ? 16 : 30);
     if (shouldShow !== showName) setShowName(shouldShow);
 
     const p = playerRef.current;
@@ -123,65 +132,66 @@ export default function NpcFigure({
         <NpcCharacter kind={kind} scale={scale} waving={waving || !!gather} walkAxis={walkAxis} gather={gather} />
       </group>
 
-      {/* 이름 · 역할 */}
+      {/* 이름 · 역할 — 작은 칩, 3D 클릭을 막지 않음 */}
       {showName ? (
-      <Html position={[0, height + 0.34, 0]} center distanceFactor={26} zIndexRange={[8, 20]}>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 2,
-            pointerEvents: "none",
-            whiteSpace: "nowrap",
-            fontFamily: "system-ui, -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif",
-          }}
-        >
-          <span
+        <Html position={[0, height + 0.2, 0]} center pointerEvents="none" zIndexRange={[8, 20]}>
+          <div
             style={{
-              background: "rgba(255,255,255,0.94)",
-              border: `1.5px solid ${accent}`,
-              color: "#1e2b1a",
-              borderRadius: 999,
-              padding: "2px 9px",
-              fontSize: 12,
-              fontWeight: 700,
-              boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 1,
+              pointerEvents: "none",
+              whiteSpace: "nowrap",
+              fontFamily: "system-ui, -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif",
             }}
           >
-            {name}
-          </span>
-          <span
-            style={{
-              background: "rgba(30,43,26,0.72)",
-              color: "#f2f7ee",
-              borderRadius: 999,
-              padding: "1px 7px",
-              fontSize: 9.5,
-              letterSpacing: "0.02em",
-            }}
-          >
-            {role}
-          </span>
-        </div>
-      </Html>
-
+            <span
+              style={{
+                background: "rgba(255,255,255,0.94)",
+                border: `1.5px solid ${accent}`,
+                color: "#1e2b1a",
+                borderRadius: 999,
+                padding: "1px 6px",
+                fontSize: 10,
+                fontWeight: 700,
+                boxShadow: "0 1px 4px rgba(0,0,0,0.18)",
+              }}
+            >
+              {name}
+            </span>
+            {!compact ? (
+              <span
+                style={{
+                  background: "rgba(30,43,26,0.72)",
+                  color: "#f2f7ee",
+                  borderRadius: 999,
+                  padding: "0px 5px",
+                  fontSize: 8,
+                  letterSpacing: "0.02em",
+                }}
+              >
+                {role}
+              </span>
+            ) : null}
+          </div>
+        </Html>
       ) : null}
 
       {/* 근접 안내 */}
       {hint ? (
-        <Html position={[0, height * 0.55, 0]} center distanceFactor={22} zIndexRange={[6, 18]}>
+        <Html position={[0, height * 0.72, 0]} center pointerEvents="none" zIndexRange={[6, 18]}>
           <div
             style={{
               background: "rgba(255,255,255,0.9)",
               color: "#3d5236",
               borderRadius: 999,
-              padding: "3px 9px",
-              fontSize: 10,
+              padding: "1px 6px",
+              fontSize: 9,
               fontWeight: 600,
               whiteSpace: "nowrap",
               pointerEvents: "none",
-              boxShadow: "0 2px 8px rgba(0,0,0,0.16)",
+              boxShadow: "0 1px 4px rgba(0,0,0,0.16)",
             }}
           >
             클릭하면 인사해요
@@ -191,14 +201,14 @@ export default function NpcFigure({
 
       {/* 대사 말풍선 — 원본 일러스트 썸네일 함께 */}
       {active ? (
-        <Html position={[0, height + 1.1, 0]} center distanceFactor={17} zIndexRange={[9, 22]}>
+        <Html position={[0, height + 0.95, 0]} center pointerEvents="none" zIndexRange={[9, 22]}>
           <div
             style={{
               background: "rgba(255,255,255,0.97)",
               border: `2px solid ${accent}`,
               borderRadius: 14,
               padding: "8px 11px",
-              width: 236,
+              width: compact ? 196 : 228,
               boxSizing: "border-box",
               display: "flex",
               gap: 8,
@@ -213,8 +223,8 @@ export default function NpcFigure({
               src={textureUrl}
               alt={name}
               style={{
-                width: 40,
-                height: 40,
+                width: 34,
+                height: 34,
                 objectFit: "contain",
                 flexShrink: 0,
                 borderRadius: 8,

@@ -19,6 +19,15 @@ interface WorldHotspotProps {
 export default function WorldHotspot({ position, label, info, onSelect, playerRef }: WorldHotspotProps) {
   const [hovered, setHovered] = useState(false);
   const [near, setNear] = useState(false);
+  // 작은 화면에서는 평상시 라벨을 숨기고, 가까이 가거나 눌렀을 때만 보여 준다
+  const [compact, setCompact] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 700px)");
+    const on = () => setCompact(mq.matches);
+    on();
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
   const meshRef = useRef<THREE.Mesh>(null);
   const groupRef = useRef<THREE.Group>(null);
   const glowRef = useRef<THREE.Mesh>(null);
@@ -75,14 +84,16 @@ export default function WorldHotspot({ position, label, info, onSelect, playerRe
           roughness={0.4}
         />
       </mesh>
-      <Html position={[0, 1.25, 0]} center distanceFactor={28} zIndexRange={[5, 14]}>
+      <Html position={[0, 1.05, 0]} center pointerEvents="none" zIndexRange={[5, 14]}>
         <div
           style={{
             background: active ? "rgba(255,255,255,0.95)" : "rgba(30,40,28,0.7)",
             color: active ? "#1e2b1a" : "#f4f7ee",
             borderRadius: 999,
-            padding: "3px 10px",
-            fontSize: 11,
+            padding: compact ? "1px 6px" : "2px 8px",
+            fontSize: compact ? 9 : 10,
+            opacity: compact && !active ? 0 : 1,
+            transition: "opacity 160ms linear",
             fontWeight: 600,
             whiteSpace: "nowrap",
             pointerEvents: "none",
