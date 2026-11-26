@@ -90,7 +90,7 @@ function RyeField({ position }: { position: [number, number, number] }) {
   const groupRef = useRef<THREE.Group>(null);
   const count = 900;
   const ground = useMemo(
-    () => terrainPatchGeometry(10, 7, position[0], position[2], 0.1, 20),
+    () => terrainPatchGeometry(8.5, 5.5, position[0], position[2], 0.14, 20),
     [position]
   );
 
@@ -101,8 +101,8 @@ function RyeField({ position }: { position: [number, number, number] }) {
     const baseX = position[0];
     const baseZ = position[2];
     for (let i = 0; i < count; i++) {
-      const x = (Math.random() - 0.5) * 9.4 + baseX;
-      const z = (Math.random() - 0.5) * 6.4 + baseZ;
+      const x = (Math.random() - 0.5) * 8.0 + baseX;
+      const z = (Math.random() - 0.5) * 5.0 + baseZ;
       dummy.position.set(x, sinwolHeight(x, z) + 0.24 + Math.random() * 0.16, z);
       dummy.rotation.set((Math.random() - 0.5) * 0.22, Math.random() * Math.PI, (Math.random() - 0.5) * 0.22);
       const s = 0.55 + Math.random() * 0.55;
@@ -167,18 +167,18 @@ function GrassTufts() {
 
 /** 개간 구역 — 양토 노출, 경계 측량 말뚝 (지형에 밀착) */
 function ClearedZone() {
-  const patch = useMemo(() => terrainPatchGeometry(18, 15, -2, 3, 0.08, 28), []);
+  const patch = useMemo(() => terrainPatchGeometry(16, 13, -3, 2.5, 0.08, 28), []);
   const strips = useMemo(
-    () => Array.from({ length: 9 }, (_, i) => terrainPatchGeometry(0.9, 14.4, -9.6 + i * 2, 3, 0.1, 18)),
+    () => Array.from({ length: 7 }, (_, i) => terrainPatchGeometry(0.9, 12.4, -9.6 + i * 2, 2.5, 0.1, 18)),
     []
   );
   return (
     <group>
-      <mesh geometry={patch} rotation={[-Math.PI / 2, 0, 0]} position={[-2, 0, 3]} receiveShadow>
+      <mesh geometry={patch} rotation={[-Math.PI / 2, 0, 0]} position={[-3, 0, 2.5]} receiveShadow>
         <meshStandardMaterial color="#8c5e38" roughness={0.95} />
       </mesh>
       {strips.map((geo, i) => (
-        <mesh key={i} geometry={geo} rotation={[-Math.PI / 2, 0, 0]} position={[-9.6 + i * 2, 0, 3]}>
+        <mesh key={i} geometry={geo} rotation={[-Math.PI / 2, 0, 0]} position={[-9.6 + i * 2, 0, 2.5]}>
           <meshStandardMaterial color={i % 2 ? "#96683f" : "#7f5530"} roughness={0.96} />
         </mesh>
       ))}
@@ -316,7 +316,7 @@ export default function SinwolScene({ onHotspotSelect, walkMode = false, playerR
       <FarmVehicle position={[-2, 0.3, -4]} />
 
       <GrassTufts />
-      <RyeField position={[5.5, 0.1, 9.5]} />
+      <RyeField position={[7.0, 0.1, 12.0]} />
 
       {eastForest.map((pos, i) => (
         <BroadleafTree key={`e-${i}`} position={[pos[0], sinwolHeight(pos[0], pos[2]), pos[2]]} scale={0.9} tint={i} />
@@ -376,7 +376,7 @@ export default function SinwolScene({ onHotspotSelect, walkMode = false, playerR
         playerRef={playerRef}
       />
       <WorldHotspot
-        position={[5.5, 0.6, 9.5]}
+        position={[7.0, 0.6, 12.0]}
         label="🌾 호밀밭"
         info="녹비작물 호밀 재배 구역. 땅심을 살리고 잡초를 억제하는 사이갈이용으로 키우고 있습니다. 바람이 지나면 초록 물결이 일어요."
         onSelect={onHotspotSelect}
