@@ -55,7 +55,8 @@ export default function WeatherEnvironment({ mood, shadowRadius = 30 }: WeatherE
         shadow-camera-right={shadowRadius}
         shadow-camera-top={shadowRadius}
         shadow-camera-bottom={-shadowRadius}
-        shadow-bias={-0.0008}
+        shadow-bias={0}
+        shadow-normalBias={0.035}
       />
       {mood.phase === "night" ? (
         <>

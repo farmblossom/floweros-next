@@ -192,30 +192,6 @@ function Greenhouse({ position }: { position: [number, number, number] }) {
   );
 }
 
-// ── 경운기 ────────────────────────────────────────────────────────
-function FarmEquipment({ position }: { position: [number, number, number] }) {
-  return (
-    <group position={position}>
-      <mesh position={[0, 0.45, 0]} castShadow>
-        <boxGeometry args={[1.2, 0.7, 2.2]} />
-        <meshStandardMaterial color="#c2600a" roughness={0.65} />
-      </mesh>
-      <mesh position={[0, 1.0, -0.4]} castShadow>
-        <boxGeometry args={[1.1, 0.6, 1.1]} />
-        <meshStandardMaterial color="#a84f08" roughness={0.65} />
-      </mesh>
-      {([-0.65, 0.65] as number[]).flatMap((x) =>
-        ([-0.9, 0.9] as number[]).map((z) => (
-          <mesh key={`w-${x}-${z}`} position={[x, 0.22, z]} rotation={[0, 0, Math.PI / 2]}>
-            <cylinderGeometry args={[0.22, 0.22, 0.18, 10]} />
-            <meshStandardMaterial color="#111111" roughness={0.95} />
-          </mesh>
-        ))
-      )}
-    </group>
-  );
-}
-
 // ── 개집 ──────────────────────────────────────────────────────────
 function DogHouse({ position }: { position: [number, number, number] }) {
   return (
@@ -357,7 +333,6 @@ export default function DeoksanScene({ onHotspotSelect, walkMode = false, player
       <GreenTarp position={[-5.5, 0, -12]} w={4.5} d={3.5} />
       <GreenTarp position={[0.5, 0, -12]} w={3.5} d={3.0} />
       <Greenhouse position={[10.5, 0, -11.5]} />
-      <FarmEquipment position={[4.5, 0, 11]} />
       <Tools position={[-9.6, 0, -8.4]} />
       <DogHouse position={DOG_HOUSE} />
       <LampPost position={[-4.2, 0, 11.4]} />
