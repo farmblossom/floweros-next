@@ -87,13 +87,6 @@ export const PHOTO_SPOTS: PhotoSpot[] = [
     targetHeight: 0.95,
     sign: { x: -6.9, z: 6.2, rotY: 2.5 },
   }),
-  spot("sinwol", "sinwol-rye", "🌾 호밀밭 물결", "초록 호밀밭을 뒤로 한 사진", {
-    center: [6.6, 8.9],
-    eye: [5.58, 6.35],
-    eyeHeight: 1.72,
-    targetHeight: 0.95,
-    sign: { x: 3.9, z: 10.3, rotY: 2.7 },
-  }),
   spot("sinwol", "sinwol-plum", "🍑 자두 유목밭", "어린 자두나무 사이에서", {
     center: [-3.0, -6.6],
     eye: [-3.0, -3.85],
