@@ -94,12 +94,12 @@ export const PHOTO_SPOTS: PhotoSpot[] = [
     targetHeight: 0.85,
     sign: { x: 3.9, z: 10.3, rotY: 2.7 },
   }),
-  spot("sinwol", "sinwol-zelkova", "🌳 팽나무 그늘", "농장 남동쪽 큰 나무 곁에서", {
-    center: [13.3, 12.3],
-    eye: [15.28, 10.39],
-    eyeHeight: 1.55,
+  spot("sinwol", "sinwol-plum", "🍑 자두 유목밭", "어린 자두나무 사이에서", {
+    center: [-3.0, -6.6],
+    eye: [-3.0, -3.85],
+    eyeHeight: 1.5,
     targetHeight: 0.85,
-    sign: { x: 16.4, z: 11.9, rotY: -1.9 },
+    sign: { x: -5.2, z: -6.2, rotY: 1.45 },
   }),
   /* ── 덕산농장 ────────────────────────────────────────────── */
   spot("deoksan", "deoksan-arch", "🚪 덕산농장 입구 아치", "‘꽃폈네 덕산농장’ 아치 간판 배경", {
