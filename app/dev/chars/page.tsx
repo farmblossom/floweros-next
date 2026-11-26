@@ -19,6 +19,7 @@ export default function DevCharsPage() {
   const [dist, setDist] = useState(0);
   const [camY, setCamY] = useState(0);
   const [moodId, setMoodId] = useState<"none" | "day" | "sunset" | "night">("none");
+  const [fig, setFig] = useState(false);
 
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
@@ -30,6 +31,7 @@ export default function DevCharsPage() {
     setCamY(Number(q.get("y") ?? 0));
     const m = q.get("mood");
     setMoodId(m === "day" || m === "sunset" || m === "night" ? m : "none");
+    setFig(q.get("fig") === "1");
   }, []);
 
   const head = view === "head";
@@ -75,11 +77,13 @@ export default function DevCharsPage() {
         {showPutteogi ? (
           <group position={[head ? (showSsudami ? -0.44 : 0) : -spread, 0, 0]}>
             <NpcCharacter kind="putteogi" gather={{ x: 0, z: 0, yaw: 0 }} />
+            {fig ? <FigShell height={0.95} /> : null}
           </group>
         ) : null}
         {showSsudami ? (
           <group position={[head ? (showPutteogi ? 0.44 : 0) : spread, 0, 0]}>
             <NpcCharacter kind="ssudami" gather={{ x: 0, z: 0, yaw: 0 }} />
+            {fig ? <FigShell height={0.9} /> : null}
           </group>
         ) : null}
         {/* 그림자 받을 바닥 */}
@@ -89,5 +93,22 @@ export default function DevCharsPage() {
         </mesh>
       </Canvas>
     </div>
+  );
+}
+
+/** NpcFigure 가 캐릭터에 붙이는 바닥 그림자 원 + 투명 클릭 박스 재현 */
+function FigShell({ height }: { height: number }) {
+  const width = Math.max(1, height * 0.62);
+  return (
+    <>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.02, 0]}>
+        <circleGeometry args={[width * 0.46, 24]} />
+        <meshBasicMaterial color="#1b2416" transparent opacity={0.26} depthWrite={false} />
+      </mesh>
+      <mesh position={[0, height * 0.5, 0]}>
+        <boxGeometry args={[width, height, width]} />
+        <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+      </mesh>
+    </>
   );
 }
