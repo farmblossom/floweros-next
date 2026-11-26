@@ -229,49 +229,61 @@ function PotatoMascot({ variant, waving, walkAxis = "x" }: { variant: "putteogi"
       </group>
 
       {variant === "putteogi" ? (
-        /* 퍼뜨기 — 하트 모양 고구마잎 */
-        <group position={[0.02, 1.0, 0]} rotation={[0.12, 0, 0.2]}>
-          <mesh position={[-0.13, 0.04, 0]} rotation={[0, 0, 0.6]} scale={[0.23, 0.15, 0.1]} castShadow>
-            <sphereGeometry args={[1, 16, 12]} />
-            <meshStandardMaterial color="#3f8c33" roughness={0.75} />
+        /* 퍼뜨기 — 부드러운 하트 모양 고구마잎 (2장) */
+        <group position={[0.02, 1.0, 0.02]} rotation={[-0.35, 0, 0.12]}>
+          <mesh position={[-0.12, 0.06, 0]} rotation={[0, 0.25, 0.62]} scale={[0.26, 0.2, 0.075]} castShadow>
+            <sphereGeometry args={[1, 18, 14]} />
+            <meshStandardMaterial color="#3f8c33" roughness={0.72} />
           </mesh>
-          <mesh position={[0.13, 0.04, 0]} rotation={[0, 0, -0.6]} scale={[0.23, 0.15, 0.1]} castShadow>
-            <sphereGeometry args={[1, 16, 12]} />
-            <meshStandardMaterial color="#4aa33c" roughness={0.75} />
+          <mesh position={[0.12, 0.06, 0]} rotation={[0, -0.25, -0.62]} scale={[0.26, 0.2, 0.075]} castShadow>
+            <sphereGeometry args={[1, 18, 14]} />
+            <meshStandardMaterial color="#4aa33c" roughness={0.72} />
           </mesh>
-          <mesh position={[0, -0.02, 0]} scale={[0.1, 0.12, 0.08]}>
-            <sphereGeometry args={[1, 12, 10]} />
-            <meshStandardMaterial color="#357a2b" roughness={0.8} />
+          {/* 하트 아래 뾰족한 끝 */}
+          <mesh position={[0, -0.11, 0]} rotation={[0, 0, Math.PI]} scale={[0.13, 0.17, 0.07]}>
+            <coneGeometry args={[1, 1, 14]} />
+            <meshStandardMaterial color="#3f8c33" roughness={0.72} />
           </mesh>
-          <mesh position={[0, -0.14, 0]} rotation={[0, 0, 0.35]}>
-            <cylinderGeometry args={[0.016, 0.02, 0.2, 6]} />
+          {/* 잎맥 */}
+          <mesh position={[0, -0.02, 0.075]} scale={[0.012, 0.12, 0.006]}>
+            <sphereGeometry args={[1, 8, 8]} />
+            <meshStandardMaterial color="#2f6b28" roughness={0.9} />
+          </mesh>
+          {/* 줄기 */}
+          <mesh position={[0, -0.2, 0]}>
+            <cylinderGeometry args={[0.016, 0.02, 0.16, 6]} />
             <meshStandardMaterial color="#2f6b28" roughness={0.9} />
           </mesh>
         </group>
       ) : (
-        /* 쑤담이 — 흰 5잎 감자꽃 + 노란 꽃술 */
-        <group position={[0.16, 0.98, 0.04]} rotation={[0.25, 0, -0.28]}>
+        /* 쑤담이 — 동글동글한 흰 5잎 감자꽃 + 노란 꽃술 */
+        <group position={[0.14, 0.98, 0.02]} rotation={[-0.3, 0, -0.2]}>
           {[0, 1, 2, 3, 4].map((i) => {
-            const a = (i / 5) * Math.PI * 2;
+            const a = (i / 5) * Math.PI * 2 - Math.PI / 2;
             return (
               <mesh
                 key={i}
-                position={[Math.cos(a) * 0.19, Math.sin(a) * 0.19, 0]}
-                rotation={[0, 0, a]}
-                scale={[0.2, 0.1, 0.05]}
+                position={[Math.cos(a) * 0.155, Math.sin(a) * 0.155, 0]}
+                rotation={[0, 0, a + Math.PI / 2]}
+                scale={[0.145, 0.145, 0.045]}
                 castShadow
               >
-                <sphereGeometry args={[1, 14, 10]} />
-                <meshStandardMaterial color="#ffffff" roughness={0.6} />
+                <sphereGeometry args={[1, 16, 12]} />
+                <meshStandardMaterial color="#ffffff" roughness={0.55} />
               </mesh>
             );
           })}
-          <mesh position={[0, 0, 0.03]}>
-            <sphereGeometry args={[0.075, 12, 10]} />
-            <meshStandardMaterial color="#f4c63c" roughness={0.5} />
+          {/* 꽃잎 테두리 살짝 */}
+          <mesh position={[0, 0, 0.055]} scale={[0.075, 0.075, 0.05]}>
+            <sphereGeometry args={[1, 14, 12]} />
+            <meshStandardMaterial color="#f4c63c" roughness={0.45} />
           </mesh>
-          <mesh position={[0, -0.16, 0]} rotation={[0, 0, 0.18]}>
-            <cylinderGeometry args={[0.016, 0.02, 0.22, 6]} />
+          <mesh position={[0, 0, 0.1]} scale={[0.03, 0.03, 0.02]}>
+            <sphereGeometry args={[1, 10, 8]} />
+            <meshStandardMaterial color="#e0a81f" roughness={0.5} />
+          </mesh>
+          <mesh position={[0, -0.2, -0.02]} rotation={[0, 0, 0.12]}>
+            <cylinderGeometry args={[0.016, 0.02, 0.2, 6]} />
             <meshStandardMaterial color="#4f8a3a" roughness={0.9} />
           </mesh>
         </group>

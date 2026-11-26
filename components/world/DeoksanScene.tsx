@@ -462,7 +462,7 @@ export default function DeoksanScene({ onHotspotSelect, walkMode = false, player
         role="농장 지킴이"
         coat="#d9a85a"
         socks="#f3e3c4"
-        size={1.35}
+        size={0.62}
         line={IO_LINE}
         speed={1.7}
         playerRef={playerRef}
@@ -478,7 +478,7 @@ export default function DeoksanScene({ onHotspotSelect, walkMode = false, player
         role="농장 지킴이"
         coat="#6b5b4a"
         socks="#f8f4ec"
-        size={1.5}
+        size={0.7}
         line={IRYUK_LINE}
         speed={1.1}
         timid
