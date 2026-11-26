@@ -110,3 +110,24 @@ export function hazeColor(base: string, amount = 0.35): THREE.Color {
   const c = new THREE.Color(base);
   return c.lerp(new THREE.Color("#dfe9e2"), amount);
 }
+
+/** 밤에 은은히 켜지는 농장 등불 */
+export function LampPost({ position, height = 2.6 }: { position: [number, number, number]; height?: number }) {
+  return (
+    <group position={position}>
+      <mesh position={[0, height / 2, 0]} castShadow>
+        <cylinderGeometry args={[0.05, 0.07, height, 8]} />
+        <meshStandardMaterial color="#4a3a26" roughness={0.9} />
+      </mesh>
+      <mesh position={[0.16, height - 0.1, 0]}>
+        <boxGeometry args={[0.34, 0.06, 0.06]} />
+        <meshStandardMaterial color="#3a2e1e" roughness={0.9} />
+      </mesh>
+      <mesh position={[0.32, height - 0.28, 0]}>
+        <cylinderGeometry args={[0.1, 0.12, 0.22, 8]} />
+        <meshStandardMaterial color="#ffe6b0" emissive="#ffca6a" emissiveIntensity={1.6} toneMapped={false} />
+      </mesh>
+      <pointLight position={[0.32, height - 0.28, 0]} color="#ffcf8a" intensity={7} distance={11} decay={2} />
+    </group>
+  );
+}

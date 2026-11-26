@@ -1,7 +1,10 @@
 import type { FarmId } from "./terrain";
 
+import type { NpcKind } from "./NpcCharacter";
+
 export interface FarmNpc {
   id: string;
+  kind: NpcKind;
   name: string;
   role: string;
   textureUrl: string;
@@ -21,11 +24,12 @@ export const FARM_NPCS: Record<FarmId, FarmNpc[]> = {
   sinwol: [
     {
       id: "putteogi",
+      kind: "putteogi",
       name: "퍼뜨기",
       role: "신월농장 메인 지기",
       textureUrl: `${CHARS}/putteogi.png`,
       xz: [-1.5, 3.5],
-      height: 3.0,
+      height: 2.35,
       greetRadius: 4.2,
       accent: "#3f6b34",
       main: true,
@@ -39,11 +43,12 @@ export const FARM_NPCS: Record<FarmId, FarmNpc[]> = {
     },
     {
       id: "ssudami",
+      kind: "ssudami",
       name: "쑤담이",
       role: "신월농장 안내 지기",
       textureUrl: `${CHARS}/ssudami.png`,
       xz: [-8.4, 5.0],
-      height: 2.9,
+      height: 2.3,
       greetRadius: 4.0,
       accent: "#4a6243",
       main: true,
@@ -56,11 +61,12 @@ export const FARM_NPCS: Record<FarmId, FarmNpc[]> = {
     },
     {
       id: "dangoma",
+      kind: "dangoma",
       name: "당고매",
       role: "원물 고구마 지기",
       textureUrl: `${CHARS}/dangoma.png`,
       xz: [4.6, 8.6],
-      height: 2.4,
+      height: 1.95,
       greetRadius: 3.6,
       accent: "#a05f4a",
       lines: [
@@ -71,11 +77,12 @@ export const FARM_NPCS: Record<FarmId, FarmNpc[]> = {
     },
     {
       id: "kkuloma",
+      kind: "kkuloma",
       name: "꿀고매",
       role: "찐·군고구마 지기",
       textureUrl: `${CHARS}/kkuloma.png`,
       xz: [6.4, 1.2],
-      height: 2.5,
+      height: 1.95,
       greetRadius: 3.6,
       accent: "#b08422",
       lines: [
@@ -86,11 +93,12 @@ export const FARM_NPCS: Record<FarmId, FarmNpc[]> = {
     },
     {
       id: "jjongoma",
+      kind: "jjongoma",
       name: "쫀고매",
       role: "말랭이 가공 지기",
       textureUrl: `${CHARS}/jjongoma.png`,
       xz: [2.6, -3.2],
-      height: 2.5,
+      height: 1.95,
       greetRadius: 3.6,
       accent: "#8a6d1f",
       lines: [
@@ -101,11 +109,12 @@ export const FARM_NPCS: Record<FarmId, FarmNpc[]> = {
     },
     {
       id: "fm-jjeongi",
+      kind: "fm",
       name: "FM 쩡이",
       role: "총괄 농장관리자",
       textureUrl: `${CHARS}/fm-jjeongi.png`,
       xz: [-11.2, 6.6],
-      height: 2.85,
+      height: 2.35,
       greetRadius: 3.6,
       accent: "#2f5d7c",
       lines: [
@@ -118,11 +127,12 @@ export const FARM_NPCS: Record<FarmId, FarmNpc[]> = {
   deoksan: [
     {
       id: "ssudami",
+      kind: "ssudami",
       name: "쑤담이",
       role: "덕산농장 메인 지기",
       textureUrl: `${CHARS}/ssudami.png`,
       xz: [0, 1.5],
-      height: 3.0,
+      height: 2.35,
       greetRadius: 4.2,
       accent: "#3f6b34",
       main: true,
@@ -135,11 +145,12 @@ export const FARM_NPCS: Record<FarmId, FarmNpc[]> = {
     },
     {
       id: "putteogi",
+      kind: "putteogi",
       name: "퍼뜨기",
       role: "덕산농장 입구 지기",
       textureUrl: `${CHARS}/putteogi.png`,
       xz: [2.4, 10.4],
-      height: 2.9,
+      height: 2.3,
       greetRadius: 4.0,
       accent: "#4a6243",
       main: true,
@@ -151,11 +162,12 @@ export const FARM_NPCS: Record<FarmId, FarmNpc[]> = {
     },
     {
       id: "dangoma",
+      kind: "dangoma",
       name: "당고매",
       role: "원물 수확 지기",
       textureUrl: `${CHARS}/dangoma.png`,
       xz: [-5.2, 4.2],
-      height: 2.4,
+      height: 1.95,
       greetRadius: 3.6,
       accent: "#a05f4a",
       lines: [
@@ -166,11 +178,12 @@ export const FARM_NPCS: Record<FarmId, FarmNpc[]> = {
     },
     {
       id: "kkuloma",
+      kind: "kkuloma",
       name: "꿀고매",
       role: "찐·군고구마 지기",
       textureUrl: `${CHARS}/kkuloma.png`,
       xz: [-10.6, -6.6],
-      height: 2.5,
+      height: 1.95,
       greetRadius: 3.6,
       accent: "#b08422",
       lines: [
@@ -181,11 +194,12 @@ export const FARM_NPCS: Record<FarmId, FarmNpc[]> = {
     },
     {
       id: "jjongoma",
+      kind: "jjongoma",
       name: "쫀고매",
       role: "말랭이 가공 지기",
       textureUrl: `${CHARS}/jjongoma.png`,
       xz: [-3.6, -8.8],
-      height: 2.5,
+      height: 1.95,
       greetRadius: 3.6,
       accent: "#8a6d1f",
       lines: [
@@ -196,11 +210,12 @@ export const FARM_NPCS: Record<FarmId, FarmNpc[]> = {
     },
     {
       id: "fm-jjeongi",
+      kind: "fm",
       name: "FM 쩡이",
       role: "총괄 농장관리자",
       textureUrl: `${CHARS}/fm-jjeongi.png`,
       xz: [-2.2, 11.4],
-      height: 2.85,
+      height: 2.35,
       greetRadius: 3.6,
       accent: "#2f5d7c",
       lines: [

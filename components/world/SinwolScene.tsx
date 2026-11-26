@@ -7,7 +7,7 @@ import WorldHotspot from "./WorldHotspot";
 import NpcFigure from "./NpcFigure";
 import { FARM_NPCS } from "./farm-npcs";
 import { sinwolHeight, terrainPatchGeometry, type PlayerPosition } from "./terrain";
-import { BroadleafTree, HorizonGround, MountainRidge } from "./Scenery";
+import { BroadleafTree, HorizonGround, LampPost, MountainRidge } from "./Scenery";
 
 interface SinwolSceneProps {
   onHotspotSelect: (label: string, info: string) => void;
@@ -339,6 +339,8 @@ export default function SinwolScene({ onHotspotSelect, walkMode = false, playerR
         <PlantingSpot key={`oak-${i}`} position={pos} color="#5a8a30" radius={1.3} />
       ))}
 
+      <LampPost position={[-11.2, sinwolHeight(-11.2, 9.6), 9.6]} />
+
       {/* 접근로 (지형 밀착) */}
       <mesh geometry={accessPath} rotation={[-Math.PI / 2, 0, 0]} position={[-10.5, 0, 4]}>
         <meshStandardMaterial color="#8a7050" roughness={0.92} />
@@ -392,6 +394,7 @@ export default function SinwolScene({ onHotspotSelect, walkMode = false, playerR
       {npcs.map((npc) => (
         <NpcFigure
           key={npc.id}
+          kind={npc.kind}
           name={npc.name}
           role={npc.role}
           textureUrl={npc.textureUrl}

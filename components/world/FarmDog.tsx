@@ -40,7 +40,7 @@ function buildTetherPath({ x, z, rx, rz }: Tether): [number, number, number][] {
 }
 
 /**
- * 덕산리 농장 지킴이 — 이오(황구, 용맹) · 이륙이(재구, 순박).
+ * 덕산리 농장 지킴이 — 이오(용맹) · 이륙이(순박).
  * 개집 앞 말뚝에 목줄로 묶여 그 반경 안에서 가로·세로로 왔다 갔다 한다.
  */
 export default function FarmDog({

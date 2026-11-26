@@ -7,7 +7,7 @@ import NpcFigure from "./NpcFigure";
 import FarmDog from "./FarmDog";
 import { FARM_NPCS } from "./farm-npcs";
 import type { PlayerPosition } from "./terrain";
-import { BroadleafTree, HorizonGround, MountainRidge } from "./Scenery";
+import { BroadleafTree, HorizonGround, LampPost, MountainRidge } from "./Scenery";
 
 interface DeoksanSceneProps {
   onHotspotSelect: (label: string, info: string) => void;
@@ -357,11 +357,13 @@ export default function DeoksanScene({ onHotspotSelect, walkMode = false, player
       <FarmEquipment position={[4.5, 0, 11]} />
       <Tools position={[-9.6, 0, -8.4]} />
       <DogHouse position={DOG_HOUSE} />
+      <LampPost position={[-4.2, 0, 11.4]} />
+      <LampPost position={[-11.9, 0, -8.2]} />
 
       {/* 농장 지킴이 — 이오 · 이륙이 */}
       <FarmDog
         name="이오"
-        role="농장 지킴이 · 황구"
+        role="농장 지킴이"
         coat="#d9a85a"
         socks="#f3e3c4"
         size={1.35}
@@ -370,14 +372,14 @@ export default function DeoksanScene({ onHotspotSelect, walkMode = false, player
         playerRef={playerRef}
         accent="#a9762b"
         lines={[
-          "왈! 나는 이오예요. 덕산리 밭을 지키는 황구 지킴이 🐕",
+          "왈! 나는 이오예요. 덕산리 밭을 지키는 지킴이 🐕",
           "두더지랑 족제비가 고랑을 파헤치면 내가 제일 먼저 달려가요",
           "고랑 사이 농로는 내 순찰 코스 — 따라 걸어볼래요?",
         ]}
       />
       <FarmDog
         name="이륙이"
-        role="농장 지킴이 · 재구"
+        role="농장 지킴이"
         coat="#6b5b4a"
         socks="#f8f4ec"
         size={1.5}
@@ -424,7 +426,7 @@ export default function DeoksanScene({ onHotspotSelect, walkMode = false, player
       <WorldHotspot
         position={[-8.6, 0.3, -10.4]}
         label="🐕 이오·이륙이 개집"
-        info="덕산리 농장을 지키는 진도믹스 모자견 두 마리의 집. 이오(황구·어미)는 두더지·족제비를 쫓는 용맹한 지킴이, 이륙이(재구·아들)는 덩치는 크지만 순박하고 겁이 많은 지킴이입니다."
+        info="덕산리 농장을 지키는 두 마리의 집. 이오는 두더지·족제비를 쫓는 용맹한 지킴이, 이륙이는 덩치는 크지만 순박하고 겁이 많은 지킴이입니다."
         onSelect={onHotspotSelect}
         playerRef={playerRef}
       />
@@ -440,6 +442,7 @@ export default function DeoksanScene({ onHotspotSelect, walkMode = false, player
       {npcs.map((npc) => (
         <NpcFigure
           key={npc.id}
+          kind={npc.kind}
           name={npc.name}
           role={npc.role}
           textureUrl={npc.textureUrl}
