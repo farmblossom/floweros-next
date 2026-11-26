@@ -1,5 +1,5 @@
 "use client";
-import { useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { getFaceTexture, type FaceStyle } from "./faceTextures";
@@ -228,6 +228,54 @@ function FacePlane({ style, position, size }: { style: FaceStyle; position: [num
   );
 }
 
+/**
+ * 얼굴을 머리 구체 곡면에 그대로 감싸 붙이는 데칼.
+ * 평면 텍스처를 쓰면 구체가 가운데를 가려 눈이 잘리므로,
+ * 같은 x·y를 유지한 채 z만 구면 위로 밀어 올려 정면에서 왜곡 없이 보이게 한다.
+ */
+function FaceDecal({
+  style,
+  position,
+  radii,
+  size,
+  lift = 0.005,
+}: {
+  style: FaceStyle;
+  /** 머리 중심 (회전축도 이 점이 되도록 headRef 그룹을 머리 중심에 둔다) */
+  position: [number, number, number];
+  radii: [number, number, number];
+  size: number;
+  /** 구체 표면에서 살짝 띄우는 두께 */
+  lift?: number;
+}) {
+  const texture = getFaceTexture(style);
+  const [rx, ry, rz] = radii;
+  const geometry = useMemo(() => {
+    const geo = new THREE.PlaneGeometry(size, size, 28, 28);
+    const pos = geo.attributes.position as THREE.BufferAttribute;
+    for (let i = 0; i < pos.count; i++) {
+      const x = pos.getX(i);
+      const y = pos.getY(i);
+      const nx = x / rx;
+      const ny = y / ry;
+      // 구면(타원면) 밖으로 나가는 모서리는 지평선에 붙여 둔다 — 투명 영역이라 보이지 않는다
+      const nz = Math.sqrt(Math.max(0.08, 1 - nx * nx - ny * ny));
+      pos.setZ(i, nz * rz + lift);
+    }
+    pos.needsUpdate = true;
+    geo.computeVertexNormals();
+    return geo;
+  }, [size, rx, ry, rz, lift]);
+
+  useEffect(() => () => geometry.dispose(), [geometry]);
+
+  return (
+    <mesh geometry={geometry} position={position} renderOrder={2}>
+      <meshBasicMaterial map={texture} transparent alphaTest={0.02} depthWrite={false} toneMapped={false} />
+    </mesh>
+  );
+}
+
 /* ── 퍼뜨기 · 쑤담이 ─────────────────────────────────────────── */
 function PotatoMascot({
   variant,
@@ -258,8 +306,9 @@ function PotatoMascot({
       <ToonEllipsoid scale={[0.15, 0.11, 0.18]} color="#faf0d2" roughness={0.8} outline={0.06} position={[-0.2, 0.14, 0.2]} />
       <ToonEllipsoid scale={[0.15, 0.11, 0.18]} color="#faf0d2" roughness={0.8} outline={0.06} position={[0.2, 0.14, 0.2]} />
 
-      <group ref={headRef}>
-        <FacePlane style="potato" position={[0, 0.63, 0.44]} size={0.78} />
+      {/* 머리 회전축을 머리 중심에 두어 얼굴 데칼이 곡면을 벗어나지 않게 한다 */}
+      <group ref={headRef} position={[0, 0.6, 0]}>
+        <FaceDecal style="potato" position={[0, 0.03, 0]} radii={[0.5, 0.47, 0.48]} size={0.8} />
       </group>
 
       {/* 팔 */}
@@ -271,8 +320,8 @@ function PotatoMascot({
       </group>
 
       {variant === "putteogi" ? (
-        /* 퍼뜨기 — 정수리에서 올라온 짧은 줄기 위, 입체 하트 고구마잎 */
-        <group position={[0, 1.03, -0.03]}>
+        /* 퍼뜨기 — 정수리에 짧게 붙은 줄기 위, 앞으로 살짝 숙인 입체 하트 고구마잎 */
+        <group position={[0, 1.0, 0.015]}>
           <HeartLeafTopper />
         </group>
       ) : (

@@ -27,11 +27,12 @@ export function getFaceTexture(style: FaceStyle): THREE.CanvasTexture {
   ctx.clearRect(0, 0, size, size);
 
   const ink = "#2b2118";
-  const eyeY = 208;
-  const eyeX = 168;
-  const gap = 92;
-  const eyeRx = style === "potato" ? 34 : 32;
-  const eyeRy = style === "potato" ? 42 : 40;
+  const eyeY = 206;
+  const gap = style === "potato" ? 102 : 92;
+  // 퍼뜨기·쑤담이는 정면에서 또렷한 동그란 눈 (가로·세로 반지름 동일)
+  const round = style === "potato";
+  const eyeRx = round ? 41 : 32;
+  const eyeRy = round ? 41 : 40;
 
   // 눈 — 큰 검은 타원 + 흰 하이라이트
   [-1, 1].forEach((dir) => {

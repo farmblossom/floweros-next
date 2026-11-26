@@ -74,28 +74,28 @@ export function HeartLeafTopper({ scale = 1 }: { scale?: number }) {
   const vein = useVeinGeometry();
 
   const leafQuat = useMemo(() => {
-    // 잎 면이 정면 살짝 위쪽을 향하고, 오른쪽으로 비스듬히 기울어진 자세
-    const n = new THREE.Vector3(-0.22, 0.5, 0.84).normalize();
+    // 잎 면이 정면(카메라 쪽)을 향하고, 위쪽만 살짝 앞으로 숙인 자세
+    const n = new THREE.Vector3(0.1, -0.06, 0.99).normalize();
     const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), n);
-    const roll = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), -0.42);
+    const roll = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), -0.16);
     return q.multiply(roll);
   }, []);
 
   return (
     <group scale={[scale, scale, scale]}>
-      {/* 짧은 초록 줄기 */}
-      <mesh position={[0, 0.06, 0]} castShadow>
-        <cylinderGeometry args={[0.032, 0.042, 0.15, 12]} />
+      {/* 정수리에 착 붙는 짧은 초록 줄기 */}
+      <mesh position={[0, 0.035, 0]} castShadow>
+        <cylinderGeometry args={[0.03, 0.042, 0.1, 12]} />
         <meshStandardMaterial color="#4f9636" roughness={0.6} />
       </mesh>
-      <mesh position={[0, 0.13, 0]} scale={[1.1, 0.5, 1.1]}>
+      <mesh position={[0, 0.082, 0]} scale={[1.1, 0.5, 1.1]}>
         <sphereGeometry args={[0.045, 10, 8]} />
         <meshStandardMaterial color="#57a33c" roughness={0.55} />
       </mesh>
 
-      <group position={[0, 0.145, 0]} quaternion={leafQuat}>
+      <group position={[0, 0.093, 0.004]} quaternion={leafQuat}>
         {/* 잎 · 잎맥은 같은 배율로 묶어 크기가 어긋나지 않게 한다 */}
-        <group scale={[0.315, 0.315, 0.315]}>
+        <group scale={[0.23, 0.23, 0.23]}>
           <mesh geometry={geo} castShadow receiveShadow>
             <meshStandardMaterial color="#368b2c" roughness={0.56} metalness={0.02} />
           </mesh>

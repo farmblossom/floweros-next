@@ -129,7 +129,7 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
   );
 
   // 같은 농장에 함께 접속한 방문자 (환경변수·연결이 없으면 조용히 단독 모드)
-  const { peersRef, peerIds, online, status } = useFarmPresence({
+  const { peersRef, peerIds, online, status, selfId } = useFarmPresence({
     farmId,
     avatar,
     playerRef,
@@ -141,6 +141,20 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
   const photoSpot = useMemo(() => spotById((farmId as "sinwol" | "deoksan") ?? "sinwol", photoSpotId), [farmId, photoSpotId]);
   const farmSpots = useMemo(() => spotsFor((farmId as "sinwol" | "deoksan") ?? "sinwol"), [farmId]);
   const cameraView = photoSpot;
+
+  // 같은 포토존을 여러 명이 골라도 한 좌표에 완전히 겹치지 않게 — 접속자 id 순서로 좌우 한 걸음씩
+  const stageAt = useMemo(() => {
+    if (!photoSpot) return null;
+    const ids = [selfId, ...peerIds].filter(Boolean).sort();
+    const total = Math.max(1, ids.length);
+    const slot = Math.max(0, ids.indexOf(selfId));
+    const apart = (slot - (total - 1) / 2) * 0.9;
+    return {
+      x: photoSpot.avatarAt[0] + Math.cos(photoSpot.yaw) * apart,
+      z: photoSpot.avatarAt[1] - Math.sin(photoSpot.yaw) * apart,
+      yaw: photoSpot.yaw,
+    };
+  }, [photoSpot, selfId, peerIds]);
 
   const takePhoto = useCallback(() => {
     if (!captureRef.current) return;
@@ -238,7 +252,7 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
             startPosition={start}
             headingOutRef={headingOutRef}
             movingOutRef={movingOutRef}
-            stageAt={photoSpot ? { x: photoSpot.avatarAt[0], z: photoSpot.avatarAt[1], yaw: photoSpot.yaw } : null}
+            stageAt={stageAt}
           />
           <RemoteVisitors farm={isoFarm} peerIds={peerIds} peersRef={peersRef} />
           <PhotoCamera
