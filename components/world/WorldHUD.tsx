@@ -16,6 +16,9 @@ interface WorldHUDProps {
   onPreviewChange: (preview: PreviewMode) => void;
   avatar: AvatarPresetId;
   onAvatarChange: (avatar: AvatarPresetId) => void;
+  /** 같은 농장에 함께 접속한 방문자 수 (나 포함) */
+  visitors?: number;
+  presence?: "off" | "connecting" | "live" | "error";
 }
 
 const PREVIEWS: { id: PreviewMode; label: string; icon: string }[] = [
@@ -38,6 +41,8 @@ export default function WorldHUD({
   onPreviewChange,
   avatar,
   onAvatarChange,
+  visitors = 1,
+  presence = "off",
 }: WorldHUDProps) {
   const otherFarm =
     farmId === "deoksan" ? { id: "sinwol", name: "신월리 농장" } : { id: "deoksan", name: "밀양 덕산농장" };
@@ -122,6 +127,26 @@ export default function WorldHUD({
             <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse inline-block" />
             {farmName}
           </div>
+
+          {/* 함께 보는 방문자 수 — 실시간 접속 */}
+          <div
+            title={
+              presence === "live"
+                ? "같은 농장에 접속한 방문자끼리 서로의 아바타가 보입니다"
+                : presence === "off"
+                  ? "실시간 접속이 설정되지 않아 혼자 둘러보는 중입니다"
+                  : presence === "connecting"
+                    ? "같은 농장 방문자와 연결하는 중…"
+                    : "실시간 연결이 끊겨 혼자 둘러보는 중입니다"
+            }
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-black/50 text-white text-xs backdrop-blur-sm whitespace-nowrap"
+          >
+            <span className="material-symbols-outlined text-[14px]">group</span>
+            <span className="font-semibold">{visitors}명</span>
+            <span className="hidden sm:inline text-white/60">
+              {presence === "live" ? "함께 보는 중" : presence === "connecting" ? "연결 중" : "혼자 보는 중"}
+            </span>
+          </div>
         </div>
       </div>
 
@@ -147,7 +172,7 @@ export default function WorldHUD({
         </div>
       </div>
 
-      {/* 방문자 아바타 선택 */}
+      {/* 방문자 아바타 선택 — 남성/여성/어린이 */}
       <div className="absolute bottom-24 right-4 z-20 flex flex-col items-end gap-1.5">
         <span className="text-[10px] text-white/70 bg-black/40 px-2 py-0.5 rounded-full backdrop-blur-sm">
           방문자 아바타
@@ -157,16 +182,22 @@ export default function WorldHUD({
             <button
               key={preset.id}
               onClick={() => onAvatarChange(preset.id)}
-              title={preset.label}
+              title={`${preset.label} — ${preset.description}`}
               aria-label={preset.label}
-              className={`flex items-center justify-center w-8 h-8 rounded-full transition-colors ${
+              className={`flex flex-col items-center justify-center w-9 h-9 rounded-full transition-colors ${
                 avatar === preset.id ? "bg-white text-[#23301d]" : "text-white/80 hover:bg-white/15"
               }`}
             >
-              <span className="material-symbols-outlined text-[17px]">{preset.icon}</span>
+              <span className="material-symbols-outlined text-[16px]">{preset.icon}</span>
+              <span className="text-[7.5px] font-semibold leading-none mt-0.5">
+                {preset.gender === "male" ? "남" : preset.gender === "female" ? "여" : "어린이"}
+              </span>
             </button>
           ))}
         </div>
+        <span className="text-[10px] text-white/85 bg-black/45 px-2 py-0.5 rounded-full backdrop-blur-sm">
+          {AVATAR_PRESETS.find((p) => p.id === avatar)?.label}
+        </span>
       </div>
 
       <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-10 pointer-events-none">

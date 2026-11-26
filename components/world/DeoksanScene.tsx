@@ -8,6 +8,8 @@ import FarmDog from "./FarmDog";
 import { FARM_NPCS } from "./farm-npcs";
 import type { PlayerPosition } from "./terrain";
 import { BroadleafTree, GrassTufts, HorizonGround, LampPost, MountainRidge } from "./Scenery";
+import { PhotoSpotSign } from "./Decorations";
+import { spotsFor, type PhotoSpot } from "./photo-spots";
 
 interface DeoksanSceneProps {
   onHotspotSelect: (label: string, info: string) => void;
@@ -15,6 +17,11 @@ interface DeoksanSceneProps {
   playerRef: React.RefObject<PlayerPosition>;
   activeId: string | null;
   onTalk: (id: string | null) => void;
+  /** 포토존 — 지기들이 이 자리로 모여 선다 */
+  photoSpot?: PhotoSpot | null;
+  photoMode?: boolean;
+  orbitTarget?: [number, number, number];
+  onPhotoSpotSelect?: (id: string) => void;
 }
 
 const ROW_COUNT = 20;
@@ -372,8 +379,28 @@ const IO_LINE = { from: [-4.6, -8.8] as [number, number], to: [6.2, -8.8] as [nu
 // 이륙이: 밭 오른쪽 가장자리(+X)를 세로(Z축)로
 const IRYUK_LINE = { from: [11.7, -6.8] as [number, number], to: [11.7, 7.6] as [number, number], height: 2.5 };
 
-export default function DeoksanScene({ onHotspotSelect, walkMode = false, playerRef, activeId, onTalk }: DeoksanSceneProps) {
+export default function DeoksanScene({
+  onHotspotSelect,
+  walkMode = false,
+  playerRef,
+  activeId,
+  onTalk,
+  photoSpot = null,
+  photoMode = false,
+  orbitTarget = [0, 0.5, 2.5],
+  onPhotoSpotSelect,
+}: DeoksanSceneProps) {
   const npcs = FARM_NPCS.deoksan;
+  const mainNpcs = useMemo(() => npcs.filter((n) => n.main), [npcs]);
+  const spots = useMemo(() => spotsFor("deoksan"), []);
+
+  const gatherFor = (id: string): { x: number; z: number; yaw: number } | null => {
+    if (!photoSpot) return null;
+    const idx = mainNpcs.findIndex((m) => m.id === id);
+    const stand = idx >= 0 ? photoSpot.stands[idx] : null;
+    if (!stand) return null;
+    return { x: stand[0], z: stand[1], yaw: photoSpot.yaw };
+  };
 
   return (
     <>
@@ -447,6 +474,16 @@ export default function DeoksanScene({ onHotspotSelect, walkMode = false, player
           </div>
         </Html>
       </group>
+
+      {/* 포토존 표지판 — 클릭하면 그 자리 시점으로 */}
+      {spots.map((sp) => (
+        <PhotoSpotSign
+          key={sp.id}
+          position={[sp.sign.x, 0, sp.sign.z]}
+          rotationY={sp.sign.rotY}
+          onSelect={() => onPhotoSpotSelect?.(sp.id)}
+        />
+      ))}
 
       <FarmBuilding position={[-13, 0, -11]} />
       <GreenTarp position={[-5.5, 0, -12]} w={4.5} d={3.5} />
@@ -561,17 +598,19 @@ export default function DeoksanScene({ onHotspotSelect, walkMode = false, player
           accent={npc.accent}
           greetEnabled={walkMode}
           walkAxis={npc.walkAxis ?? "x"}
+          gatherTo={gatherFor(npc.id)}
         />
       ))}
 
       {!walkMode && (
         <OrbitControls
           makeDefault
+          enabled={!photoMode}
           maxPolarAngle={Math.PI / 2.05}
           minDistance={4}
           maxDistance={40}
           enablePan
-          target={[0, 0.5, 2.5]}
+          target={orbitTarget}
           enableDamping
           dampingFactor={0.08}
         />

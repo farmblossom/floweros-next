@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Html } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import type { ThreeEvent } from "@react-three/fiber";
@@ -26,6 +26,8 @@ interface NpcFigureProps {
   /** 걷기 모드일 때만 다가가면 인사 */
   greetEnabled?: boolean;
   walkAxis?: "x" | "z";
+  /** 포토존 단체사진 — 이 자리로 모여 선다 (월드 좌표) */
+  gatherTo?: { x: number; z: number; yaw: number } | null;
 }
 
 /**
@@ -49,6 +51,7 @@ export default function NpcFigure({
   accent = "#4a6243",
   greetEnabled = true,
   walkAxis = "x",
+  gatherTo = null,
 }: NpcFigureProps) {
   const [lineIdx, setLineIdx] = useState(0);
   const [hint, setHint] = useState(false);
@@ -59,6 +62,11 @@ export default function NpcFigure({
 
   const scale = height / NPC_NATURAL_HEIGHT[kind];
   const width = Math.max(1, height * 0.62);
+
+  const gather = useMemo(() => {
+    if (!gatherTo) return null;
+    return { x: gatherTo.x - position[0], z: gatherTo.z - position[2], yaw: gatherTo.yaw };
+  }, [gatherTo, position]);
 
   useFrame((state) => {
     // 카메라가 멀면 이름표를 숨겨 글씨 겹침을 줄인다
@@ -112,7 +120,7 @@ export default function NpcFigure({
       </mesh>
 
       <group onClick={handleClick}>
-        <NpcCharacter kind={kind} scale={scale} waving={waving} walkAxis={walkAxis} />
+        <NpcCharacter kind={kind} scale={scale} waving={waving || !!gather} walkAxis={walkAxis} gather={gather} />
       </group>
 
       {/* 이름 · 역할 */}

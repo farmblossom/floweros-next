@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { getFaceTexture, type FaceStyle } from "./faceTextures";
+import { HeartLeafTopper, PotatoFlowerTopper } from "./Decorations";
 
 export type NpcKind = "putteogi" | "ssudami" | "dangoma" | "kkuloma" | "jjongoma" | "fm";
 
@@ -16,22 +17,32 @@ export const NPC_NATURAL_HEIGHT: Record<NpcKind, number> = {
   fm: 1.9,
 };
 
+export interface GatherTarget {
+  /** 부모 그룹(농장지기 위치) 기준 상대 좌표 */
+  x: number;
+  z: number;
+  /** 바라볼 방향 */
+  yaw: number;
+}
+
 interface NpcCharacterProps {
   kind: NpcKind;
   scale?: number;
   waving?: boolean;
   walkAxis?: "x" | "z";
+  /** 포토존 단체사진 — 지정한 자리로 모여 선다 */
+  gather?: GatherTarget | null;
 }
 
-export default function NpcCharacter({ kind, scale = 1, waving = false, walkAxis = "x" }: NpcCharacterProps) {
+export default function NpcCharacter({ kind, scale = 1, waving = false, walkAxis = "x", gather = null }: NpcCharacterProps) {
   return (
     <group scale={[scale, scale, scale]}>
       {kind === "putteogi" || kind === "ssudami" ? (
-        <PotatoMascot variant={kind} waving={waving} walkAxis={walkAxis} />
+        <PotatoMascot variant={kind} waving={waving} walkAxis={walkAxis} gather={gather} />
       ) : kind === "fm" ? (
-        <FmManager waving={waving} walkAxis={walkAxis} />
+        <FmManager waving={waving} walkAxis={walkAxis} gather={gather} />
       ) : (
-        <SweetPotatoMascot variant={kind} waving={waving} walkAxis={walkAxis} />
+        <SweetPotatoMascot variant={kind} waving={waving} walkAxis={walkAxis} gather={gather} />
       )}
     </group>
   );
@@ -44,7 +55,12 @@ type Action = "water" | "soil" | "walk" | "wave" | "stretch" | "visit";
  * 몇 초마다 행동을 바꿔 가며 일하는 루틴.
  * 밭일(soil) → 물 주기(water) → 다른 곳으로 이동(walk) → 기지개(stretch) → 손 흔들기(wave) 순환.
  */
-function useMascotMotion(waving: boolean, actions: Action[] = ["soil", "walk", "wave"], walkAxis: "x" | "z" = "x") {
+function useMascotMotion(
+  waving: boolean,
+  actions: Action[] = ["soil", "walk", "wave"],
+  walkAxis: "x" | "z" = "x",
+  gather: GatherTarget | null = null
+) {
   const rootRef = useRef<THREE.Group>(null);
   const bodyRef = useRef<THREE.Group>(null);
   const armLRef = useRef<THREE.Group>(null);
@@ -73,7 +89,7 @@ function useMascotMotion(waving: boolean, actions: Action[] = ["soil", "walk", "
       actionDurRef.current = 4.5 + Math.random() * 4;
     }
 
-    const action: Action = waving ? "wave" : actions[actionIdxRef.current];
+    const action: Action = waving || gather ? "wave" : actions[actionIdxRef.current];
     const local = t - actionStartRef.current;
 
     let bend = 0;
@@ -120,18 +136,29 @@ function useMascotMotion(waving: boolean, actions: Action[] = ["soil", "walk", "
     const moving = action === "walk" || action === "visit";
 
     if (rootRef.current) {
-      rootRef.current.position.x = offsetRef.current.x;
-      rootRef.current.position.z = offsetRef.current.z;
-      const heading = moving
-        ? Math.atan2(targetX - offsetRef.current.x, targetZ - offsetRef.current.z)
-        : Math.sin(t * 0.16) * 0.45;
-      rootRef.current.rotation.y = THREE.MathUtils.lerp(rootRef.current.rotation.y, heading, Math.min(1, dt * 2));
+      const destX = gather ? gather.x : offsetRef.current.x;
+      const destZ = gather ? gather.z : offsetRef.current.z;
+      const posK = Math.min(1, dt * (gather ? 1.9 : 3.4));
+      rootRef.current.position.x += (destX - rootRef.current.position.x) * posK;
+      rootRef.current.position.z += (destZ - rootRef.current.position.z) * posK;
+
+      const heading = gather
+        ? gather.yaw
+        : moving
+          ? Math.atan2(targetX - offsetRef.current.x, targetZ - offsetRef.current.z)
+          : Math.sin(t * 0.16) * 0.45;
+      rootRef.current.rotation.y = THREE.MathUtils.lerp(rootRef.current.rotation.y, heading, Math.min(1, dt * 2.6));
     }
 
     if (bodyRef.current) {
       const breath = Math.sin(t * 2.1) * 0.028;
+      // 포토존으로 걸어오는 중에는 통통 튀는 걸음
+      const traveling = gather && rootRef.current
+        ? Math.min(1, Math.hypot(gather.x - rootRef.current.position.x, gather.z - rootRef.current.position.z) * 0.8)
+        : 0;
       bodyRef.current.scale.set(1 + breath * 0.5, 1 - breath * 0.4, 1 + breath * 0.5);
-      bodyRef.current.position.y = Math.abs(Math.sin(t * (moving ? 7 : 1.25))) * (moving ? 0.035 : 0.028);
+      bodyRef.current.position.y =
+        Math.abs(Math.sin(t * (moving || traveling > 0.1 ? 7 : 1.25))) * (moving || traveling > 0.1 ? 0.045 * Math.max(0.4, traveling) : 0.028);
       bodyRef.current.rotation.z = Math.sin(t * 0.9) * 0.015;
       bodyRef.current.rotation.x = THREE.MathUtils.lerp(bodyRef.current.rotation.x, bend, Math.min(1, dt * 3));
     }
@@ -198,13 +225,24 @@ function FacePlane({ style, position, size }: { style: FaceStyle; position: [num
 }
 
 /* ── 퍼뜨기 · 쑤담이 ─────────────────────────────────────────── */
-function PotatoMascot({ variant, waving, walkAxis = "x" }: { variant: "putteogi" | "ssudami"; waving: boolean; walkAxis?: "x" | "z" }) {
+function PotatoMascot({
+  variant,
+  waving,
+  walkAxis = "x",
+  gather = null,
+}: {
+  variant: "putteogi" | "ssudami";
+  waving: boolean;
+  walkAxis?: "x" | "z";
+  gather?: GatherTarget | null;
+}) {
   const { rootRef, bodyRef, armLRef, armRRef, headRef } = useMascotMotion(
     waving,
     variant === "putteogi"
       ? ["water", "walk", "soil", "wave", "stretch"]
       : ["soil", "walk", "water", "wave", "stretch"],
-    walkAxis
+    walkAxis,
+    gather
   );
 
   return (
@@ -229,63 +267,14 @@ function PotatoMascot({ variant, waving, walkAxis = "x" }: { variant: "putteogi"
       </group>
 
       {variant === "putteogi" ? (
-        /* 퍼뜨기 — 부드러운 하트 모양 고구마잎 (2장) */
-        <group position={[0.02, 1.0, 0.02]} rotation={[-0.35, 0, 0.12]}>
-          <mesh position={[-0.12, 0.06, 0]} rotation={[0, 0.25, 0.62]} scale={[0.26, 0.2, 0.075]} castShadow>
-            <sphereGeometry args={[1, 18, 14]} />
-            <meshStandardMaterial color="#3f8c33" roughness={0.72} />
-          </mesh>
-          <mesh position={[0.12, 0.06, 0]} rotation={[0, -0.25, -0.62]} scale={[0.26, 0.2, 0.075]} castShadow>
-            <sphereGeometry args={[1, 18, 14]} />
-            <meshStandardMaterial color="#4aa33c" roughness={0.72} />
-          </mesh>
-          {/* 하트 아래 뾰족한 끝 */}
-          <mesh position={[0, -0.11, 0]} rotation={[0, 0, Math.PI]} scale={[0.13, 0.17, 0.07]}>
-            <coneGeometry args={[1, 1, 14]} />
-            <meshStandardMaterial color="#3f8c33" roughness={0.72} />
-          </mesh>
-          {/* 잎맥 */}
-          <mesh position={[0, -0.02, 0.075]} scale={[0.012, 0.12, 0.006]}>
-            <sphereGeometry args={[1, 8, 8]} />
-            <meshStandardMaterial color="#2f6b28" roughness={0.9} />
-          </mesh>
-          {/* 줄기 */}
-          <mesh position={[0, -0.2, 0]}>
-            <cylinderGeometry args={[0.016, 0.02, 0.16, 6]} />
-            <meshStandardMaterial color="#2f6b28" roughness={0.9} />
-          </mesh>
+        /* 퍼뜨기 — 정수리에서 올라온 짧은 줄기 위, 입체 하트 고구마잎 */
+        <group position={[0, 1.01, -0.02]}>
+          <HeartLeafTopper />
         </group>
       ) : (
-        /* 쑤담이 — 동글동글한 흰 5잎 감자꽃 + 노란 꽃술 */
-        <group position={[0.14, 0.98, 0.02]} rotation={[-0.3, 0, -0.2]}>
-          {[0, 1, 2, 3, 4].map((i) => {
-            const a = (i / 5) * Math.PI * 2 - Math.PI / 2;
-            return (
-              <mesh
-                key={i}
-                position={[Math.cos(a) * 0.155, Math.sin(a) * 0.155, 0]}
-                rotation={[0, 0, a + Math.PI / 2]}
-                scale={[0.145, 0.145, 0.045]}
-                castShadow
-              >
-                <sphereGeometry args={[1, 16, 12]} />
-                <meshStandardMaterial color="#ffffff" roughness={0.55} />
-              </mesh>
-            );
-          })}
-          {/* 꽃잎 테두리 살짝 */}
-          <mesh position={[0, 0, 0.055]} scale={[0.075, 0.075, 0.05]}>
-            <sphereGeometry args={[1, 14, 12]} />
-            <meshStandardMaterial color="#f4c63c" roughness={0.45} />
-          </mesh>
-          <mesh position={[0, 0, 0.1]} scale={[0.03, 0.03, 0.02]}>
-            <sphereGeometry args={[1, 10, 8]} />
-            <meshStandardMaterial color="#e0a81f" roughness={0.5} />
-          </mesh>
-          <mesh position={[0, -0.2, -0.02]} rotation={[0, 0, 0.12]}>
-            <cylinderGeometry args={[0.016, 0.02, 0.2, 6]} />
-            <meshStandardMaterial color="#4f8a3a" roughness={0.9} />
-          </mesh>
+        /* 쑤담이 — 오른쪽 머리 위, 뾰족한 흰색 5잎 감자꽃 + 노란 별 꽃술 */
+        <group position={[0.185, 0.99, 0.05]}>
+          <PotatoFlowerTopper />
         </group>
       )}
 
@@ -327,12 +316,14 @@ function SweetPotatoMascot({
   variant,
   waving,
   walkAxis = "x",
+  gather = null,
 }: {
   variant: "dangoma" | "kkuloma" | "jjongoma";
   waving: boolean;
   walkAxis?: "x" | "z";
+  gather?: GatherTarget | null;
 }) {
-  const { rootRef, bodyRef, armLRef, armRRef, headRef } = useMascotMotion(waving, ["walk", "soil", "stretch", "wave"], walkAxis);
+  const { rootRef, bodyRef, armLRef, armRRef, headRef } = useMascotMotion(waving, ["walk", "soil", "stretch", "wave"], walkAxis, gather);
 
   const config =
     variant === "dangoma"
@@ -477,8 +468,8 @@ function SweetPotatoMascot({
 }
 
 /* ── FM 쩡이 ────────────────────────────────────────────────── */
-function FmManager({ waving, walkAxis = "x" }: { waving: boolean; walkAxis?: "x" | "z" }) {
-  const { rootRef, bodyRef, armLRef, armRRef, headRef } = useMascotMotion(waving, ["wave", "visit", "walk", "soil"], walkAxis);
+function FmManager({ waving, walkAxis = "x", gather = null }: { waving: boolean; walkAxis?: "x" | "z"; gather?: GatherTarget | null }) {
+  const { rootRef, bodyRef, armLRef, armRRef, headRef } = useMascotMotion(waving, ["wave", "visit", "walk", "soil"], walkAxis, gather);
 
   return (
     <group ref={rootRef}>

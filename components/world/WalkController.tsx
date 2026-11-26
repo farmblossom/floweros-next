@@ -19,6 +19,12 @@ interface WalkControllerProps {
   avatar: AvatarPresetId;
   playerRef: React.RefObject<PlayerPosition>;
   startPosition: [number, number, number];
+  /** 바라보는 방향 공유 (실시간 접속자 동기화용) */
+  headingOutRef?: React.RefObject<number>;
+  /** 이동 여부 공유 (실시간 접속자 동기화용) */
+  movingOutRef?: React.RefObject<{ moving: boolean }>;
+  /** 포토존 — 이 자리에 서서 카메라를 바라본다 */
+  stageAt?: { x: number; z: number; yaw: number } | null;
 }
 
 /**
@@ -34,6 +40,9 @@ export default function WalkController({
   avatar,
   playerRef,
   startPosition,
+  headingOutRef,
+  movingOutRef,
+  stageAt = null,
 }: WalkControllerProps) {
   const { camera, gl } = useThree();
   const avatarRef = useRef<THREE.Group>(null);
@@ -43,10 +52,13 @@ export default function WalkController({
   const yawRef = useRef(0.35);
   const pitchRef = useRef(0.24);
   const initializedRef = useRef(false);
-  const movingStateRef = useRef<{ moving: boolean }>({ moving: false });
+  const innerMovingRef = useRef<{ moving: boolean }>({ moving: false });
+  const innerHeadingRef = useRef(Math.PI);
+  const movingStateRef = movingOutRef ?? innerMovingRef;
+  const headingRef = headingOutRef ?? innerHeadingRef;
+  const stagedRef = useRef(false);
 
   const posRef = useRef(new THREE.Vector3(...startPosition));
-  const headingRef = useRef(Math.PI);
   const camTargetRef = useRef(new THREE.Vector3());
 
   // 키보드
@@ -187,6 +199,27 @@ export default function WalkController({
         avatarRef.current.rotation.y = headingRef.current;
       }
     } else {
+      if (stageAt) {
+        // 포토존 — 사람들 사이 자기 자리로 걸어가 카메라 쪽을 바라본다
+        const k = 1 - Math.exp(-6 * dt);
+        pos.x += (stageAt.x - pos.x) * k;
+        pos.z += (stageAt.z - pos.z) * k;
+        let diff = stageAt.yaw - headingRef.current;
+        diff = Math.atan2(Math.sin(diff), Math.cos(diff));
+        headingRef.current += diff * Math.min(1, dt * 5);
+        movingStateRef.current.moving = Math.hypot(stageAt.x - pos.x, stageAt.z - pos.z) > 0.08;
+        stagedRef.current = true;
+      } else if (stagedRef.current) {
+        // 포토존에서 돌아오면 원래 서 있던 자리로
+        const k = 1 - Math.exp(-4 * dt);
+        pos.x += (startPosition[0] - pos.x) * k;
+        pos.z += (startPosition[2] - pos.z) * k;
+        movingStateRef.current.moving = Math.hypot(startPosition[0] - pos.x, startPosition[2] - pos.z) > 0.1;
+        if (Math.hypot(startPosition[0] - pos.x, startPosition[2] - pos.z) < 0.12) {
+          stagedRef.current = false;
+          movingStateRef.current.moving = false;
+        }
+      }
       pos.y = terrainHeight(farm, pos.x, pos.z);
       if (avatarRef.current) {
         avatarRef.current.position.set(pos.x, pos.y, pos.z);

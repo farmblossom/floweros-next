@@ -1,11 +1,14 @@
 "use client";
-import { Suspense, useMemo, useRef, useState, useEffect } from "react";
+import { Suspense, useMemo, useRef, useState, useEffect, useCallback } from "react";
 import { Canvas } from "@react-three/fiber";
 import dynamic from "next/dynamic";
 import * as THREE from "three";
 import WorldHUD from "@/components/world/WorldHUD";
 import type { AvatarPresetId } from "@/components/world/VisitorAvatar";
 import { resolveMood, FARM_BOUNDS, type PreviewMode, type PlayerPosition } from "@/components/world/world-mood";
+import { DEFAULT_VIEW, spotById, spotsFor } from "@/components/world/photo-spots";
+import PhotoStudio, { playShutter } from "@/components/world/PhotoStudio";
+import useFarmPresence from "@/components/world/useFarmPresence";
 import { sunDirection } from "@/lib/weather";
 import { useWeather } from "@/lib/useWeather";
 import Link from "next/link";
@@ -16,6 +19,11 @@ const WalkController = dynamic(() => import("@/components/world/WalkController")
 const MobileJoystick = dynamic(() => import("@/components/world/MobileJoystick"), { ssr: false });
 const IsoFarmMap = dynamic(() => import("@/components/world/IsoFarmMap"), { ssr: false });
 const WeatherEnvironment = dynamic(() => import("@/components/world/WeatherEnvironment"), { ssr: false });
+const RemoteVisitors = dynamic(() => import("@/components/world/RemoteVisitors"), { ssr: false });
+const PhotoCamera = dynamic(() => import("@/components/world/PhotoCamera"), { ssr: false });
+const CaptureBridge = dynamic(() => import("@/components/world/PhotoCamera").then((m) => m.CaptureBridge), {
+  ssr: false,
+});
 const CameraCompassTracker = dynamic(() => import("@/components/world/Compass").then((m) => m.CameraCompassTracker), {
   ssr: false,
 });
@@ -58,9 +66,17 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
   const [preview, setPreview] = useState<PreviewMode>("live");
   const [avatar, setAvatar] = useState<AvatarPresetId>("farmer");
   const [activeNpc, setActiveNpc] = useState<string | null>(null);
+  const [photoSpotId, setPhotoSpotId] = useState<string | null>(null);
+  const [spotPanel, setSpotPanel] = useState(false);
+  const [shot, setShot] = useState<string | null>(null);
+  const [flash, setFlash] = useState(false);
+  const [cameraBusy, setCameraBusy] = useState(false);
   const joystickRef = useRef<JoystickState>({ x: 0, y: 0 });
   const playerRef = useRef<PlayerPosition>({ x: 0, y: 0, z: 0 });
   const compassRef = useRef(0);
+  const headingOutRef = useRef(Math.PI);
+  const movingOutRef = useRef<{ moving: boolean }>({ moving: false });
+  const captureRef = useRef<(() => string | null) | null>(null);
   const [sunDir, setSunDir] = useState<[number, number, number] | null>(null);
   const { weather } = useWeather();
 
@@ -90,6 +106,37 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
     [weather?.kind, weather?.phase, preview, sunDir]
   );
 
+  // 같은 농장에 함께 접속한 방문자 (환경변수·연결이 없으면 조용히 단독 모드)
+  const { peersRef, peerIds, online, status } = useFarmPresence({
+    farmId,
+    avatar,
+    playerRef,
+    headingRef: headingOutRef,
+    movingRef: movingOutRef,
+    enabled: viewMode === "3d" && !!farmId && !!meta,
+  });
+
+  const photoSpot = useMemo(() => spotById((farmId as "sinwol" | "deoksan") ?? "sinwol", photoSpotId), [farmId, photoSpotId]);
+  const farmSpots = useMemo(() => spotsFor((farmId as "sinwol" | "deoksan") ?? "sinwol"), [farmId]);
+  const cameraView = photoSpot;
+
+  const takePhoto = useCallback(() => {
+    if (!captureRef.current) return;
+    playShutter();
+    setFlash(true);
+    window.setTimeout(() => setFlash(false), 220);
+    const raw = captureRef.current();
+    if (raw) setShot(raw);
+  }, []);
+
+  const openSpot = useCallback((id: string | null) => {
+    setWalkMode(false);
+    setHotspot(null);
+    setActiveNpc(null);
+    setSpotPanel(false);
+    setPhotoSpotId(id);
+  }, []);
+
   if (!farmId) {
     return (
       <div className="fixed inset-0 bg-black flex items-center justify-center text-white">로딩 중...</div>
@@ -109,6 +156,7 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
 
   const bounds = FARM_BOUNDS[farmId as "sinwol" | "deoksan"] ?? FARM_BOUNDS.deoksan;
   const isoFarm = farmId as "sinwol" | "deoksan";
+  const orbitTarget = photoSpot ? photoSpot.view.target : isoFarm === "sinwol" ? [0, 1, 2] : [0, 0.5, 2.5];
 
   // 2D 맵 뷰
   if (viewMode === "2d") {
@@ -120,7 +168,12 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
       <Canvas
         shadows="soft"
         dpr={[1, 1.8]}
-        gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.05 }}
+        gl={{
+          antialias: true,
+          toneMapping: THREE.ACESFilmicToneMapping,
+          toneMappingExposure: 1.05,
+          preserveDrawingBuffer: true,
+        }}
         className="w-full h-full"
       >
         <Suspense fallback={null}>
@@ -132,6 +185,10 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
               playerRef={playerRef}
               activeId={activeNpc}
               onTalk={setActiveNpc}
+              photoSpot={photoSpot}
+              photoMode={!!photoSpot || cameraBusy}
+              orbitTarget={orbitTarget as [number, number, number]}
+              onPhotoSpotSelect={openSpot}
             />
           ) : (
             <SinwolScene
@@ -140,6 +197,10 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
               playerRef={playerRef}
               activeId={activeNpc}
               onTalk={setActiveNpc}
+              photoSpot={photoSpot}
+              photoMode={!!photoSpot || cameraBusy}
+              orbitTarget={orbitTarget as [number, number, number]}
+              onPhotoSpotSelect={openSpot}
             />
           )}
           <WalkController
@@ -151,8 +212,17 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
             avatar={avatar}
             playerRef={playerRef}
             startPosition={start}
+            headingOutRef={headingOutRef}
+            movingOutRef={movingOutRef}
+            stageAt={photoSpot ? { x: photoSpot.avatarAt[0], z: photoSpot.avatarAt[1], yaw: photoSpot.yaw } : null}
           />
-          <CameraCompassTracker yawRef={compassRef} />
+          <RemoteVisitors farm={isoFarm} peerIds={peerIds} peersRef={peersRef} />
+          <PhotoCamera
+            view={cameraView ? cameraView.view : DEFAULT_VIEW[isoFarm]}
+            requestId={photoSpot ? photoSpot.id : `home-${isoFarm}`}
+            onAnimating={setCameraBusy}
+          />
+          <CaptureBridge captureRef={captureRef} />          <CameraCompassTracker yawRef={compassRef} />
         </Suspense>
       </Canvas>
 
@@ -165,16 +235,83 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
           setWalkMode((v) => !v);
           setHotspot(null);
           setActiveNpc(null);
+          setPhotoSpotId(null);
         }}
         weather={weather}
         preview={preview}
         onPreviewChange={setPreview}
         avatar={avatar}
         onAvatarChange={setAvatar}
+        visitors={online}
+        presence={status}
       />
 
       {/* 동서남북 나침반 */}
       <Compass yawRef={compassRef} />
+
+      {/* 📷 사진 찍기 · 포토존 */}
+      <div className="absolute bottom-28 left-4 z-20 flex flex-col items-start gap-2">
+        {photoSpot ? (
+          <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[#3f6b34]/85 text-white text-[11px] backdrop-blur-sm">
+            <span className="material-symbols-outlined text-[13px]">photo_camera</span>
+            <span className="font-semibold">{photoSpot.label}</span>
+            <button
+              onClick={() => openSpot(null)}
+              className="ml-0.5 p-0.5 rounded-full hover:bg-white/20"
+              aria-label="포토존 시점 해제"
+            >
+              <span className="material-symbols-outlined text-[13px]">close</span>
+            </button>
+          </div>
+        ) : null}
+
+        <div className="flex items-center gap-2">
+          <button
+            onClick={takePhoto}
+            className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-full bg-[#7fb04d] text-[#12200c] text-sm font-extrabold shadow-lg hover:bg-[#8cbd57] transition-colors"
+            aria-label="기념사진 찍기"
+          >
+            <span className="material-symbols-outlined text-[17px]">photo_camera</span>
+            사진 찍기
+          </button>
+          <button
+            onClick={() => setSpotPanel((v) => !v)}
+            className={`flex items-center gap-1.5 px-3 py-2.5 rounded-full text-sm backdrop-blur-sm transition-colors ${
+              spotPanel ? "bg-white text-[#23301d] font-bold" : "bg-black/55 text-white hover:bg-black/75"
+            }`}
+            aria-label="포토존 시점 찾기"
+          >
+            <span className="material-symbols-outlined text-[16px]">photo_camera_front</span>
+            <span className="hidden sm:inline">포토존</span>
+          </button>
+        </div>
+
+        {spotPanel ? (
+          <div className="w-60 rounded-2xl bg-[#1b2018]/92 backdrop-blur-md border border-white/12 shadow-xl p-2">
+            <p className="px-1.5 pb-1 text-[10px] text-white/55">지기들과 나란히 서는 포토존 시점</p>
+            {farmSpots.map((s) => (
+              <button
+                key={s.id}
+                onClick={() => openSpot(s.id)}
+                className={`w-full text-left px-2 py-2 rounded-xl transition-colors ${
+                  photoSpotId === s.id ? "bg-white/15" : "hover:bg-white/10"
+                }`}
+              >
+                <span className="block text-[12.5px] font-semibold text-white">{s.label}</span>
+                <span className="block text-[10px] text-white/55">{s.hint}</span>
+              </button>
+            ))}
+          </div>
+        ) : null}
+      </div>
+
+      {/* 셔터 플래시 */}
+      <div
+        className={`pointer-events-none fixed inset-0 z-40 bg-white transition-opacity duration-300 ${
+          flash ? "opacity-80" : "opacity-0"
+        }`}
+        aria-hidden
+      />
 
       {/* 2D 맵 전환 버튼 */}
       <button
@@ -182,6 +319,7 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
           setViewMode("2d");
           setHotspot(null);
           setWalkMode(false);
+          setPhotoSpotId(null);
         }}
         className="absolute bottom-20 right-4 z-20 flex items-center gap-1.5 px-3 py-2 rounded-full bg-black/60 text-white text-xs font-bold backdrop-blur-sm hover:bg-black/80 transition-colors"
         aria-label="2D 아이소메트릭 맵으로 전환"
@@ -234,6 +372,18 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
           </div>
         </div>
       )}
+
+      {/* 기념사진 미리보기 */}
+      <PhotoStudio
+        raw={shot}
+        farmName={meta.name}
+        spotLabel={photoSpot?.label ?? null}
+        onClose={() => setShot(null)}
+        onRetake={() => {
+          setShot(null);
+          window.setTimeout(takePhoto, 120);
+        }}
+      />
     </div>
   );
 }

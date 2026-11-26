@@ -8,6 +8,8 @@ import NpcFigure from "./NpcFigure";
 import { FARM_NPCS } from "./farm-npcs";
 import { sinwolHeight, terrainPatchGeometry, type PlayerPosition } from "./terrain";
 import { BroadleafTree, HorizonGround, LampPost, MountainRidge } from "./Scenery";
+import { PhotoSpotSign } from "./Decorations";
+import { spotsFor, type PhotoSpot } from "./photo-spots";
 
 interface SinwolSceneProps {
   onHotspotSelect: (label: string, info: string) => void;
@@ -15,6 +17,11 @@ interface SinwolSceneProps {
   playerRef: React.RefObject<PlayerPosition>;
   activeId: string | null;
   onTalk: (id: string | null) => void;
+  /** 포토존 — 지기들이 이 자리로 모여 선다 */
+  photoSpot?: PhotoSpot | null;
+  photoMode?: boolean;
+  orbitTarget?: [number, number, number];
+  onPhotoSpotSelect?: (id: string) => void;
 }
 
 // 지형: 남서향 경사 10~15도 (필지분석결과서 반영) + 잔디 색 얼룩
@@ -349,9 +356,30 @@ const plumPositions: [number, number, number][] = [
   [-6.8, 0, -10.5], [-3.8, 0, -11.4], [-0.8, 0, -11.9], [2.2, 0, -12.4],
 ];
 
-export default function SinwolScene({ onHotspotSelect, walkMode = false, playerRef, activeId, onTalk }: SinwolSceneProps) {
+export default function SinwolScene({
+  onHotspotSelect,
+  walkMode = false,
+  playerRef,
+  activeId,
+  onTalk,
+  photoSpot = null,
+  photoMode = false,
+  orbitTarget = [0, 1, 2],
+  onPhotoSpotSelect,
+}: SinwolSceneProps) {
   const npcs = FARM_NPCS.sinwol;
   const accessPath = useMemo(() => terrainPatchGeometry(2.5, 22, -10.5, 4, 0.09, 18), []);
+  const mainNpcs = useMemo(() => npcs.filter((n) => n.main), [npcs]);
+  const spots = useMemo(() => spotsFor("sinwol"), []);
+
+  // 포토존에 모일 때 — 지기마다 설 자리
+  const gatherFor = (id: string): { x: number; z: number; yaw: number } | null => {
+    if (!photoSpot) return null;
+    const idx = mainNpcs.findIndex((m) => m.id === id);
+    const stand = idx >= 0 ? photoSpot.stands[idx] : null;
+    if (!stand) return null;
+    return { x: stand[0], z: stand[1], yaw: photoSpot.yaw };
+  };
 
   return (
     <>
@@ -391,6 +419,16 @@ export default function SinwolScene({ onHotspotSelect, walkMode = false, playerR
 
       {/* 남동쪽 모서리 — 커다란 팽나무 그늘 쉼터 */}
       <ZelkovaShade position={[15.4, sinwolHeight(15.4, 15.0), 15.0]} />
+
+      {/* 포토존 표지판 — 클릭하면 그 자리 시점으로 */}
+      {spots.map((sp) => (
+        <PhotoSpotSign
+          key={sp.id}
+          position={[sp.sign.x, sinwolHeight(sp.sign.x, sp.sign.z), sp.sign.z]}
+          rotationY={sp.sign.rotY}
+          onSelect={() => onPhotoSpotSelect?.(sp.id)}
+        />
+      ))}
 
       {/* 접근로 (지형 밀착) */}
       <mesh geometry={accessPath} rotation={[-Math.PI / 2, 0, 0]} position={[-10.5, 0, 4]}>
@@ -467,17 +505,19 @@ export default function SinwolScene({ onHotspotSelect, walkMode = false, playerR
           accent={npc.accent}
           greetEnabled={walkMode}
           walkAxis={npc.walkAxis ?? "x"}
+          gatherTo={gatherFor(npc.id)}
         />
       ))}
 
       {!walkMode && (
         <OrbitControls
           makeDefault
+          enabled={!photoMode}
           maxPolarAngle={Math.PI / 2.02}
           minDistance={4}
           maxDistance={46}
           enablePan
-          target={[0, 1, 2]}
+          target={orbitTarget}
           enableDamping
           dampingFactor={0.08}
         />
