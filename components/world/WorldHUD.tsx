@@ -93,7 +93,7 @@ export default function WorldHUD({
                     href={`/world/${f.id}`}
                     aria-current={active ? "page" : undefined}
                     title={f.full}
-                    className={`px-2.5 py-1 rounded-full text-[11.5px] font-semibold whitespace-nowrap transition-colors ${
+                    className={`px-3 py-1.5 rounded-full text-[11.5px] font-semibold whitespace-nowrap transition-colors ${
                       active ? "bg-white text-[#23301d]" : "text-white/85 hover:bg-white/15"
                     }`}
                   >
