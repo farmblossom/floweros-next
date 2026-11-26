@@ -307,11 +307,11 @@ export default function VisitorAvatar({ preset, movingState }: VisitorAvatarProp
           <meshStandardMaterial color={config.skin} roughness={0.65} />
         </mesh>
         {/* 눈 */}
-        <mesh position={[-0.058, 1.5, 0.152]}>
+        <mesh position={[-0.058, 1.482, 0.152]}>
           <sphereGeometry args={[0.021, 8, 8]} />
           <meshStandardMaterial color="#2b2622" />
         </mesh>
-        <mesh position={[0.058, 1.5, 0.152]}>
+        <mesh position={[0.058, 1.482, 0.152]}>
           <sphereGeometry args={[0.021, 8, 8]} />
           <meshStandardMaterial color="#2b2622" />
         </mesh>
@@ -360,12 +360,12 @@ export default function VisitorAvatar({ preset, movingState }: VisitorAvatarProp
         {/* ── 모자 ───────────────────────────────── */}
         {config.hat === "ball" ? (
           <>
-            <Dome r={0.175} color={config.hatColor} position={[0, 1.5, -0.005]} scale={[1.1, 0.85, 1.1]} />
-            <mesh position={[0, 1.585, 0.15]} rotation={[0.12, 0, 0]} castShadow>
+            <Dome r={0.175} color={config.hatColor} position={[0, 1.535, -0.008]} scale={[1.1, 0.8, 1.1]} />
+            <mesh position={[0, 1.6, 0.15]} rotation={[0.14, 0, 0]} castShadow>
               <boxGeometry args={[0.3, 0.028, 0.2]} />
               <meshStandardMaterial color={config.hatColor} roughness={0.85} />
             </mesh>
-            <mesh position={[0, 1.63, 0.02]}>
+            <mesh position={[0, 1.655, 0.02]}>
               <sphereGeometry args={[0.02, 8, 6]} />
               <meshStandardMaterial color="#d8d2c4" roughness={0.6} />
             </mesh>
@@ -374,7 +374,7 @@ export default function VisitorAvatar({ preset, movingState }: VisitorAvatarProp
 
         {config.hat === "straw" ? (
           <>
-            <mesh position={[0, 1.6, 0]} castShadow>
+            <mesh position={[0, 1.605, 0]} castShadow>
               <cylinderGeometry args={[0.36, 0.36, 0.022, 22]} />
               <meshStandardMaterial color={config.hatColor} roughness={0.92} />
             </mesh>
