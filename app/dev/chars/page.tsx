@@ -13,6 +13,8 @@ export default function DevCharsPage() {
   const [view, setView] = useState<"full" | "head">("full");
   const [shadows, setShadows] = useState(false);
   const [kind, setKind] = useState<"both" | "putteogi" | "ssudami">("both");
+  const [dist, setDist] = useState(0);
+  const [camY, setCamY] = useState(0);
 
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
@@ -20,20 +22,25 @@ export default function DevCharsPage() {
     setShadows(q.get("shadows") === "1");
     const k = q.get("kind");
     setKind(k === "putteogi" || k === "ssudami" ? k : "both");
+    setDist(Number(q.get("d") ?? 0));
+    setCamY(Number(q.get("y") ?? 0));
   }, []);
 
   const head = view === "head";
   const showPutteogi = kind !== "ssudami";
   const showSsudami = kind !== "putteogi";
   const spread = head ? 0 : 0.62;
+  const camZ = dist > 0 ? dist : head ? 2.0 : 3.6;
+  const camHeight = camY > 0 ? camY : head ? 0.8 : 0.9;
+  const targetY = head ? 0.78 : 0.72;
 
   return (
     <div style={{ position: "fixed", inset: 0, background: "#e9efe3" }}>
       <Canvas
         shadows={shadows}
         dpr={[1, 2]}
-        camera={{ position: head ? [0, 0.8, 1.12] : [0, 0.72, 2.3], fov: head ? 30 : 30 }}
-        onCreated={({ camera }) => camera.lookAt(0, head ? 0.78 : 0.68, 0)}
+        camera={{ position: [0, camHeight, camZ], fov: 30 }}
+        onCreated={({ camera }) => camera.lookAt(0, targetY, 0)}
         gl={{ antialias: true }}
       >
         <color attach="background" args={["#e9efe3"]} />
