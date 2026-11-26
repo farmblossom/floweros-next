@@ -258,12 +258,58 @@ function SweetPotatoMascot({
           </mesh>
         ) : null}
 
-        {/* 꼭지 */}
-        {variant !== "jjongoma" ? (
-          <group position={[0.02, config.body[1] * 0.98, 0]} rotation={[0, 0, 0.35]}>
-            <cylinderGeometry args={[0.016, 0.024, 0.16, 6]} />
-            <meshStandardMaterial color="#5c7a36" roughness={0.9} />
+        {/* 꼭지 · 머리 장식 — 원본 고유 포인트 */}
+        {variant === "dangoma" ? (
+          /* 당고매: 가는 덩굴이 말려 올라가고 작은 잎이 달린 꼭지 */
+          <group position={[0.04, config.body[1] * 0.96, 0]} rotation={[0.15, 0, 0.3]}>
+            <mesh rotation={[0, 0, 0.2]}>
+              <cylinderGeometry args={[0.014, 0.02, 0.2, 6]} />
+              <meshStandardMaterial color="#5f8036" roughness={0.9} />
+            </mesh>
+            <mesh position={[0.07, 0.16, 0]} rotation={[0, 0, 1.2]}>
+              <torusGeometry args={[0.055, 0.012, 6, 12, Math.PI * 1.4]} />
+              <meshStandardMaterial color="#6b8f3a" roughness={0.85} />
+            </mesh>
+            <mesh position={[0.13, 0.24, 0]} rotation={[0, 0, -0.6]} scale={[0.09, 0.06, 0.03]} castShadow>
+              <sphereGeometry args={[1, 12, 10]} />
+              <meshStandardMaterial color="#77a040" roughness={0.8} />
+            </mesh>
           </group>
+        ) : null}
+
+        {variant === "kkuloma" ? (
+          /* 꿀고매: 꼬마 꼭지 + 반짝이 */
+          <>
+            <mesh position={[0.02, config.body[1] * 0.98, 0]} rotation={[0, 0, 0.3]}>
+              <coneGeometry args={[0.05, 0.14, 8]} />
+              <meshStandardMaterial color="#8f4f22" roughness={0.7} />
+            </mesh>
+            {[
+              [0.42, 0.3, 0.12, 0.055],
+              [-0.4, 0.42, 0.05, 0.045],
+              [0.3, 0.6, -0.1, 0.04],
+              [-0.26, -0.2, 0.24, 0.035],
+            ].map(([x, y, z, size], i) => (
+              <mesh key={i} position={[x, y, z]} rotation={[0, 0, Math.PI / 4]} scale={[size, size, size]}>
+                <octahedronGeometry args={[1, 0]} />
+                <meshBasicMaterial color="#ffe9a6" toneMapped={false} />
+              </mesh>
+            ))}
+          </>
+        ) : null}
+
+        {variant === "jjongoma" ? (
+          /* 쫀고매: 묶어 말린 꼭지 (끈) */
+          <>
+            <mesh position={[0, config.body[1] * 0.95, 0]} rotation={[0, 0, 0.2]}>
+              <coneGeometry args={[0.07, 0.16, 10]} />
+              <meshStandardMaterial color="#c98a22" roughness={0.55} />
+            </mesh>
+            <mesh position={[0, config.body[1] * 0.95 - 0.02, 0]} rotation={[0, 0, 0.2]}>
+              <torusGeometry args={[0.062, 0.014, 6, 14]} />
+              <meshStandardMaterial color="#7d4f16" roughness={0.7} />
+            </mesh>
+           </>
         ) : null}
 
         <group ref={headRef}>
