@@ -336,10 +336,10 @@ function SweetPotatoMascot({
 
   const config =
     variant === "dangoma"
-      ? { body: [0.37, 0.6, 0.35] as [number, number, number], color: "#b07a86", belly: "#c99aa2", rot: 0.16, rough: 0.88 }
+      ? { body: [0.36, 0.58, 0.34] as [number, number, number], color: "#b0747f", belly: "#cf9aa4", rot: 0.18, rough: 0.9 }
       : variant === "kkuloma"
-        ? { body: [0.4, 0.56, 0.37] as [number, number, number], color: "#f2c24b", belly: "#f7d071", rot: -0.1, rough: 0.42 }
-        : { body: [0.3, 0.68, 0.3] as [number, number, number], color: "#e8b638", belly: "#f6d472", rot: 0.2, rough: 0.36 };
+        ? { body: [0.42, 0.54, 0.38] as [number, number, number], color: "#f4c64e", belly: "#f9d979", rot: -0.12, rough: 0.34 }
+        : { body: [0.28, 0.72, 0.28] as [number, number, number], color: "#eab730", belly: "#f8dc8c", rot: 0.22, rough: 0.3 };
 
   return (
     <group ref={rootRef}>
@@ -353,9 +353,14 @@ function SweetPotatoMascot({
         {/* 꿀고매: 노릇한 껍질 테두리 위에 노란 속살 */}
         {variant === "kkuloma" ? (
           <>
-            <ToonEllipsoid scale={[0.42, 0.58, 0.39]} color="#8f4f22" roughness={0.75} position={[-0.04, 0, -0.03]} />
+            <ToonEllipsoid scale={[0.44, 0.56, 0.4]} color="#8a451a" roughness={0.7} position={[-0.05, 0, -0.03]} />
             <group position={[0, 0, 0.03]}>
-              <ToonEllipsoid scale={[0.36, 0.52, 0.34]} color={config.color} roughness={config.rough} outline={0.02} />
+              <ToonEllipsoid scale={[0.37, 0.5, 0.34]} color={config.color} roughness={config.rough} outline={0.02} />
+              {/* 윤기 나는 하이라이트 */}
+              <mesh position={[0.12, 0.22, 0.28]} scale={[0.1, 0.16, 0.03]} rotation={[0, 0, -0.4]}>
+                <sphereGeometry args={[1, 12, 10]} />
+                <meshBasicMaterial color="#fff3c4" transparent opacity={0.55} toneMapped={false} />
+              </mesh>
             </group>
           </>
         ) : null}

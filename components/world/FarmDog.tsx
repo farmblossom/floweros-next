@@ -15,6 +15,9 @@ export interface TrolleyLine {
 }
 
 interface FarmDogProps {
+  id: string;
+  activeId: string | null;
+  onTalk: (id: string | null) => void;
   name: string;
   role: string;
   coat: string;
@@ -35,6 +38,9 @@ interface FarmDogProps {
  * 목걸이에 연결되어 와이어를 따라 길게 왕복한다.
  */
 export default function FarmDog({
+  id,
+  activeId,
+  onTalk,
   name,
   role,
   coat,
@@ -47,8 +53,9 @@ export default function FarmDog({
   playerRef,
   accent = "#7a5a2a",
 }: FarmDogProps) {
-  const [lineIdx, setLineIdx] = useState<number | null>(null);
+  const [lineIdx, setLineIdx] = useState(0);
   const [hint, setHint] = useState(false);
+  const active = activeId === id;
 
   const rootRef = useRef<THREE.Group>(null);
   const trolleyRef = useRef<THREE.Group>(null);
@@ -160,20 +167,25 @@ export default function FarmDog({
       const near = dist < 3.6;
       if (near !== nearRef.current) {
         nearRef.current = near;
-        if (near && lineIdx === null) setLineIdx(0);
-        if (!near) setLineIdx(null);
-        setHint(near && lineIdx === null);
+        setHint(near && !active);
       }
     }
   });
 
   const handleClick = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
-    setLineIdx((prev) => {
-      if (prev === null) return 0;
-      const next = prev + 1;
-      return next >= lines.length ? null : next;
-    });
+    if (!active) {
+      onTalk(id);
+      setLineIdx(0);
+    } else {
+      const next = lineIdx + 1;
+      if (next >= lines.length) {
+        onTalk(null);
+        setLineIdx(0);
+      } else {
+        setLineIdx(next);
+      }
+    }
     setHint(false);
   };
 
@@ -346,7 +358,7 @@ export default function FarmDog({
           </div>
         </Html>
 
-        {lineIdx !== null ? (
+        {active ? (
           <Html position={[0, 1.9 * s, 0]} center distanceFactor={17} zIndexRange={[8, 20]}>
             <div
               style={{
@@ -375,7 +387,7 @@ export default function FarmDog({
           </Html>
         ) : null}
 
-        {hint && lineIdx === null ? (
+        {hint && !active ? (
           <Html position={[0, 1.05 * s, 0]} center distanceFactor={22} zIndexRange={[5, 14]}>
             <div
               style={{

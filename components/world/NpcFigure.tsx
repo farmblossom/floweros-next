@@ -8,6 +8,9 @@ import type { PlayerPosition } from "./terrain";
 import NpcCharacter, { NPC_NATURAL_HEIGHT, type NpcKind } from "./NpcCharacter";
 
 interface NpcFigureProps {
+  id: string;
+  activeId: string | null;
+  onTalk: (id: string | null) => void;
   kind: NpcKind;
   name: string;
   role: string;
@@ -31,6 +34,9 @@ interface NpcFigureProps {
  * 숨쉬기·통통 뛰기·손 흔들기 애니메이션을 넣고, 클릭하면 원본 그림과 함께 대사를 띄운다.
  */
 export default function NpcFigure({
+  id,
+  activeId,
+  onTalk,
   kind,
   name,
   role,
@@ -44,16 +50,22 @@ export default function NpcFigure({
   greetEnabled = true,
   walkAxis = "x",
 }: NpcFigureProps) {
-  const [lineIdx, setLineIdx] = useState<number | null>(null);
+  const [lineIdx, setLineIdx] = useState(0);
   const [hint, setHint] = useState(false);
   const [waving, setWaving] = useState(false);
-  const greetedRef = useRef(false);
+  const [showName, setShowName] = useState(true);
   const hintRef = useRef(false);
+  const active = activeId === id;
 
   const scale = height / NPC_NATURAL_HEIGHT[kind];
   const width = Math.max(1, height * 0.62);
 
-  useFrame(() => {
+  useFrame((state) => {
+    // 카메라가 멀면 이름표를 숨겨 글씨 겹침을 줄인다
+    const camDist = state.camera.position.distanceTo(state.camera.position.clone().set(position[0], position[1] + height * 0.7, position[2]));
+    const shouldShow = camDist < 30;
+    if (shouldShow !== showName) setShowName(shouldShow);
+
     const p = playerRef.current;
     if (!p) return;
     const dist = Math.hypot(p.x - position[0], p.z - position[2]);
@@ -61,15 +73,7 @@ export default function NpcFigure({
 
     if (near !== waving) setWaving(near);
 
-    if (near && !greetedRef.current) {
-      greetedRef.current = true;
-      setLineIdx(0);
-    } else if (!near && dist > greetRadius + 1.8 && greetedRef.current) {
-      greetedRef.current = false;
-      setLineIdx(null);
-    }
-
-    const nextHint = near && lineIdx === null;
+    const nextHint = near && !active;
     if (nextHint !== hintRef.current) {
       hintRef.current = nextHint;
       setHint(nextHint);
@@ -78,11 +82,18 @@ export default function NpcFigure({
 
   const handleClick = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
-    setLineIdx((prev) => {
-      if (prev === null) return 0;
-      const next = prev + 1;
-      return next >= lines.length ? null : next;
-    });
+    if (!active) {
+      onTalk(id);
+      setLineIdx(0);
+    } else {
+      const next = lineIdx + 1;
+      if (next >= lines.length) {
+        onTalk(null);
+        setLineIdx(0);
+      } else {
+        setLineIdx(next);
+      }
+    }
     setHint(false);
   };
 
@@ -105,7 +116,8 @@ export default function NpcFigure({
       </group>
 
       {/* 이름 · 역할 */}
-      <Html position={[0, height + 0.34, 0]} center distanceFactor={20} zIndexRange={[8, 20]}>
+      {showName ? (
+      <Html position={[0, height + 0.34, 0]} center distanceFactor={26} zIndexRange={[8, 20]}>
         <div
           style={{
             display: "flex",
@@ -146,6 +158,8 @@ export default function NpcFigure({
         </div>
       </Html>
 
+      ) : null}
+
       {/* 근접 안내 */}
       {hint ? (
         <Html position={[0, height * 0.55, 0]} center distanceFactor={22} zIndexRange={[6, 18]}>
@@ -168,7 +182,7 @@ export default function NpcFigure({
       ) : null}
 
       {/* 대사 말풍선 — 원본 일러스트 썸네일 함께 */}
-      {lineIdx !== null ? (
+      {active ? (
         <Html position={[0, height + 1.1, 0]} center distanceFactor={17} zIndexRange={[9, 22]}>
           <div
             style={{

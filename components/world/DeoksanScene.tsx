@@ -13,6 +13,8 @@ interface DeoksanSceneProps {
   onHotspotSelect: (label: string, info: string) => void;
   walkMode?: boolean;
   playerRef: React.RefObject<PlayerPosition>;
+  activeId: string | null;
+  onTalk: (id: string | null) => void;
 }
 
 const ROW_COUNT = 20;
@@ -370,7 +372,7 @@ const IO_LINE = { from: [-4.6, -8.8] as [number, number], to: [6.2, -8.8] as [nu
 // 이륙이: 밭 오른쪽 가장자리(+X)를 세로(Z축)로
 const IRYUK_LINE = { from: [11.7, -6.8] as [number, number], to: [11.7, 7.6] as [number, number], height: 2.5 };
 
-export default function DeoksanScene({ onHotspotSelect, walkMode = false, playerRef }: DeoksanSceneProps) {
+export default function DeoksanScene({ onHotspotSelect, walkMode = false, playerRef, activeId, onTalk }: DeoksanSceneProps) {
   const npcs = FARM_NPCS.deoksan;
 
   return (
@@ -458,6 +460,9 @@ export default function DeoksanScene({ onHotspotSelect, walkMode = false, player
 
       {/* 농장 지킴이 — 이오 · 이륙이 */}
       <FarmDog
+        id="io"
+        activeId={activeId}
+        onTalk={onTalk}
         name="이오"
         role="농장 지킴이"
         coat="#d9a85a"
@@ -474,6 +479,9 @@ export default function DeoksanScene({ onHotspotSelect, walkMode = false, player
         ]}
       />
       <FarmDog
+        id="iryuk"
+        activeId={activeId}
+        onTalk={onTalk}
         name="이륙이"
         role="농장 지킴이"
         coat="#6b5b4a"
@@ -538,6 +546,9 @@ export default function DeoksanScene({ onHotspotSelect, walkMode = false, player
       {npcs.map((npc) => (
         <NpcFigure
           key={npc.id}
+          id={npc.id}
+          activeId={activeId}
+          onTalk={onTalk}
           kind={npc.kind}
           name={npc.name}
           role={npc.role}

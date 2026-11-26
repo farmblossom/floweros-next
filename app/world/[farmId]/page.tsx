@@ -57,6 +57,7 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
   const [viewMode, setViewMode] = useState<ViewMode>("3d");
   const [preview, setPreview] = useState<PreviewMode>("live");
   const [avatar, setAvatar] = useState<AvatarPresetId>("farmer");
+  const [activeNpc, setActiveNpc] = useState<string | null>(null);
   const joystickRef = useRef<JoystickState>({ x: 0, y: 0 });
   const playerRef = useRef<PlayerPosition>({ x: 0, y: 0, z: 0 });
   const compassRef = useRef(0);
@@ -129,12 +130,16 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
               onHotspotSelect={(label, info) => setHotspot({ label, info })}
               walkMode={walkMode}
               playerRef={playerRef}
+              activeId={activeNpc}
+              onTalk={setActiveNpc}
             />
           ) : (
             <SinwolScene
               onHotspotSelect={(label, info) => setHotspot({ label, info })}
               walkMode={walkMode}
               playerRef={playerRef}
+              activeId={activeNpc}
+              onTalk={setActiveNpc}
             />
           )}
           <WalkController
@@ -159,6 +164,7 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
         onToggleWalkMode={() => {
           setWalkMode((v) => !v);
           setHotspot(null);
+          setActiveNpc(null);
         }}
         weather={weather}
         preview={preview}

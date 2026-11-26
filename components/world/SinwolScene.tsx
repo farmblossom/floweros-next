@@ -13,6 +13,8 @@ interface SinwolSceneProps {
   onHotspotSelect: (label: string, info: string) => void;
   walkMode?: boolean;
   playerRef: React.RefObject<PlayerPosition>;
+  activeId: string | null;
+  onTalk: (id: string | null) => void;
 }
 
 // 지형: 남서향 경사 10~15도 (필지분석결과서 반영) + 잔디 색 얼룩
@@ -347,7 +349,7 @@ const plumPositions: [number, number, number][] = [
   [-6.8, 0, -10.5], [-3.8, 0, -11.4], [-0.8, 0, -11.9], [2.2, 0, -12.4],
 ];
 
-export default function SinwolScene({ onHotspotSelect, walkMode = false, playerRef }: SinwolSceneProps) {
+export default function SinwolScene({ onHotspotSelect, walkMode = false, playerRef, activeId, onTalk }: SinwolSceneProps) {
   const npcs = FARM_NPCS.sinwol;
   const accessPath = useMemo(() => terrainPatchGeometry(2.5, 22, -10.5, 4, 0.09, 18), []);
 
@@ -450,6 +452,9 @@ export default function SinwolScene({ onHotspotSelect, walkMode = false, playerR
       {npcs.map((npc) => (
         <NpcFigure
           key={npc.id}
+          id={npc.id}
+          activeId={activeId}
+          onTalk={onTalk}
           kind={npc.kind}
           name={npc.name}
           role={npc.role}
