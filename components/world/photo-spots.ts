@@ -80,12 +80,12 @@ function spot(
 
 export const PHOTO_SPOTS: PhotoSpot[] = [
   /* ── 신월리 농장 ─────────────────────────────────────────── */
-  spot("sinwol", "sinwol-zelkova", "🌳 팽나무 그늘 쉼터", "큰 팽나무와 나무 평상이 배경", {
-    center: [13.2, 12.0],
-    eye: [10.7, 8.7],
-    eyeHeight: 2.05,
-    targetHeight: 0.92,
-    sign: { x: 10.3, z: 14.2, rotY: 2.5 },
+  spot("sinwol", "sinwol-cleared", "🌱 개간지 밭길", "새로 일군 밭길과 산자락이 배경", {
+    center: [-3.0, 4.6],
+    eye: [-6.4, 1.6],
+    eyeHeight: 2.0,
+    targetHeight: 0.9,
+    sign: { x: -6.9, z: 6.2, rotY: 2.5 },
   }),
   spot("sinwol", "sinwol-rye", "🌾 호밀밭 물결", "초록 호밀밭을 뒤로 한 사진", {
     center: [6.6, 8.9],
@@ -93,6 +93,13 @@ export const PHOTO_SPOTS: PhotoSpot[] = [
     eyeHeight: 1.95,
     targetHeight: 0.9,
     sign: { x: 3.9, z: 10.3, rotY: 2.7 },
+  }),
+  spot("sinwol", "sinwol-zelkova", "🌳 팽나무 그늘", "농장 남동쪽 큰 나무 곁에서", {
+    center: [13.3, 12.3],
+    eye: [15.9, 9.8],
+    eyeHeight: 1.95,
+    targetHeight: 0.9,
+    sign: { x: 16.4, z: 11.9, rotY: -1.9 },
   }),
   /* ── 덕산농장 ────────────────────────────────────────────── */
   spot("deoksan", "deoksan-arch", "🚪 덕산농장 입구 아치", "‘꽃폈네 덕산농장’ 아치 간판 배경", {

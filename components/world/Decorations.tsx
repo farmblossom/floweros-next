@@ -60,12 +60,12 @@ function useVeinGeometry() {
 }
 
 const VEINS: { x: number; y: number; rot: number; len: number }[] = [
-  { x: -0.02, y: 0.46, rot: 0.92, len: 0.42 },
-  { x: 0.02, y: 0.46, rot: -0.92, len: 0.42 },
-  { x: -0.02, y: 0.78, rot: 0.86, len: 0.36 },
-  { x: 0.02, y: 0.78, rot: -0.86, len: 0.36 },
-  { x: -0.02, y: 1.06, rot: 0.7, len: 0.28 },
-  { x: 0.02, y: 1.06, rot: -0.7, len: 0.28 },
+  { x: -0.02, y: 0.42, rot: 1.08, len: 0.34 },
+  { x: 0.02, y: 0.42, rot: -1.08, len: 0.34 },
+  { x: -0.02, y: 0.72, rot: 1.0, len: 0.3 },
+  { x: 0.02, y: 0.72, rot: -1.0, len: 0.3 },
+  { x: -0.02, y: 1.0, rot: 0.82, len: 0.24 },
+  { x: 0.02, y: 1.0, rot: -0.82, len: 0.24 },
 ];
 
 /** 퍼뜨기 정수리 장식: 줄기 + 입체 하트 잎 + 잎맥 */
@@ -93,27 +93,29 @@ export function HeartLeafTopper({ scale = 1 }: { scale?: number }) {
         <meshStandardMaterial color="#57a33c" roughness={0.55} />
       </mesh>
 
-      <group position={[0, 0.145, 0]} quaternion={leafQuat} rotation={[0, 0, 0]}>
-        {/* 하트 잎 본체 */}
-        <mesh geometry={geo} scale={[0.29, 0.3, 0.3]} castShadow receiveShadow>
-          <meshStandardMaterial color="#2f7d29" roughness={0.58} metalness={0.02} />
-        </mesh>
-        {/* 잎맥 — 가운데 줄기 */}
-        <mesh geometry={vein} position={[0, 0.07, 0.335]} rotation={[0.06, 0, 0]} scale={[1, 0.42, 1]}>
-          <meshStandardMaterial color="#3f9c33" roughness={0.5} />
-        </mesh>
-        {/* 잎맥 — 좌우 갈래 */}
-        {VEINS.map((v, i) => (
-          <mesh
-            key={i}
-            geometry={vein}
-            position={[v.x, v.y, 0.325 + Math.abs(v.x) * 0.06]}
-            rotation={[0.05, 0, v.rot]}
-            scale={[0.62, v.len, 0.62]}
-          >
-            <meshStandardMaterial color="#3f9c33" roughness={0.5} />
+      <group position={[0, 0.145, 0]} quaternion={leafQuat}>
+        {/* 잎 · 잎맥은 같은 배율로 묶어 크기가 어긋나지 않게 한다 */}
+        <group scale={[0.29, 0.29, 0.29]}>
+          <mesh geometry={geo} castShadow receiveShadow>
+            <meshStandardMaterial color="#368b2c" roughness={0.56} metalness={0.02} />
           </mesh>
-        ))}
+          {/* 가운데 잎맥 */}
+          <mesh geometry={vein} position={[0, 0.06, 0.315]} rotation={[0.06, 0, 0]} scale={[0.9, 0.46, 0.9]}>
+            <meshStandardMaterial color="#4aa338" roughness={0.46} />
+          </mesh>
+          {/* 좌우 잎맥 */}
+          {VEINS.map((v, i) => (
+            <mesh
+              key={i}
+              geometry={vein}
+              position={[v.x, v.y, 0.312 + Math.abs(v.x) * 0.05]}
+              rotation={[0.04, 0, v.rot]}
+              scale={[0.55, v.len, 0.55]}
+            >
+              <meshStandardMaterial color="#4aa338" roughness={0.46} />
+            </mesh>
+          ))}
+        </group>
       </group>
     </group>
   );
