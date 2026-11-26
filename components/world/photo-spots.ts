@@ -82,32 +82,32 @@ export const PHOTO_SPOTS: PhotoSpot[] = [
   /* ── 신월리 농장 ─────────────────────────────────────────── */
   spot("sinwol", "sinwol-zelkova", "🌳 팽나무 그늘 쉼터", "큰 팽나무와 나무 평상이 배경", {
     center: [13.2, 12.0],
-    eye: [9.9, 7.9],
-    eyeHeight: 2.5,
-    targetHeight: 1.05,
-    sign: { x: 11.6, z: 10.2, rotY: 0.9 },
+    eye: [11.5, 9.7],
+    eyeHeight: 1.9,
+    targetHeight: 0.95,
+    sign: { x: 11.3, z: 13.6, rotY: 2.3 },
   }),
   spot("sinwol", "sinwol-rye", "🌾 호밀밭 물결", "초록 호밀밭을 뒤로 한 사진", {
     center: [6.6, 8.9],
-    eye: [5.2, 4.6],
-    eyeHeight: 2.3,
-    targetHeight: 1.0,
-    sign: { x: 4.2, z: 6.6, rotY: 0.35 },
+    eye: [5.6, 6.2],
+    eyeHeight: 1.85,
+    targetHeight: 0.92,
+    sign: { x: 4.4, z: 10.0, rotY: 2.6 },
   }),
   /* ── 덕산농장 ────────────────────────────────────────────── */
   spot("deoksan", "deoksan-arch", "🚪 덕산농장 입구 아치", "‘꽃폈네 덕산농장’ 아치 간판 배경", {
     center: [0, 9.4],
-    eye: [0, 5.7],
-    eyeHeight: 2.4,
-    targetHeight: 1.0,
-    sign: { x: -2.6, z: 8.0, rotY: 0.55 },
+    eye: [0, 6.9],
+    eyeHeight: 1.9,
+    targetHeight: 0.95,
+    sign: { x: -2.4, z: 9.6, rotY: 1.35 },
   }),
   spot("deoksan", "deoksan-field", "🥔 감자밭 고랑길", "고랑이 길게 뻗은 감자밭 배경", {
     center: [0, 4.6],
-    eye: [2.9, 1.1],
-    eyeHeight: 2.2,
+    eye: [1.9, 2.6],
+    eyeHeight: 1.85,
     targetHeight: 0.95,
-    sign: { x: 2.6, z: 3.2, rotY: -0.5 },
+    sign: { x: -1.9, z: 2.9, rotY: -1.2 },
   }),
 ];
 
