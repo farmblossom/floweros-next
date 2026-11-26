@@ -40,6 +40,11 @@ export default function WeatherEnvironment({ mood, shadowRadius = 30 }: WeatherE
       <hemisphereLight args={[mood.ambientColor, mood.groundColor, mood.ambientIntensity]} />
       <ambientLight color={mood.ambientColor} intensity={mood.ambientIntensity * 0.55} />
       <directionalLight
+        position={[-mood.sunPosition[0] * 0.6, 24, -mood.sunPosition[2] * 0.6]}
+        color={mood.ambientColor}
+        intensity={mood.sunIntensity * 0.35}
+      />
+      <directionalLight
         position={mood.sunPosition}
         color={mood.sunColor}
         intensity={mood.sunIntensity}

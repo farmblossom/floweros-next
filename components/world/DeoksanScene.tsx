@@ -7,7 +7,7 @@ import NpcFigure from "./NpcFigure";
 import FarmDog from "./FarmDog";
 import { FARM_NPCS } from "./farm-npcs";
 import type { PlayerPosition } from "./terrain";
-import { BroadleafTree, HorizonGround, LampPost, MountainRidge } from "./Scenery";
+import { BroadleafTree, GrassTufts, HorizonGround, LampPost, MountainRidge } from "./Scenery";
 
 interface DeoksanSceneProps {
   onHotspotSelect: (label: string, info: string) => void;
@@ -74,12 +74,12 @@ function PotatoField({ onHotspotSelect }: { onHotspotSelect: (label: string, inf
       {/* 고랑 두둑 */}
       <instancedMesh ref={moundRef} args={[undefined, undefined, ROW_COUNT * 2]} castShadow receiveShadow>
         <boxGeometry args={[0.72, 0.2, 8.3]} />
-        <meshStandardMaterial color="#6b4c20" roughness={0.96} />
+        <meshStandardMaterial color="#7d5730" roughness={0.96} />
       </instancedMesh>
       {/* 감자 싹 */}
       <instancedMesh ref={plantRef} args={[undefined, undefined, ROW_COUNT * 2 * 8]} castShadow>
-        <sphereGeometry args={[0.15, 6, 6]} />
-        <meshStandardMaterial color="#4d7d2a" roughness={0.85} />
+        <sphereGeometry args={[0.19, 8, 7]} />
+        <meshStandardMaterial color="#5b9330" roughness={0.85} />
       </instancedMesh>
 
       {/* 구획 클릭 → 현장 확인 패널 */}
@@ -280,7 +280,7 @@ export default function DeoksanScene({ onHotspotSelect, walkMode = false, player
 
   return (
     <>
-      <PerspectiveCamera makeDefault position={[0, 13, 21]} fov={58} />
+      <PerspectiveCamera makeDefault position={[0, 13.5, 25]} fov={58} />
 
       <HorizonGround y={-0.4} color="#547331" />
       <MountainRidge radiusBase={70} heightBase={12} />
@@ -292,6 +292,7 @@ export default function DeoksanScene({ onHotspotSelect, walkMode = false, player
       </mesh>
 
       <PotatoField onHotspotSelect={onHotspotSelect} />
+      <GrassTufts count={1200} area={120} avoid={{ minX: -13.5, maxX: 13.5, minZ: -10.5, maxZ: 10.5 }} />
 
       {/* 농로 */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.02, 0]}>
@@ -463,7 +464,7 @@ export default function DeoksanScene({ onHotspotSelect, walkMode = false, player
           minDistance={4}
           maxDistance={40}
           enablePan
-          target={[0, 1, 1]}
+          target={[0, 0.5, 2.5]}
           enableDamping
           dampingFactor={0.08}
         />

@@ -1,5 +1,5 @@
 "use client";
-import { useMemo } from "react";
+import { useLayoutEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 
 /** 지평선 너머까지 이어지는 땅 — 지형 밖 빈 곳을 가린다 */
@@ -129,5 +129,44 @@ export function LampPost({ position, height = 2.6 }: { position: [number, number
       </mesh>
       <pointLight position={[0.32, height - 0.28, 0]} color="#ffcf8a" intensity={7} distance={11} decay={2} />
     </group>
+  );
+}
+
+
+/** 잔디 포기 — 지면 질감 (평지용) */
+export function GrassTufts({
+  count = 1000,
+  area = 110,
+  avoid,
+}: {
+  count?: number;
+  area?: number;
+  avoid?: { minX: number; maxX: number; minZ: number; maxZ: number };
+}) {
+  const meshRef = useRef<THREE.InstancedMesh>(null);
+
+  useLayoutEffect(() => {
+    const mesh = meshRef.current;
+    if (!mesh) return;
+    const dummy = new THREE.Object3D();
+    for (let i = 0; i < count; i++) {
+      const x = (Math.random() - 0.5) * area;
+      const z = (Math.random() - 0.5) * area;
+      if (avoid && x > avoid.minX && x < avoid.maxX && z > avoid.minZ && z < avoid.maxZ) continue;
+      dummy.position.set(x, 0.1, z);
+      dummy.rotation.set((Math.random() - 0.5) * 0.3, Math.random() * Math.PI, (Math.random() - 0.5) * 0.3);
+      const s = 0.55 + Math.random() * 0.75;
+      dummy.scale.set(s, s, s);
+      dummy.updateMatrix();
+      mesh.setMatrixAt(i, dummy.matrix);
+    }
+    mesh.instanceMatrix.needsUpdate = true;
+  }, [count, area, avoid]);
+
+  return (
+    <instancedMesh ref={meshRef} args={[undefined, undefined, count]}>
+      <coneGeometry args={[0.06, 0.36, 3]} />
+      <meshStandardMaterial color="#6f8f3e" roughness={0.95} />
+    </instancedMesh>
   );
 }
