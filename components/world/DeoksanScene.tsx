@@ -452,7 +452,7 @@ export default function DeoksanScene({ onHotspotSelect, walkMode = false, player
       <Greenhouse position={[10.5, 0, -11.5]} />
       <Tools position={[-9.6, 0, -8.4]} />
       <DogHouse position={DOG_HOUSE} />
-      <Tractor position={[-10.6, 0, -12.6]} rotation={-0.55} />
+      <Tractor position={[-9.4, 0, 12.9]} rotation={0.35} />
       <LampPost position={[-4.2, 0, 11.4]} />
       <LampPost position={[-11.9, 0, -8.2]} />
 
