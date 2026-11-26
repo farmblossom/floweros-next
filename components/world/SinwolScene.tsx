@@ -216,34 +216,6 @@ function RetainingWall() {
   );
 }
 
-/** 흰색 차량 */
-function FarmVehicle({ position }: { position: [number, number, number] }) {
-  return (
-    <group position={position}>
-      <mesh position={[0, 0.5, 0]} castShadow>
-        <boxGeometry args={[2.0, 0.85, 4.2]} />
-        <meshStandardMaterial color="#f0eeea" roughness={0.6} />
-      </mesh>
-      <mesh position={[0, 1.15, -0.7]} castShadow>
-        <boxGeometry args={[1.85, 0.75, 2.1]} />
-        <meshStandardMaterial color="#dddbd5" roughness={0.55} />
-      </mesh>
-      <mesh position={[0, 1.22, -1.76]}>
-        <boxGeometry args={[1.5, 0.5, 0.06]} />
-        <meshStandardMaterial color="#a0c8e0" roughness={0.1} metalness={0.2} />
-      </mesh>
-      {([-1.0, 1.0] as number[]).flatMap((x) =>
-        ([-1.5, 1.5] as number[]).map((z) => (
-          <mesh key={`w-${x}-${z}`} position={[x, 0.22, z]} rotation={[0, 0, Math.PI / 2]}>
-            <cylinderGeometry args={[0.24, 0.24, 0.2, 10]} />
-            <meshStandardMaterial color="#111111" roughness={0.95} />
-          </mesh>
-        ))
-      )}
-    </group>
-  );
-}
-
 /** 밤나무·상수리나무 식재 예정 표시 */
 function PlantingSpot({
   position,
@@ -313,7 +285,6 @@ export default function SinwolScene({ onHotspotSelect, walkMode = false, playerR
       <HillyTerrain />
       <ClearedZone />
       <RetainingWall />
-      <FarmVehicle position={[-2, 0.3, -4]} />
 
       <GrassTufts />
       <RyeField position={[7.0, 0.1, 12.0]} />
