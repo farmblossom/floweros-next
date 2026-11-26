@@ -74,8 +74,14 @@ export default function NpcFigure({
 
   const gather = useMemo(() => {
     if (!gatherTo) return null;
-    return { x: gatherTo.x - position[0], z: gatherTo.z - position[2], yaw: gatherTo.yaw };
-  }, [gatherTo, position]);
+    // 캐릭터 그룹은 scale 만큼 축소돼 있으므로 이동량을 그만큼 키워 준다
+    const k = height / NPC_NATURAL_HEIGHT[kind];
+    return {
+      x: (gatherTo.x - position[0]) / k,
+      z: (gatherTo.z - position[2]) / k,
+      yaw: gatherTo.yaw,
+    };
+  }, [gatherTo, position, height, kind]);
 
   useFrame((state) => {
     // 카메라가 멀면 이름표를 숨겨 글씨 겹침을 줄인다
