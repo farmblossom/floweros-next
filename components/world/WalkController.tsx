@@ -166,11 +166,11 @@ export default function WalkController({
       pos.y = terrainHeight(farm, pos.x, pos.z);
 
       // 3인칭 카메라
-      const dist = 5.4;
+      const dist = 6.6;
       const horiz = Math.cos(pitchRef.current) * dist;
       const desired = new THREE.Vector3(
         pos.x + Math.sin(yawRef.current) * horiz,
-        pos.y + 1.35 + Math.sin(pitchRef.current) * dist,
+        pos.y + 1.75 + Math.sin(pitchRef.current) * dist,
         pos.z + Math.cos(yawRef.current) * horiz
       );
       const groundY = terrainHeight(farm, desired.x, desired.z);
@@ -178,7 +178,7 @@ export default function WalkController({
 
       const smooth = 1 - Math.exp(-9 * dt);
       camera.position.lerp(desired, smooth);
-      camTargetRef.current.lerp(new THREE.Vector3(pos.x, pos.y + 1.15, pos.z), Math.min(1, smooth * 1.4));
+      camTargetRef.current.lerp(new THREE.Vector3(pos.x, pos.y + 1.35, pos.z), Math.min(1, smooth * 1.4));
       camera.lookAt(camTargetRef.current);
 
       // 아바타 위치·방향
