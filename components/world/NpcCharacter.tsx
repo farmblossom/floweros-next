@@ -142,11 +142,11 @@ function PotatoMascot({ variant, waving }: { variant: "putteogi" | "ssudami"; wa
       {variant === "putteogi" ? (
         /* 퍼뜨기 — 하트 모양 고구마잎 */
         <group position={[0.02, 1.0, 0]} rotation={[0.12, 0, 0.2]}>
-          <mesh position={[-0.11, 0.03, 0]} rotation={[0, 0, 0.6]} scale={[0.19, 0.13, 0.09]} castShadow>
+          <mesh position={[-0.13, 0.04, 0]} rotation={[0, 0, 0.6]} scale={[0.23, 0.15, 0.1]} castShadow>
             <sphereGeometry args={[1, 16, 12]} />
             <meshStandardMaterial color="#3f8c33" roughness={0.75} />
           </mesh>
-          <mesh position={[0.11, 0.03, 0]} rotation={[0, 0, -0.6]} scale={[0.19, 0.13, 0.09]} castShadow>
+          <mesh position={[0.13, 0.04, 0]} rotation={[0, 0, -0.6]} scale={[0.23, 0.15, 0.1]} castShadow>
             <sphereGeometry args={[1, 16, 12]} />
             <meshStandardMaterial color="#4aa33c" roughness={0.75} />
           </mesh>
@@ -167,9 +167,9 @@ function PotatoMascot({ variant, waving }: { variant: "putteogi" | "ssudami"; wa
             return (
               <mesh
                 key={i}
-                position={[Math.cos(a) * 0.14, Math.sin(a) * 0.14, 0]}
+                position={[Math.cos(a) * 0.19, Math.sin(a) * 0.19, 0]}
                 rotation={[0, 0, a]}
-                scale={[0.15, 0.08, 0.045]}
+                scale={[0.2, 0.1, 0.05]}
                 castShadow
               >
                 <sphereGeometry args={[1, 14, 10]} />
@@ -178,7 +178,7 @@ function PotatoMascot({ variant, waving }: { variant: "putteogi" | "ssudami"; wa
             );
           })}
           <mesh position={[0, 0, 0.03]}>
-            <sphereGeometry args={[0.055, 12, 10]} />
+            <sphereGeometry args={[0.075, 12, 10]} />
             <meshStandardMaterial color="#f4c63c" roughness={0.5} />
           </mesh>
           <mesh position={[0, -0.16, 0]} rotation={[0, 0, 0.18]}>
