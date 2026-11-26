@@ -95,7 +95,7 @@ export function HeartLeafTopper({ scale = 1 }: { scale?: number }) {
 
       <group position={[0, 0.145, 0]} quaternion={leafQuat}>
         {/* 잎 · 잎맥은 같은 배율로 묶어 크기가 어긋나지 않게 한다 */}
-        <group scale={[0.29, 0.29, 0.29]}>
+        <group scale={[0.315, 0.315, 0.315]}>
           <mesh geometry={geo} castShadow receiveShadow>
             <meshStandardMaterial color="#368b2c" roughness={0.56} metalness={0.02} />
           </mesh>
@@ -168,9 +168,9 @@ export function PotatoFlowerTopper({ scale = 1 }: { scale?: number }) {
 
   const flowerQuat = useMemo(() => {
     // 꽃이 머리 오른쪽 위에 누워 하늘 쪽으로 살짝 들린 자세
-    const n = new THREE.Vector3(0.42, 0.86, 0.28).normalize();
+    const n = new THREE.Vector3(0.3, 0.66, 0.7).normalize();
     const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), n);
-    const roll = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), -0.5);
+    const roll = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), -0.35);
     return q.multiply(roll);
   }, []);
 
@@ -191,7 +191,7 @@ export function PotatoFlowerTopper({ scale = 1 }: { scale?: number }) {
           const a = -Math.PI / 2 + (i * Math.PI * 2) / 5;
           return (
             <group key={i} rotation={[0, 0, a]}>
-              <mesh geometry={petal} scale={[0.2, 0.22, 0.22]} rotation={[0.24, 0, 0]} castShadow>
+              <mesh geometry={petal} scale={[0.23, 0.255, 0.24]} rotation={[0.2, 0, 0]} castShadow>
                 <meshStandardMaterial color="#fdfdf7" roughness={0.42} metalness={0.01} />
               </mesh>
             </group>
@@ -199,14 +199,14 @@ export function PotatoFlowerTopper({ scale = 1 }: { scale?: number }) {
         })}
 
         {/* 노란 꽃술 — 별 모양 5각 + 둥근 심 */}
-        <mesh position={[0, 0, 0.045]} rotation={[Math.PI / 2, 0, 0]} scale={[0.062, 0.062, 0.062]}>
+        <mesh position={[0, 0, 0.05]} rotation={[Math.PI / 2, 0, 0]} scale={[0.07, 0.07, 0.07]}>
           <cylinderGeometry args={[0.95, 1, 1, 14]} />
           <meshStandardMaterial color="#f6ce3c" roughness={0.38} />
         </mesh>
-        <mesh geometry={star} position={[0, 0, 0.055]} scale={[0.062, 0.062, 0.09]} castShadow>
+        <mesh geometry={star} position={[0, 0, 0.062]} scale={[0.07, 0.07, 0.09]} castShadow>
           <meshStandardMaterial color="#f0bb23" roughness={0.35} />
         </mesh>
-        <mesh position={[0, 0, 0.085]} scale={[0.016, 0.016, 0.016]}>
+        <mesh position={[0, 0, 0.095]} scale={[0.018, 0.018, 0.018]}>
           <sphereGeometry args={[1, 10, 8]} />
           <meshStandardMaterial color="#ffe89a" roughness={0.3} emissive="#f7d769" emissiveIntensity={0.25} />
         </mesh>
