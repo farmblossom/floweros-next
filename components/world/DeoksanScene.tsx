@@ -270,10 +270,12 @@ const boundaryTrees: [number, number, number][] = [
   [14, 0, -13], [14, 0, 0], [14, 0, 13],
 ];
 
-// 개집 · 목줄 말뚝 자리 (창고 앞)
-const DOG_HOUSE: [number, number, number] = [-8.6, 0, -10.4];
-const IO_TETHER = { x: -5.2, z: -8.6, rx: 2.6, rz: 1.6 };
-const IRYUK_TETHER = { x: -9.6, z: -7.6, rx: 1.5, rz: 1.2 };
+// 개집 · 와이어(트롤리) 라인 자리 — 실제 드론샷 배치 반영
+const DOG_HOUSE: [number, number, number] = [-7.4, 0, -9.9];
+// 이오: 창고·비닐하우스 뒤쪽(북쪽 -Z 가장자리)을 가로(X축)로
+const IO_LINE = { from: [-4.6, -8.8] as [number, number], to: [6.2, -8.8] as [number, number], height: 2.5 };
+// 이륙이: 밭 오른쪽 가장자리(+X)를 세로(Z축)로
+const IRYUK_LINE = { from: [11.7, -6.8] as [number, number], to: [11.7, 7.6] as [number, number], height: 2.5 };
 
 export default function DeoksanScene({ onHotspotSelect, walkMode = false, playerRef }: DeoksanSceneProps) {
   const npcs = FARM_NPCS.deoksan;
@@ -368,14 +370,14 @@ export default function DeoksanScene({ onHotspotSelect, walkMode = false, player
         coat="#d9a85a"
         socks="#f3e3c4"
         size={1.35}
-        tether={IO_TETHER}
+        line={IO_LINE}
         speed={1.7}
         playerRef={playerRef}
         accent="#a9762b"
         lines={[
           "왈! 나는 이오예요. 덕산리 밭을 지키는 지킴이 🐕",
+          "창고 뒤쪽 북쪽 가장자리를 와이어 따라 가로로 쭉 순찰해요",
           "두더지랑 족제비가 고랑을 파헤치면 내가 제일 먼저 달려가요",
-          "고랑 사이 농로는 내 순찰 코스 — 따라 걸어볼래요?",
         ]}
       />
       <FarmDog
@@ -384,15 +386,15 @@ export default function DeoksanScene({ onHotspotSelect, walkMode = false, player
         coat="#6b5b4a"
         socks="#f8f4ec"
         size={1.5}
-        tether={IRYUK_TETHER}
+        line={IRYUK_LINE}
         speed={1.1}
         timid
         playerRef={playerRef}
         accent="#5b4a3a"
         lines={[
           "…크게 짖진 못하지만 여기 잘 지키고 있어요. 이륙이에요 🐾",
-          "덩치는 이오보다 큰데… 가끔 무서워서 개집에 숨기도 해요",
-          "그래도 형아(이오)가 옆에 있으면 든든해요!",
+          "밭 오른쪽 가장자리를 따라 세로로 왔다 갔다 하고 있어요",
+          "덩치는 이오보다 큰데… 가끔 무서우면 개집 쪽으로 숨기도 해요",
         ]}
       />
 
@@ -427,7 +429,7 @@ export default function DeoksanScene({ onHotspotSelect, walkMode = false, player
       <WorldHotspot
         position={[-8.6, 0.3, -10.4]}
         label="🐕 이오·이륙이 개집"
-        info="덕산리 농장을 지키는 두 마리의 집. 이오는 두더지·족제비를 쫓는 용맹한 지킴이, 이륙이는 덩치는 크지만 순박하고 겁이 많은 지킴이입니다."
+        info="덕산리 농장을 지키는 두 마리. 이오는 창고·비닐하우스 뒤쪽 북쪽 가장자리를 와이어 따라 가로로, 이륙이는 밭 오른쪽 가장자리를 세로로 순찰합니다. 이오는 두더지·족제비를 쫓는 용맹한 지킴이, 이륙이는 덩치는 크지만 순박하고 겁이 많은 지킴이입니다."
         onSelect={onHotspotSelect}
         playerRef={playerRef}
       />
