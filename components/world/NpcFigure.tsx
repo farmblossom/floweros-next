@@ -27,7 +27,7 @@ interface NpcFigureProps {
   greetEnabled?: boolean;
   walkAxis?: "x" | "z";
   /** 포토존 단체사진 — 이 자리로 모여 선다 (월드 좌표) */
-  gatherTo?: { x: number; z: number; yaw: number } | null;
+  gatherTo?: { x: number; z: number; yaw: number; groundY?: number } | null;
 }
 
 /**
@@ -79,6 +79,7 @@ export default function NpcFigure({
     return {
       x: (gatherTo.x - position[0]) / k,
       z: (gatherTo.z - position[2]) / k,
+      y: ((gatherTo.groundY ?? position[1]) - position[1]) / k,
       yaw: gatherTo.yaw,
     };
   }, [gatherTo, position, height, kind]);

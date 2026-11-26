@@ -21,6 +21,8 @@ export interface GatherTarget {
   /** 부모 그룹(농장지기 위치) 기준 상대 좌표 */
   x: number;
   z: number;
+  /** 지면 높이 차이 (부모 그룹 기준 상대값) */
+  y?: number;
   /** 바라볼 방향 */
   yaw: number;
 }
@@ -141,6 +143,8 @@ function useMascotMotion(
       const posK = Math.min(1, dt * (gather ? 1.9 : 3.4));
       rootRef.current.position.x += (destX - rootRef.current.position.x) * posK;
       rootRef.current.position.z += (destZ - rootRef.current.position.z) * posK;
+      const destY = gather ? (gather.y ?? 0) : 0;
+      rootRef.current.position.y += (destY - rootRef.current.position.y) * posK;
 
       const heading = gather
         ? gather.yaw

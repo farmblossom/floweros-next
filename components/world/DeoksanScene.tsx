@@ -397,12 +397,12 @@ export default function DeoksanScene({
   const mainNpcs = useMemo(() => npcs.filter((n) => n.main), [npcs]);
   const spots = useMemo(() => spotsFor("deoksan"), []);
 
-  const gatherFor = (id: string): { x: number; z: number; yaw: number } | null => {
+  const gatherFor = (id: string): { x: number; z: number; yaw: number; groundY?: number } | null => {
     if (!photoSpot) return null;
     const idx = mainNpcs.findIndex((m) => m.id === id);
     const stand = idx >= 0 ? photoSpot.stands[idx] : null;
     if (!stand) return null;
-    return { x: stand[0], z: stand[1], yaw: photoSpot.yaw };
+    return { x: stand[0], z: stand[1], yaw: photoSpot.yaw, groundY: 0 };
   };
 
   return (
@@ -548,6 +548,7 @@ export default function DeoksanScene({
         label="🌾 농장 입구"
         info="밀양 덕산농장 입구입니다. 2027 봄감자 실증 중 (시뮬레이션)"
         onSelect={onHotspotSelect}
+        hidden={photoMode}
         playerRef={playerRef}
       />
       <WorldHotspot
@@ -555,6 +556,7 @@ export default function DeoksanScene({
         label="🥔 A-02 고랑"
         info="A-02 고랑 — 수미 품종 봄감자 재배 구역 (시뮬레이션 초안)"
         onSelect={onHotspotSelect}
+        hidden={photoMode}
         playerRef={playerRef}
       />
       <WorldHotspot
@@ -562,6 +564,7 @@ export default function DeoksanScene({
         label="📸 현장 관측소"
         info="드론·360° 사진 촬영 주요 거점 (실제 자료 준비 중)"
         onSelect={onHotspotSelect}
+        hidden={photoMode}
         playerRef={playerRef}
       />
       <WorldHotspot
@@ -569,6 +572,7 @@ export default function DeoksanScene({
         label="🏠 농장 창고"
         info="농자재 보관 및 휴게 공간. 차광망·농기구 보관 중. 실제 현장 드론 사진 기반 배치 (덕산리 756번지)"
         onSelect={onHotspotSelect}
+        hidden={photoMode}
         playerRef={playerRef}
       />
       <WorldHotspot
@@ -576,6 +580,7 @@ export default function DeoksanScene({
         label="🐕 이오·이륙이 개집"
         info="덕산리 농장을 지키는 두 마리. 이오는 창고·비닐하우스 뒤쪽 북쪽 가장자리를 와이어 따라 가로로, 이륙이는 밭 오른쪽 가장자리를 세로로 순찰합니다. 이오는 두더지·족제비를 쫓는 용맹한 지킴이, 이륙이는 덩치는 크지만 순박하고 겁이 많은 지킴이입니다."
         onSelect={onHotspotSelect}
+        hidden={photoMode}
         playerRef={playerRef}
       />
       <WorldHotspot
@@ -583,6 +588,7 @@ export default function DeoksanScene({
         label="🌱 비닐하우스"
         info="묘 자람과 자재 보관용 비닐하우스. 봄감자 실증 준비 구역입니다."
         onSelect={onHotspotSelect}
+        hidden={photoMode}
         playerRef={playerRef}
       />
 

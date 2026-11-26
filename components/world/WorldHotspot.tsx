@@ -14,9 +14,11 @@ interface WorldHotspotProps {
   playerRef?: React.RefObject<PlayerPosition>;
   /** 추후 실제 구역 사진을 연결할 자리 */
   imageUrl?: string;
+  /** 포토존 촬영 중에는 마커를 숨긴다 */
+  hidden?: boolean;
 }
 
-export default function WorldHotspot({ position, label, info, onSelect, playerRef }: WorldHotspotProps) {
+export default function WorldHotspot({ position, label, info, onSelect, playerRef, hidden = false }: WorldHotspotProps) {
   const [hovered, setHovered] = useState(false);
   const [near, setNear] = useState(false);
   // 작은 화면에서는 평상시 라벨을 숨기고, 가까이 가거나 눌렀을 때만 보여 준다
@@ -57,6 +59,8 @@ export default function WorldHotspot({ position, label, info, onSelect, playerRe
   });
 
   const active = hovered || near;
+
+  if (hidden) return null;
 
   return (
     <group ref={groupRef} position={position} onClick={() => onSelect(label, info)}>

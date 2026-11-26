@@ -376,12 +376,12 @@ export default function SinwolScene({
   const spots = useMemo(() => spotsFor("sinwol"), []);
 
   // 포토존에 모일 때 — 지기마다 설 자리
-  const gatherFor = (id: string): { x: number; z: number; yaw: number } | null => {
+  const gatherFor = (id: string): { x: number; z: number; yaw: number; groundY?: number } | null => {
     if (!photoSpot) return null;
     const idx = mainNpcs.findIndex((m) => m.id === id);
     const stand = idx >= 0 ? photoSpot.stands[idx] : null;
     if (!stand) return null;
-    return { x: stand[0], z: stand[1], yaw: photoSpot.yaw };
+    return { x: stand[0], z: stand[1], yaw: photoSpot.yaw, groundY: sinwolHeight(stand[0], stand[1]) };
   };
 
   return (
@@ -448,6 +448,7 @@ export default function SinwolScene({
         label="🌰 밤나무 조성 예정지"
         info="임업분석 최적 수종 — 밤나무. 개간 구역(0.18ha) 내 식재 계획 중. 임지생산능력 Ⅱ급지(상), 양토 토양(토심 30cm 미만), 남서향 경사 10~15도. 오렌지 말뚝 = 밤나무 식재 예정 위치"
         onSelect={onHotspotSelect}
+        hidden={photoMode}
         playerRef={playerRef}
       />
       <WorldHotspot
@@ -455,6 +456,7 @@ export default function SinwolScene({
         label="🌳 기존 활엽수림"
         info="31~40년생 기타활엽수 — 가슴높이 지름 6~18cm, 울폐도 51~70%. 보존 구역과 개간 범위 경계 확정 중. 적정조림수종: 상수리나무 (초록 말뚝 구역)"
         onSelect={onHotspotSelect}
+        hidden={photoMode}
         playerRef={playerRef}
       />
       <WorldHotspot
@@ -462,6 +464,7 @@ export default function SinwolScene({
         label="🌿 산나물 재배 가능지"
         info="임업경영분석 결과 — 곰취·두릅·고비 재배 가능. 경사 10~15도, 남서향 경사지, 양토. 연평균기온 13~14°C, 강수량 1200~1300mm 조건. 산사태 위험 5등급(최저)"
         onSelect={onHotspotSelect}
+        hidden={photoMode}
         playerRef={playerRef}
       />
       <WorldHotspot
@@ -469,6 +472,7 @@ export default function SinwolScene({
         label="📍 서쪽 접근로 · 필지 경계"
         info="신월리 98번지 · 0.18ha(토지대장). 지목: 전. 계획관리지역, 성장관리계획구역. 드론 사진 기반 접근로 위치 반영 (서쪽 경계)"
         onSelect={onHotspotSelect}
+        hidden={photoMode}
         playerRef={playerRef}
       />
       <WorldHotspot
@@ -476,6 +480,7 @@ export default function SinwolScene({
         label="🌾 호밀밭"
         info="녹비작물 호밀 재배 구역. 땅심을 살리고 잡초를 억제하는 사이갈이용으로 키우고 있습니다. 바람이 지나면 초록 물결이 일어요."
         onSelect={onHotspotSelect}
+        hidden={photoMode}
         playerRef={playerRef}
       />
       <WorldHotspot
@@ -483,6 +488,7 @@ export default function SinwolScene({
         label="🌳 팽나무 그늘 쉼터"
         info="신월리 농장 남동쪽 모서리의 큰 팽나무. 잎이 넓게 퍼져 한여름에도 시원한 그늘을 만들어 줍니다. 그 아래 평상에 앉아 밭을 바라보며 쉬어 가세요."
         onSelect={onHotspotSelect}
+        hidden={photoMode}
         playerRef={playerRef}
       />
       <WorldHotspot
@@ -490,6 +496,7 @@ export default function SinwolScene({
         label="🍑 자두 유목"
         info="자두 어린 나무 8주를 2열로 식재한 구역. 앞으로 2~3년 뒤 첫 열매를 목표로 관리합니다."
         onSelect={onHotspotSelect}
+        hidden={photoMode}
         playerRef={playerRef}
       />
 
