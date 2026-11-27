@@ -2,6 +2,7 @@
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Html, OrbitControls, PerspectiveCamera, Text } from "@react-three/drei";
 import * as THREE from "three";
+import type { ThreeEvent } from "@react-three/fiber";
 import WorldHotspot from "./WorldHotspot";
 import NpcFigure from "./NpcFigure";
 import FarmDog from "./FarmDog";
@@ -98,7 +99,7 @@ function PotatoField({ onHotspotSelect }: { onHotspotSelect: (label: string, inf
         <mesh
           key={plot.id}
           position={[plot.x, 0.3, plot.z]}
-          onClick={(e) => {
+          onClick={(e: ThreeEvent<MouseEvent>) => {
             e.stopPropagation();
             onHotspotSelect(
               `🥔 고랑 ${plot.id}`,
@@ -181,23 +182,31 @@ function GreenTarp({ position, w = 4.5, d = 3.5 }: { position: [number, number, 
   );
 }
 
-// ── 비닐하우스 ────────────────────────────────────────────────────
-function Greenhouse({ position }: { position: [number, number, number] }) {
+// ── 창고 (농장 창고 옆 작은 헛간) ──────────────────────────────────
+function Shed({ position }: { position: [number, number, number] }) {
   return (
     <group position={position}>
-      {Array.from({ length: 7 }).map((_, i) => (
-        <mesh key={i} position={[-3 + i, 0, 0]} rotation={[0, 0, 0]} castShadow>
-          <torusGeometry args={[1.3, 0.04, 6, 16, Math.PI]} />
-          <meshStandardMaterial color="#9aa7b0" roughness={0.5} metalness={0.4} />
-        </mesh>
-      ))}
-      <mesh position={[0, 1.3, 0]} castShadow>
-        <boxGeometry args={[6.4, 2.6, 2.8]} />
-        <meshStandardMaterial color="#eaf3f5" transparent opacity={0.42} roughness={0.25} metalness={0.05} />
+      <mesh position={[0, 1.05, 0]} castShadow receiveShadow>
+        <boxGeometry args={[4.2, 2.1, 3.4]} />
+        <meshStandardMaterial color="#b6a98f" roughness={0.9} />
       </mesh>
-      <mesh position={[0, 0.05, 0]} receiveShadow>
-        <boxGeometry args={[6.6, 0.12, 3.0]} />
-        <meshStandardMaterial color="#7d6a4e" roughness={0.95} />
+      {/* 얕은 박공지붕 */}
+      <mesh position={[0, 2.05, 0]} rotation={[0, 0, Math.PI / 4]} scale={[1, 0.42, 1]} castShadow>
+        <boxGeometry args={[3.1, 3.1, 3.8]} />
+        <meshStandardMaterial color="#4d5a52" roughness={0.8} />
+      </mesh>
+      <mesh position={[0, 0.7, 1.72]}>
+        <boxGeometry args={[1.1, 1.4, 0.08]} />
+        <meshStandardMaterial color="#2a211a" />
+      </mesh>
+      {/* 쌓아 둔 농자재 */}
+      <mesh position={[1.6, 0.28, 1.9]} rotation={[0, 0.3, 0]} castShadow>
+        <boxGeometry args={[0.9, 0.55, 0.7]} />
+        <meshStandardMaterial color="#8a7050" roughness={0.95} />
+      </mesh>
+      <mesh position={[-1.5, 0.22, 1.85]} rotation={[0, -0.2, 0]} castShadow>
+        <boxGeometry args={[0.7, 0.44, 0.6]} />
+        <meshStandardMaterial color="#6f7a63" roughness={0.95} />
       </mesh>
     </group>
   );
@@ -210,7 +219,7 @@ function Tractor({ position, rotation = 0 }: { position: [number, number, number
   return (
     <group position={position} rotation={[0, rotation, 0]}>
       <group
-        onClick={(e) => {
+        onClick={(e: ThreeEvent<MouseEvent>) => {
           e.stopPropagation();
           setOpen((v) => !v);
         }}
@@ -374,10 +383,14 @@ const boundaryTrees: [number, number, number][] = [
   [14, 0, -13], [14, 0, 0], [14, 0, 13],
 ];
 
-// 개집 · 와이어(트롤리) 라인 자리 — 실제 드론샷 배치 반영
-const DOG_HOUSE: [number, number, number] = [-7.4, 0, -9.9];
-// 이오: 창고·비닐하우스 뒤쪽(북쪽 -Z 가장자리)을 가로(X축)로
-const IO_LINE = { from: [-4.6, -8.8] as [number, number], to: [6.2, -8.8] as [number, number], height: 2.5 };
+// 북쪽 줄 배치 (동 → 서): 이오·이륙이 개집 구역 · 농장 창고 · 창고
+const DOG_YARD = { x: 11.2, z: -11.0 };
+const IO_HOUSE: [number, number, number] = [DOG_YARD.x + 1.35, 0, DOG_YARD.z];
+const IRYUK_HOUSE: [number, number, number] = [DOG_YARD.x - 1.35, 0, DOG_YARD.z];
+const FARM_STORE: [number, number, number] = [4.9, 0, -11.6];
+const SHED: [number, number, number] = [-1.6, 0, -11.6];
+// 이오: 개집 앞 북쪽 가장자리를 가로(X축)로
+const IO_LINE = { from: [6.6, -8.8] as [number, number], to: [13.4, -8.8] as [number, number], height: 2.5 };
 // 이륙이: 밭 오른쪽 가장자리(+X)를 세로(Z축)로
 const IRYUK_LINE = { from: [11.7, -6.8] as [number, number], to: [11.7, 7.6] as [number, number], height: 2.5 };
 
@@ -492,12 +505,31 @@ export default function DeoksanScene({
         />
       ))}
 
-      <FarmBuilding position={[-13, 0, -11]} />
-      <GreenTarp position={[-5.5, 0, -12]} w={4.5} d={3.5} />
-      <GreenTarp position={[0.5, 0, -12]} w={3.5} d={3.0} />
-      <Greenhouse position={[10.5, 0, -11.5]} />
+      {/* 북쪽 줄 — 동쪽부터: 개집 구역 · 농장 창고 · 창고 */}
+      <group position={[DOG_YARD.x, 0, DOG_YARD.z]}>
+        {/* 개집 구역 울타리 */}
+        {[-2.9, 2.9].map((px) => (
+          <mesh key={`yard-post-${px}`} position={[px, 0.34, 0.9]} castShadow>
+            <cylinderGeometry args={[0.05, 0.06, 0.68, 6]} />
+            <meshStandardMaterial color="#6b563c" roughness={0.9} />
+          </mesh>
+        ))}
+        <mesh position={[0, 0.42, 0.9]} rotation={[0, 0, Math.PI / 2]}>
+          <cylinderGeometry args={[0.03, 0.03, 5.8, 6]} />
+          <meshStandardMaterial color="#8a7350" roughness={0.9} />
+        </mesh>
+        <mesh position={[0, 0.03, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+          <circleGeometry args={[3.1, 24]} />
+          <meshStandardMaterial color="#9c8a63" roughness={1} />
+        </mesh>
+      </group>
+      <DogHouse position={IO_HOUSE} />
+      <DogHouse position={IRYUK_HOUSE} />
+      <FarmBuilding position={FARM_STORE} />
+      <Shed position={SHED} />
+      <GreenTarp position={[-6.4, 0, -12]} w={4.0} d={3.2} />
+      <GreenTarp position={[-11.2, 0, -12]} w={3.4} d={3.0} />
       <Tools position={[-9.6, 0, -8.4]} />
-      <DogHouse position={DOG_HOUSE} />
       <Tractor position={[-9.4, 0, 12.9]} rotation={0.35} />
       <LampPost position={[-4.2, 0, 11.4]} />
       <LampPost position={[-11.9, 0, -8.2]} />
@@ -518,7 +550,7 @@ export default function DeoksanScene({
         accent="#a9762b"
         lines={[
           "왈! 나는 이오예요. 덕산리 밭을 지키는 지킴이 🐕",
-          "창고 뒤쪽 북쪽 가장자리를 와이어 따라 가로로 쭉 순찰해요",
+          "개집 앞 북쪽 가장자리를 와이어 따라 가로로 쭉 순찰해요",
           "두더지랑 족제비가 고랑을 파헤치면 내가 제일 먼저 달려가요",
         ]}
       />
@@ -568,25 +600,25 @@ export default function DeoksanScene({
         playerRef={playerRef}
       />
       <WorldHotspot
-        position={[-13, 0.2, -11]}
+        position={[FARM_STORE[0], 0.2, FARM_STORE[2] + 1.6]}
         label="🏠 농장 창고"
-        info="농자재 보관 및 휴게 공간. 차광망·농기구 보관 중. 실제 현장 드론 사진 기반 배치 (덕산리 756번지)"
+        info="농자재 보관 및 휴게 공간. 차광망·농기구 보관 중. 개집 구역 바로 옆, 창고와 나란히 서 있습니다 (덕산리 756번지)."
         onSelect={onHotspotSelect}
         hidden={photoMode}
         playerRef={playerRef}
       />
       <WorldHotspot
-        position={[-8.6, 0.3, -10.4]}
+        position={[SHED[0], 0.2, SHED[2] + 1.6]}
+        label="🏠 창고"
+        info="농장 창고 옆 작은 헛간. 볏짚·상자·농기구를 쌓아 두는 곳입니다."
+        onSelect={onHotspotSelect}
+        hidden={photoMode}
+        playerRef={playerRef}
+      />
+      <WorldHotspot
+        position={[DOG_YARD.x, 0.4, DOG_YARD.z + 1.5]}
         label="🐕 이오·이륙이 개집"
-        info="덕산리 농장을 지키는 두 마리. 이오는 창고·비닐하우스 뒤쪽 북쪽 가장자리를 와이어 따라 가로로, 이륙이는 밭 오른쪽 가장자리를 세로로 순찰합니다. 이오는 두더지·족제비를 쫓는 용맹한 지킴이, 이륙이는 덩치는 크지만 순박하고 겁이 많은 지킴이입니다."
-        onSelect={onHotspotSelect}
-        hidden={photoMode}
-        playerRef={playerRef}
-      />
-      <WorldHotspot
-        position={[10.5, 0.6, -11.5]}
-        label="🌱 비닐하우스"
-        info="묘 자람과 자재 보관용 비닐하우스. 봄감자 실증 준비 구역입니다."
+        info="덕산리 농장을 지키는 두 마리. 개집 구역은 농장 창고 바로 옆에 있고, 이오는 개집 앞 북쪽 가장자리를 와이어 따라 가로로, 이륙이는 밭 오른쪽 가장자리를 세로로 순찰합니다. 이오는 두더지·족제비를 쫓는 용맹한 지킴이, 이륙이는 덩치는 크지만 순박하고 겁이 많은 지킴이입니다."
         onSelect={onHotspotSelect}
         hidden={photoMode}
         playerRef={playerRef}
