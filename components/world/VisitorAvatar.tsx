@@ -197,7 +197,7 @@ function poseTarget(pose: VisitorPose, cfg: AvatarConfig): PoseTarget {
     const thigh = -0.6;
     const knee = 1.2;
     const hip = half * Math.cos(0.6) * 2 + 0.04;
-    return { thigh, knee, drop: -(legTop - hip), torso: 0.45, arm: -0.3 };
+    return { thigh, knee, drop: -(legTop - hip), torso: 0.62, arm: -0.3 };
   }
   return { thigh: 0, knee: 0, drop: 0, torso: 0, arm: 0 };
 }
