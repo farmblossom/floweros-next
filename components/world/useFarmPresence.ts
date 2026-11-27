@@ -85,6 +85,8 @@ export default function useFarmPresence({
 }) {
   const peersRef = useRef<Map<string, Peer>>(new Map());
   const [peerIds, setPeerIds] = useState<string[]>([]);
+  /** 닉네임·모습·자세가 바뀔 때만 올라가는 버전 (위치는 매 프레임 ref에서 읽는다) */
+  const [peerLookVersion, setPeerLookVersion] = useState(0);
   const [online, setOnline] = useState(1);
   const [status, setStatus] = useState<PresenceStatus>("off");
   const selfIdRef = useRef<string>("");
@@ -177,7 +179,19 @@ export default function useFarmPresence({
           };
           const isNew = !prev;
           peersRef.current.set(p.s, peer);
-          if (isNew) syncPeerIds();
+          if (isNew) {
+            syncPeerIds();
+          } else if (
+            prev &&
+            (prev.look.type !== peer.look.type ||
+              prev.look.shirt !== peer.look.shirt ||
+              prev.look.strawHat !== peer.look.strawHat ||
+              prev.name !== peer.name ||
+              prev.pose !== peer.pose)
+          ) {
+            // 옷·모자·자세·이름이 바뀌면 그려 주는 쪽도 다시 그린다
+            setPeerLookVersion((v) => v + 1);
+          }
         });
 
         const recount = () => {
@@ -285,5 +299,5 @@ export default function useFarmPresence({
     });
   }, [name, look.type, look.shirt, look.strawHat, pose]);
 
-  return { peersRef, peerIds, online, status, selfName: name, selfId: selfIdRef.current };
+  return { peersRef, peerIds, peerLookVersion, online, status, selfName: name, selfId: selfIdRef.current };
 }

@@ -194,7 +194,7 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
   );
 
   // 같은 농장에 함께 접속한 방문자 (환경변수·연결이 없으면 조용히 단독 모드)
-  const { peersRef, peerIds, online, status, selfId } = useFarmPresence({
+  const { peersRef, peerIds, peerLookVersion, online, status, selfId } = useFarmPresence({
     farmId,
     look,
     pose,
@@ -214,7 +214,7 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
     const ids = [selfId, ...peerIds].filter(Boolean).sort();
     const total = Math.max(1, ids.length);
     const slot = Math.max(0, ids.indexOf(selfId));
-    const apart = (slot - (total - 1) / 2) * 0.9;
+    const apart = (slot - (total - 1) / 2) * 1.15;
     return {
       x: photoSpot.avatarAt[0] + Math.cos(photoSpot.yaw) * apart,
       z: photoSpot.avatarAt[1] - Math.sin(photoSpot.yaw) * apart,
@@ -324,7 +324,7 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
             movingOutRef={movingOutRef}
             stageAt={stageAt}
           />
-          <RemoteVisitors farm={isoFarm} peerIds={peerIds} peersRef={peersRef} />
+          <RemoteVisitors farm={isoFarm} peerIds={peerIds} peersRef={peersRef} version={peerLookVersion} />
           <PhotoCamera
             view={cameraView ? scaledView(cameraView.view, portrait ? 2.15 : 1) : scaledView(DEFAULT_VIEW[isoFarm], portrait ? 1.45 : 1)}
             requestId={photoSpot ? photoSpot.id : `home-${isoFarm}-${homeTick}`}

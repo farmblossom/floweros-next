@@ -7,32 +7,53 @@ import VisitorAvatar, { AVATAR_LABEL_HEIGHT } from "./VisitorAvatar";
 import { terrainHeight, type FarmId } from "./terrain";
 import type { Peer } from "./useFarmPresence";
 
-function PeerAvatar({ peer, farm }: { peer: Peer; farm: FarmId }) {
+/**
+ * 다른 방문자 한 명 — 위치·방향은 매 프레임 ref에서 최신 값을 읽어 부드럽게 따라가고,
+ * 옷·모자·자세·이름이 바뀌면 부모가 다시 그려 준다.
+ */
+function PeerAvatar({
+  peerId,
+  farm,
+  peersRef,
+}: {
+  peerId: string;
+  farm: FarmId;
+  peersRef: React.RefObject<Map<string, Peer>>;
+}) {
   const groupRef = useRef<THREE.Group>(null);
-  const posRef = useRef(new THREE.Vector3(peer.x, 0, peer.z));
-  const yawRef = useRef(peer.ry);
-  const movingRef = useRef({ moving: peer.moving });
+  const posRef = useRef<THREE.Vector3 | null>(null);
+  const yawRef = useRef<number | null>(null);
+  const movingRef = useRef({ moving: false });
+
+  const peer = peersRef.current?.get(peerId);
 
   useFrame((state, delta) => {
+    const live = peersRef.current?.get(peerId);
+    if (!live) return;
+    if (!posRef.current) {
+      posRef.current = new THREE.Vector3(live.x, 0, live.z);
+      yawRef.current = live.ry;
+    }
     const dt = Math.min(delta, 0.06);
-    movingRef.current.moving = peer.moving;
-
-    // 수신 좌표로 부드럽게 보간 (끊김 없이 따라오게)
     const k = 1 - Math.exp(-9 * dt);
-    posRef.current.x += (peer.x - posRef.current.x) * k;
-    posRef.current.z += (peer.z - posRef.current.z) * k;
+    const pos = posRef.current;
+    pos.x += (live.x - pos.x) * k;
+    pos.z += (live.z - pos.z) * k;
+    movingRef.current.moving = live.moving;
 
-    let diff = ((peer.ry - yawRef.current + Math.PI) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2) - Math.PI;
-    yawRef.current += diff * k;
+    let diff = ((live.ry - (yawRef.current ?? 0) + Math.PI) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2) - Math.PI;
+    yawRef.current = (yawRef.current ?? 0) + diff * k;
 
     const g = groupRef.current;
     if (g) {
-      const y = terrainHeight(farm, posRef.current.x, posRef.current.z);
-      const bob = peer.moving ? Math.abs(Math.sin(state.clock.elapsedTime * 6)) * 0.02 : 0;
-      g.position.set(posRef.current.x, y + bob, posRef.current.z);
+      const y = terrainHeight(farm, pos.x, pos.z);
+      const bob = live.moving ? Math.abs(Math.sin(state.clock.elapsedTime * 6)) * 0.02 : 0;
+      g.position.set(pos.x, y + bob, pos.z);
       g.rotation.y = yawRef.current;
     }
   });
+
+  if (!peer) return null;
 
   return (
     <group ref={groupRef} position={[peer.x, 0, peer.z]}>
@@ -73,18 +94,19 @@ export default function RemoteVisitors({
   farm,
   peerIds,
   peersRef,
+  version = 0,
 }: {
   farm: FarmId;
   peerIds: string[];
   peersRef: React.RefObject<Map<string, Peer>>;
+  /** 닉네임·옷·모자·자세가 바뀌면 올라가는 값 (다시 그리기 트리거) */
+  version?: number;
 }) {
   return (
-    <>
-      {peerIds.map((id) => {
-        const peer = peersRef.current?.get(id);
-        if (!peer) return null;
-        return <PeerAvatar key={id} peer={peer} farm={farm} />;
-      })}
-    </>
+    <group key={version}>
+      {peerIds.map((id) => (
+        <PeerAvatar key={id} peerId={id} farm={farm} peersRef={peersRef} />
+      ))}
+    </group>
   );
 }
