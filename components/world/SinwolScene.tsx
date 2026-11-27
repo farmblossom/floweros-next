@@ -79,35 +79,6 @@ function HillyTerrain() {
   );
 }
 
-/** 자두 유목 — 어린 과수, 연한 꽃 */
-function PlumSapling({ position, delay = 0 }: { position: [number, number, number]; delay?: number }) {
-  const groupRef = useRef<THREE.Group>(null);
-  useFrame((state) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.z = Math.sin(state.clock.elapsedTime * 0.7 + delay) * 0.012;
-    }
-  });
-  return (
-    <group position={position} ref={groupRef}>
-      <mesh position={[0, 0.55, 0]} castShadow>
-        <cylinderGeometry args={[0.045, 0.07, 1.1, 6]} />
-        <meshStandardMaterial color="#5a3a1c" roughness={0.9} />
-      </mesh>
-      {[
-        [0, 1.25, 0, 0.5],
-        [0.26, 1.05, 0.12, 0.36],
-        [-0.24, 1.02, -0.1, 0.33],
-        [0.05, 1.45, -0.18, 0.28],
-      ].map(([x, y, z, r], i) => (
-        <mesh key={i} position={[x, y, z]} castShadow>
-          <sphereGeometry args={[r, 8, 7]} />
-          <meshStandardMaterial color={i % 2 ? "#f0c4cf" : "#e7aebd"} roughness={0.85} />
-        </mesh>
-      ))}
-    </group>
-  );
-}
-
 /**
  * 호밀 포기 — 파릇하게 올라온 이파리. 포기마다 키와 기우는 방향이 조금씩 다르고,
  * 바람이 지나면 밭 전체가 초록 물결로 흔들린다.
@@ -322,7 +293,7 @@ function ZelkovaShade({ position }: { position: [number, number, number] }) {
   );
 }
 
-/** 경작지 — 밭 전체에 파종한 호밀. 고랑을 따라 파릇하게 올라오고, 경계 측량 말뚝이 서 있다 */
+/** 경작지 — 밭 전체에 파종한 호밀. 고랑을 따라 파릇하게 올라온다 */
 const ROW_START = -8.4;
 const ROW_STEP = 1.75;
 const ROW_COUNT = 8;
@@ -358,20 +329,6 @@ function RyePaddock() {
         rowCount={ROW_COUNT}
         rowSpread={0.9}
       />
-      {([-10.5, 7.5] as number[]).flatMap((px) =>
-        ([-4.5, 10.5] as number[]).map((pz) => (
-          <group key={`survey-${px}-${pz}`} position={[px, sinwolHeight(px, pz) + 0.4, pz]}>
-            <mesh castShadow>
-              <cylinderGeometry args={[0.07, 0.09, 1.4, 6]} />
-              <meshStandardMaterial color="#5a3a18" roughness={0.8} />
-            </mesh>
-            <mesh position={[0, 0.72, 0]}>
-              <cylinderGeometry args={[0.1, 0.1, 0.1, 8]} />
-              <meshStandardMaterial color="#c93a2a" roughness={0.6} />
-            </mesh>
-          </group>
-        ))
-      )}
     </group>
   );
 }
@@ -392,34 +349,6 @@ function RetainingWall() {
   );
 }
 
-/** 나무 식재 예정 표시 — 밤나무(주황)·상수리나무(초록) 말뚝 */
-function PlantingSpot({
-  position,
-  color,
-  radius,
-}: {
-  position: [number, number, number];
-  color: string;
-  radius: number;
-}) {
-  return (
-    <group position={position}>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.16, 0]}>
-        <circleGeometry args={[radius, 12]} />
-        <meshStandardMaterial color={color} transparent opacity={0.38} />
-      </mesh>
-      <mesh position={[0, 0.7, 0]} castShadow>
-        <cylinderGeometry args={[0.06, 0.08, 1.4, 6]} />
-        <meshStandardMaterial color="#6b4a26" roughness={0.7} />
-      </mesh>
-      <mesh position={[0, 1.45, 0]}>
-        <sphereGeometry args={[0.12, 7, 7]} />
-        <meshStandardMaterial color={color} roughness={0.45} emissive={color} emissiveIntensity={0.25} />
-      </mesh>
-    </group>
-  );
-}
-
 const eastForest: [number, number, number][] = [
   [11, 0, -10], [11, 0, -5], [11, 0, 0], [11, 0, 5], [11, 0, 10], [11, 0, 15],
   [14, 0, -8], [14, 0, -3], [14, 0, 2], [14, 0, 7], [14, 0, 12],
@@ -431,22 +360,6 @@ const northForest: [number, number, number][] = [
 ];
 const westSparseForest: [number, number, number][] = [
   [-15, 0, -4], [-15, 0, 2], [-15, 0, 8],
-];
-
-// 나무 식재 예정 자리 (x, z) — 높이는 지형에서 계산한다
-const chestnutPositions: [number, number][] = [
-  [-8, 1.5], [-4, 1.5], [0, 1.5], [4, 1.5],
-  [-8, 5.5], [-4, 5.5], [0, 5.5], [4, 5.5],
-];
-
-const oakPositions: [number, number][] = [
-  [-10, -2], [-7, -4.5], [-4, -6],
-];
-
-// 자두 유목 과수원 (서남쪽 비탈)
-const plumPositions: [number, number, number][] = [
-  [-6.5, 0, -7.5], [-3.5, 0, -8.5], [-0.5, 0, -9.0], [2.5, 0, -9.6],
-  [-6.8, 0, -10.5], [-3.8, 0, -11.4], [-0.8, 0, -11.9], [2.2, 0, -12.4],
 ];
 
 export default function SinwolScene({
@@ -502,17 +415,6 @@ export default function SinwolScene({
         <BroadleafTree key={`w-${i}`} position={[pos[0], sinwolHeight(pos[0], pos[2]), pos[2]]} scale={0.75} tint={i + 2} />
       ))}
 
-      {plumPositions.map((pos, i) => (
-        <PlumSapling key={`plum-${i}`} position={[pos[0], sinwolHeight(pos[0], pos[2]), pos[2]]} delay={i} />
-      ))}
-
-      {chestnutPositions.map((pos, i) => (
-        <PlantingSpot key={`chestnut-${i}`} position={[pos[0], sinwolHeight(pos[0], pos[1]), pos[1]]} color="#c8973a" radius={1.6} />
-      ))}
-      {oakPositions.map((pos, i) => (
-        <PlantingSpot key={`oak-${i}`} position={[pos[0], sinwolHeight(pos[0], pos[1]), pos[1]]} color="#5a8a30" radius={1.3} />
-      ))}
-
       <LampPost position={[-11.2, sinwolHeight(-11.2, 9.6), 9.6]} />
 
       {/* 남동쪽 모서리 — 커다란 팽나무 그늘 쉼터 */}
@@ -537,7 +439,7 @@ export default function SinwolScene({
       <WorldHotspot
         position={[-6.4, sinwolHeight(-6.4, 3.6) + 0.4, 3.6]}
         label="🌳 나무 조성예정지"
-        info="밤나무·상수리나무를 심을 자리입니다. 개간 구역(0.18ha) 안에서 밤나무(임지생산능력 Ⅱ급지·양토·남서향 경사 10~15도)와 상수리나무 식재 위치를 잡아 두었습니다. 주황 말뚝 = 밤나무, 초록 말뚝 = 상수리나무 예정지. 지금은 밭 전체에 호밀을 파종해 땅심을 올리는 중입니다."
+        info="밤나무·상수리나무를 심을 자리입니다. 개간 구역(0.18ha) 안에서 밤나무(임지생산능력 Ⅱ급지·양토·남서향 경사 10~15도)와 상수리나무를 심을 계획입니다. 지금은 밭 전체에 호밀을 파종해 땅심을 올리는 중이고, 나무는 다음 식재 때 세웁니다."
         onSelect={onHotspotSelect}
         hidden={photoMode}
         playerRef={playerRef}
@@ -576,8 +478,8 @@ export default function SinwolScene({
       />
       <WorldHotspot
         position={[-5, 0.7, -10]}
-        label="🍑 자두 유목"
-        info="자두 어린 나무 8주를 2열로 식재한 구역. 앞으로 2~3년 뒤 첫 열매를 목표로 관리합니다."
+        label="🍑 자두 유목 자리"
+        info="자두 어린 나무를 심을 자리입니다. 지금은 밭 전체에 호밀을 파종해 땅을 살리는 중이고, 자두나무는 다음 식재 때 세웁니다."
         onSelect={onHotspotSelect}
         hidden={photoMode}
         playerRef={playerRef}
