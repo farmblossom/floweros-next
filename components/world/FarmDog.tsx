@@ -12,6 +12,8 @@ export interface TrolleyLine {
   to: [number, number];
   /** 와이어 높이 */
   height?: number;
+  /** 긴 와이어 중간에 세우는 지지 기둥 수 */
+  supports?: number;
 }
 
 interface FarmDogProps {
@@ -85,6 +87,17 @@ export default function FarmDog({
     const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), dirV);
     return { mid, q };
   }, [A, B, dirV, wireHeight]);
+
+  // 중간 지지 기둥 — 긴 한 줄이 처지지 않게 일정 간격으로
+  const supportPoints = useMemo(() => {
+    const n = line.supports ?? 0;
+    const out: THREE.Vector3[] = [];
+    for (let i = 1; i <= n; i++) {
+      const t = i / (n + 1);
+      out.push(A.clone().lerp(B, t));
+    }
+    return out;
+  }, [A, B, line.supports]);
 
   useFrame((state, delta) => {
     const dt = Math.min(delta, 0.06);
@@ -214,9 +227,23 @@ export default function FarmDog({
 
       {/* 공중 와이어 */}
       <mesh position={wireTransform.mid} quaternion={wireTransform.q} castShadow>
-        <cylinderGeometry args={[0.018, 0.018, Math.max(length, 0.1), 6]} />
-        <meshStandardMaterial color="#5a5148" metalness={0.45} roughness={0.55} />
+        <cylinderGeometry args={[0.03, 0.03, Math.max(length, 0.1), 6]} />
+        <meshStandardMaterial color="#9c948a" metalness={0.5} roughness={0.45} />
       </mesh>
+
+      {/* 중간 지지 기둥 — 기둥이 길수록 한 줄이 축 처지지 않게 */}
+      {supportPoints.map((point, i) => (
+        <group key={`support-${i}`} position={[point.x, 0, point.z]}>
+          <mesh position={[0, wireHeight / 2, 0]} castShadow>
+            <cylinderGeometry args={[0.055, 0.08, wireHeight, 8]} />
+            <meshStandardMaterial color="#c2a575" roughness={0.87} />
+          </mesh>
+          <mesh position={[0, wireHeight - 0.04, 0]}>
+            <sphereGeometry args={[0.055, 8, 6]} />
+            <meshStandardMaterial color="#8a6a34" roughness={0.8} />
+          </mesh>
+        </group>
+      ))}
 
       {/* trolley + 목줄 */}
       <group ref={trolleyRef} position={[A.x, wireHeight, A.z]}>

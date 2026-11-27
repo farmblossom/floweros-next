@@ -392,9 +392,9 @@ const IRYUK_HOUSE: [number, number, number] = [DOG_YARD.x - 1.35, 0, DOG_YARD.z]
 const FARM_STORE: [number, number, number] = [4.9, 0, -11.6];
 const SHED: [number, number, number] = [-1.6, 0, -11.6];
 // 이오: 개집 앞 북쪽 가장자리를 농장 서쪽 끝에서 개집 앞까지 가로(X축)로 — 24m 한 줄
-const IO_LINE = { from: [-12.9, -8.75] as [number, number], to: [11.2, -8.75] as [number, number], height: 2.3 };
+const IO_LINE = { from: [-12.9, -8.75] as [number, number], to: [11.2, -8.75] as [number, number], height: 2.3, supports: 2 };
 // 이륙이: 밭 오른쪽 가장자리(+X)를 북쪽 끝에서 남쪽 끝까지 세로(Z축)로 — 17.6m 한 줄 (이오보다 낮게)
-const IRYUK_LINE = { from: [12.85, -6.6] as [number, number], to: [12.85, 11.0] as [number, number], height: 2.15 };
+const IRYUK_LINE = { from: [12.85, -6.6] as [number, number], to: [12.85, 11.0] as [number, number], height: 2.15, supports: 1 };
 
 export default function DeoksanScene({
   onHotspotSelect,
