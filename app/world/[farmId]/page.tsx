@@ -393,6 +393,17 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
       {/* 👥 포토존 단체샷 — 함께 찍을 지기 고르기 (퍼뜨기·쑤담이는 기본) */}
       {photoSpot ? (
         <div className="absolute left-2 top-[98px] z-20 w-[178px] rounded-2xl bg-[#1b2018]/92 backdrop-blur-md border border-white/12 shadow-xl p-2 sm:left-4 sm:top-auto sm:bottom-[196px] sm:w-[188px]">
+          <div className="flex items-center gap-1 px-1 pb-1">
+            <span className="material-symbols-outlined text-[13px] text-[#b8e08a]">photo_camera</span>
+            <span className="flex-1 truncate text-[10px] font-bold text-white/90">{photoSpot.label}</span>
+            <button
+              onClick={() => openSpot(null)}
+              className="p-0.5 -mr-0.5 rounded-full text-white/70 hover:bg-white/15"
+              aria-label="포토존 시점 해제"
+            >
+              <span className="material-symbols-outlined text-[13px]">close</span>
+            </button>
+          </div>
           <p className="px-1 text-[10.5px] font-bold text-white">👥 함께 찍을 지기</p>
           <p className="px-1 pt-0.5 text-[9px] leading-snug text-white/55" style={{ wordBreak: "keep-all" }}>
             퍼뜨기·쑤담이는 늘 함께해요
@@ -435,7 +446,7 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
       {/* 📷 사진 찍기 · 포토존 · 전체 보기 */}
       <div className="absolute right-3 bottom-16 z-20 flex flex-col items-end gap-1.5 sm:right-auto sm:bottom-28 sm:left-4 sm:items-start">
         {photoSpot ? (
-          <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[#3f6b34]/85 text-white text-[11px] backdrop-blur-sm">
+          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[#3f6b34]/85 text-white text-[11px] backdrop-blur-sm">
             <span className="material-symbols-outlined text-[13px]">photo_camera</span>
             <span className="font-semibold">{photoSpot.label}</span>
             <button
