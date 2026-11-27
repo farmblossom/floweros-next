@@ -445,20 +445,6 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
 
       {/* 📷 사진 찍기 · 포토존 · 전체 보기 */}
       <div className="absolute right-3 bottom-16 z-20 flex flex-col items-end gap-1.5 sm:right-auto sm:bottom-28 sm:left-4 sm:items-start">
-        {photoSpot ? (
-          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[#3f6b34]/85 text-white text-[11px] backdrop-blur-sm">
-            <span className="material-symbols-outlined text-[13px]">photo_camera</span>
-            <span className="font-semibold">{photoSpot.label}</span>
-            <button
-              onClick={() => openSpot(null)}
-              className="ml-0.5 p-0.5 rounded-full hover:bg-white/20"
-              aria-label="포토존 시점 해제"
-            >
-              <span className="material-symbols-outlined text-[13px]">close</span>
-            </button>
-          </div>
-        ) : null}
-
         <div className="flex items-center gap-2">
           <button
             onClick={takePhoto}
