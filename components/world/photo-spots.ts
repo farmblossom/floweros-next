@@ -138,15 +138,15 @@ export const PHOTO_EXTRAS: { id: PhotoExtraId; npcId: string; label: string; emo
 ];
 
 /**
- * 추가 캐릭터가 서는 자리 — 방문자 아바타 뒤쪽 반원으로 퍼진다.
- * 카메라 쪽(+back 반대)을 등지고 서서 모두 카메라를 바라보므로 앞사람을 가리지 않는다.
- * 캐릭터마다 자리가 고정돼 있어 하나를 꾸고 꺼도 나머지가 움직이지 않는다.
+ * 추가 캐릭터가 서는 자리 — [좌우 위치, 방문자 뒤쪽 거리] (카메라 기준).
+ * 지기 둘(±1.25) 사이사이로 엇갈리게 세워 누구도 앞사람 몸에 가리지 않고,
+ * 바깥쪽으로 갈수록 조금 앞에 서는 반원 대형을 만든다.
  */
 const EXTRA_SLOT: Record<PhotoExtraId, [number, number]> = {
-  dangoma: [32, 1.95],
-  kkuloma: [-32, 1.95],
-  jjongoma: [68, 1.86],
-  fm: [-68, 1.86],
+  dangoma: [0.62, 1.42],
+  kkuloma: [-0.62, 1.42],
+  jjongoma: [1.95, 1.02],
+  fm: [-1.95, 1.02],
 };
 
 export function extraGatherSlots(
@@ -156,7 +156,7 @@ export function extraGatherSlots(
   const dx = spot.view.eye[0] - spot.avatarAt[0];
   const dz = spot.view.eye[2] - spot.avatarAt[1];
   const len = Math.hypot(dx, dz) || 1;
-  // back: 카메라 반대(방문자 뒤쪽), right: 좌우
+  // back: 카메라 반대(방문자 뒤쪽), right: 화면 기준 오른쪽
   const bx = -dx / len;
   const bz = -dz / len;
   const rx = -bz;
@@ -165,11 +165,10 @@ export function extraGatherSlots(
   for (const id of ids) {
     const slot = EXTRA_SLOT[id];
     if (!slot) continue;
-    const [deg, r] = slot;
-    const a = (deg * Math.PI) / 180;
+    const [side, back] = slot;
     out[id] = {
-      x: spot.avatarAt[0] + (bx * Math.cos(a) + rx * Math.sin(a)) * r,
-      z: spot.avatarAt[1] + (bz * Math.cos(a) + rz * Math.sin(a)) * r,
+      x: spot.avatarAt[0] + rx * side + bx * back,
+      z: spot.avatarAt[1] + rz * side + bz * back,
       yaw: spot.yaw,
     };
   }
