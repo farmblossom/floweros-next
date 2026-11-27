@@ -391,10 +391,10 @@ const IO_HOUSE: [number, number, number] = [DOG_YARD.x + 1.35, 0, DOG_YARD.z];
 const IRYUK_HOUSE: [number, number, number] = [DOG_YARD.x - 1.35, 0, DOG_YARD.z];
 const FARM_STORE: [number, number, number] = [4.9, 0, -11.6];
 const SHED: [number, number, number] = [-1.6, 0, -11.6];
-// 이오: 개집 앞 북쪽 가장자리를 가로(X축)로
-const IO_LINE = { from: [6.6, -8.8] as [number, number], to: [13.4, -8.8] as [number, number], height: 2.5 };
-// 이륙이: 밭 오른쪽 가장자리(+X)를 세로(Z축)로
-const IRYUK_LINE = { from: [11.7, -6.8] as [number, number], to: [11.7, 7.6] as [number, number], height: 2.5 };
+// 이오: 개집 앞 북쪽 가장자리를 농장 서쪽 끝에서 개집 앞까지 가로(X축)로 — 24m 한 줄
+const IO_LINE = { from: [-12.9, -8.75] as [number, number], to: [11.2, -8.75] as [number, number], height: 2.3 };
+// 이륙이: 밭 오른쪽 가장자리(+X)를 북쪽 끝에서 남쪽 끝까지 세로(Z축)로 — 17.6m 한 줄 (이오보다 낮게)
+const IRYUK_LINE = { from: [12.85, -6.6] as [number, number], to: [12.85, 11.0] as [number, number], height: 2.15 };
 
 export default function DeoksanScene({
   onHotspotSelect,
@@ -561,7 +561,7 @@ export default function DeoksanScene({
         accent="#a9762b"
         lines={[
           "왈! 나는 이오예요. 덕산리 밭을 지키는 지킴이 🐕",
-          "개집 앞 북쪽 가장자리를 와이어 따라 가로로 쭉 순찰해요",
+          "농장 북쪽 가장자리를 서쪽 끝에서 개집 앞까지 와이어 따라 가로로 쭉 순찰해요",
           "두더지랑 족제비가 고랑을 파헤치면 내가 제일 먼저 달려가요",
         ]}
       />
@@ -581,7 +581,7 @@ export default function DeoksanScene({
         accent="#5b4a3a"
         lines={[
           "…크게 짖진 못하지만 여기 잘 지키고 있어요. 이륙이에요 🐾",
-          "밭 오른쪽 가장자리를 따라 세로로 왔다 갔다 하고 있어요",
+          "밭 오른쪽 가장자리를 북쪽 끝에서 남쪽 끝까지 세로로 왔다 갔다 해요",
           "덩치는 이오보다 큰데… 가끔 무서우면 개집 쪽으로 숨기도 해요",
         ]}
       />
@@ -629,7 +629,7 @@ export default function DeoksanScene({
       <WorldHotspot
         position={[DOG_YARD.x, 0.4, DOG_YARD.z + 1.5]}
         label="🐕 이오·이륙이 개집"
-        info="덕산리 농장을 지키는 두 마리. 개집 구역은 농장 창고 바로 옆에 있고, 이오는 개집 앞 북쪽 가장자리를 와이어 따라 가로로, 이륙이는 밭 오른쪽 가장자리를 세로로 순찰합니다. 이오는 두더지·족제비를 쫓는 용맹한 지킴이, 이륙이는 덩치는 크지만 순박하고 겁이 많은 지킴이입니다."
+        info="덕산리 농장을 지키는 두 마리. 개집 구역은 농장 창고 바로 옆에 있고, 이오는 농장 서쪽 끝에서 개집 앞까지 북쪽 가장자리를 와이어 따라 가로로 24m, 이륙이는 밭 오른쪽 가장자리를 북쪽 끝에서 남쪽 끝까지 세로로 18m 순찰합니다. 이오는 두더지·족제비를 쫓는 용맹한 지킴이, 이륙이는 덩치는 크지만 순박하고 겁이 많은 지킴이입니다."
         onSelect={onHotspotSelect}
         hidden={photoMode}
         playerRef={playerRef}
