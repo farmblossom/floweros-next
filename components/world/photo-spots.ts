@@ -143,10 +143,10 @@ export const PHOTO_EXTRAS: { id: PhotoExtraId; npcId: string; label: string; emo
  * 바깥쪽으로 갈수록 조금 앞에 서는 반원 대형을 만든다.
  */
 const EXTRA_SLOT: Record<PhotoExtraId, [number, number]> = {
-  dangoma: [0.62, 1.42],
-  kkuloma: [-0.62, 1.42],
-  jjongoma: [1.95, 1.02],
-  fm: [-1.95, 1.02],
+  dangoma: [0.95, 1.5],
+  kkuloma: [-0.95, 1.5],
+  jjongoma: [2.1, 1.0],
+  fm: [-2.1, 1.0],
 };
 
 export function extraGatherSlots(

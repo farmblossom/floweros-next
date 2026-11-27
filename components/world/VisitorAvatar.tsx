@@ -234,6 +234,7 @@ export default function VisitorAvatar({ look, pose = "stand", movingState }: Vis
 
   const bodyRef = useRef<THREE.Group>(null);
   const upperRef = useRef<THREE.Group>(null);
+  const headRef = useRef<THREE.Group>(null);
   const thighLRef = useRef<THREE.Group>(null);
   const thighRRef = useRef<THREE.Group>(null);
   const kneeLRef = useRef<THREE.Group>(null);
@@ -273,6 +274,8 @@ export default function VisitorAvatar({ look, pose = "stand", movingState }: Vis
     if (footLRef.current) footLRef.current.rotation.x = footAngle;
     if (footRRef.current) footRRef.current.rotation.x = footAngle;
     if (upperRef.current) upperRef.current.rotation.x = cur.torso;
+    // 상체를 숙여도 얼굴은 작물 쪽을 바라본다 (목에서 반대 회전)
+    if (headRef.current) headRef.current.rotation.x = -cur.torso * 0.62;
     if (armLRef.current) armLRef.current.rotation.x = -sin * swing * 0.8 + cur.arm;
     if (armRRef.current) armRRef.current.rotation.x = sin * swing * 0.8 + cur.arm;
     if (skirtRef.current) {
@@ -425,80 +428,85 @@ export default function VisitorAvatar({ look, pose = "stand", movingState }: Vis
               </mesh>
             </group>
 
-            {/* ── 목 + 머리 ───────────────────────── */}
-            <mesh position={[0, 1.33, 0]}>
-              <cylinderGeometry args={[0.068, 0.078, 0.1, 8]} />
-              <meshStandardMaterial color={config.skin} roughness={0.7} />
-            </mesh>
-            <mesh position={[0, 1.48, 0]} castShadow>
-              <sphereGeometry args={[0.168, 18, 14]} />
-              <meshStandardMaterial color={config.skin} roughness={0.65} />
-            </mesh>
-            {/* 눈 */}
-            <mesh position={[-0.058, 1.482, 0.152]}>
-              <sphereGeometry args={[0.021, 8, 8]} />
-              <meshStandardMaterial color="#2b2622" />
-            </mesh>
-            <mesh position={[0.058, 1.482, 0.152]}>
-              <sphereGeometry args={[0.021, 8, 8]} />
-              <meshStandardMaterial color="#2b2622" />
-            </mesh>
+            {/* ── 목 + 머리 (숙일 때 얼굴이 들리도록 목에서 회전) ── */}
+            <group ref={headRef} position={[0, 1.33, 0]}>
+              <group position={[0, -1.33, 0]}>
+              {/* ── 목 + 머리 ───────────────────────── */}
+              <mesh position={[0, 1.33, 0]}>
+                <cylinderGeometry args={[0.068, 0.078, 0.1, 8]} />
+                <meshStandardMaterial color={config.skin} roughness={0.7} />
+              </mesh>
+              <mesh position={[0, 1.48, 0]} castShadow>
+                <sphereGeometry args={[0.168, 18, 14]} />
+                <meshStandardMaterial color={config.skin} roughness={0.65} />
+              </mesh>
+              {/* 눈 */}
+              <mesh position={[-0.058, 1.482, 0.152]}>
+                <sphereGeometry args={[0.021, 8, 8]} />
+                <meshStandardMaterial color="#2b2622" />
+              </mesh>
+              <mesh position={[0.058, 1.482, 0.152]}>
+                <sphereGeometry args={[0.021, 8, 8]} />
+                <meshStandardMaterial color="#2b2622" />
+              </mesh>
 
-            {/* ── 헤어 ───────────────────────────── */}
-            {config.hairStyle === "short" ? (
-              <>
-                <Dome r={0.178} color={config.hair} position={[0, 1.5, 0]} scale={[1, 0.92, 1.02]} />
-                <mesh position={[0, 1.445, -0.055]} scale={[0.17, 0.1, 0.16]}>
-                  <sphereGeometry args={[1, 14, 10]} />
-                  <meshStandardMaterial color={config.hair} roughness={0.85} />
-                </mesh>
-              </>
-            ) : null}
+              {/* ── 헤어 ───────────────────────────── */}
+              {config.hairStyle === "short" ? (
+                <>
+                  <Dome r={0.178} color={config.hair} position={[0, 1.5, 0]} scale={[1, 0.92, 1.02]} />
+                  <mesh position={[0, 1.445, -0.055]} scale={[0.17, 0.1, 0.16]}>
+                    <sphereGeometry args={[1, 14, 10]} />
+                    <meshStandardMaterial color={config.hair} roughness={0.85} />
+                  </mesh>
+                </>
+              ) : null}
 
-            {config.hairStyle === "ponytail" ? (
-              <>
-                {/* 앞머리 + 긴 뒷머리 */}
-                <Dome r={0.176} color={config.hair} position={[0, 1.49, -0.008]} scale={[1.02, 0.96, 1.03]} />
-                <mesh position={[0, 1.36, -0.11]} scale={[0.165, 0.22, 0.135]}>
-                  <sphereGeometry args={[1, 16, 12]} />
-                  <meshStandardMaterial color={config.hair} roughness={0.82} />
-                </mesh>
-                {/* 묶은 포니테일 — 뒤로 흘러내리는 실루엣 */}
-                <mesh position={[0, 1.16, -0.2]} rotation={[0.42, 0, 0]} scale={[0.082, 0.2, 0.09]}>
-                  <sphereGeometry args={[1, 14, 12]} />
-                  <meshStandardMaterial color={config.hair} roughness={0.82} />
-                </mesh>
-                <mesh position={[0, 1.35, -0.16]}>
-                  <torusGeometry args={[0.052, 0.016, 8, 14]} />
-                  <meshStandardMaterial color="#b8663f" roughness={0.7} />
-                </mesh>
-              </>
-            ) : null}
+              {config.hairStyle === "ponytail" ? (
+                <>
+                  {/* 앞머리 + 긴 뒷머리 */}
+                  <Dome r={0.176} color={config.hair} position={[0, 1.49, -0.008]} scale={[1.02, 0.96, 1.03]} />
+                  <mesh position={[0, 1.36, -0.11]} scale={[0.165, 0.22, 0.135]}>
+                    <sphereGeometry args={[1, 16, 12]} />
+                    <meshStandardMaterial color={config.hair} roughness={0.82} />
+                  </mesh>
+                  {/* 묶은 포니테일 — 뒤로 흘러내리는 실루엣 */}
+                  <mesh position={[0, 1.16, -0.2]} rotation={[0.42, 0, 0]} scale={[0.082, 0.2, 0.09]}>
+                    <sphereGeometry args={[1, 14, 12]} />
+                    <meshStandardMaterial color={config.hair} roughness={0.82} />
+                  </mesh>
+                  <mesh position={[0, 1.35, -0.16]}>
+                    <torusGeometry args={[0.052, 0.016, 8, 14]} />
+                    <meshStandardMaterial color="#b8663f" roughness={0.7} />
+                  </mesh>
+                </>
+              ) : null}
 
-            {config.hairStyle === "bob" ? (
-              <>
-                <Dome r={0.19} color={config.hair} position={[0, 1.49, -0.005]} scale={[1.05, 0.95, 1.06]} />
-                <mesh position={[0, 1.4, -0.02]} scale={[0.19, 0.12, 0.19]}>
-                  <sphereGeometry args={[1, 14, 10]} />
-                  <meshStandardMaterial color={config.hair} roughness={0.85} />
-                </mesh>
-              </>
-            ) : null}
+              {config.hairStyle === "bob" ? (
+                <>
+                  <Dome r={0.19} color={config.hair} position={[0, 1.49, -0.005]} scale={[1.05, 0.95, 1.06]} />
+                  <mesh position={[0, 1.4, -0.02]} scale={[0.19, 0.12, 0.19]}>
+                    <sphereGeometry args={[1, 14, 10]} />
+                    <meshStandardMaterial color={config.hair} roughness={0.85} />
+                  </mesh>
+                </>
+              ) : null}
 
-            {/* ── 밀짚모자 (ON/OFF) ───────────────── */}
-            {config.hat === "straw" ? (
-              <>
-                <mesh position={[0, 1.605, 0]} castShadow>
-                  <cylinderGeometry args={[0.36, 0.36, 0.022, 22]} />
-                  <meshStandardMaterial color={config.hatColor} roughness={0.92} />
-                </mesh>
-                <Dome r={0.165} color={config.hatColor} position={[0, 1.6, 0]} scale={[1, 0.78, 1]} />
-                <mesh position={[0, 1.625, 0]}>
-                  <torusGeometry args={[0.163, 0.022, 8, 20]} />
-                  <meshStandardMaterial color="#a8563a" roughness={0.75} />
-                </mesh>
-              </>
-            ) : null}
+              {/* ── 밀짚모자 (ON/OFF) ───────────────── */}
+              {config.hat === "straw" ? (
+                <>
+                  <mesh position={[0, 1.605, 0]} castShadow>
+                    <cylinderGeometry args={[0.36, 0.36, 0.022, 22]} />
+                    <meshStandardMaterial color={config.hatColor} roughness={0.92} />
+                  </mesh>
+                  <Dome r={0.165} color={config.hatColor} position={[0, 1.6, 0]} scale={[1, 0.78, 1]} />
+                  <mesh position={[0, 1.625, 0]}>
+                    <torusGeometry args={[0.163, 0.022, 8, 20]} />
+                    <meshStandardMaterial color="#a8563a" roughness={0.75} />
+                  </mesh>
+                </>
+              ) : null}
+              </group>
+            </group>
 
             {/* 어린이 — 등에 작은 가방 */}
             {isChild ? (
