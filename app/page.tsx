@@ -7,8 +7,8 @@ export const metadata: Metadata = {
     "밀양 초동면 꽃폈네의 두 갈래 입구. 3D 시뮬레이션 농장을 산책하거나 꽃폈네 홈페이지에서 브랜드 이야기를 만나보세요.",
 };
 
-/** 꽃폈네 공식 홈페이지 (GitHub Pages) */
-const HOMEPAGE_URL = "https://farmblossom.github.io/FARMBLOSSOM_GitHub_Pages/";
+/** 꽃폈네 브랜드 포트폴리오 (GitHub Pages) */
+const PORTFOLIO_URL = "https://farmblossom.github.io/FARMBLOSSOM_GitHub_Pages/";
 
 export default function LandingPage() {
   return (
@@ -102,11 +102,9 @@ export default function LandingPage() {
           </Link>
 
           {/* 2 — 꽃폈네 홈페이지 */}
-          <a
-            href={HOMEPAGE_URL}
-            target="_blank"
-            rel="noreferrer"
-            aria-label="꽃폈네 홈페이지 바로가기 (새 창)"
+          <Link
+            href="/os"
+            aria-label="꽃폈네 홈페이지 바로가기"
             className="group relative flex min-h-[196px] flex-col justify-between overflow-hidden rounded-[22px] border border-[#e8dbcd] bg-[#fdf6ef] p-6 text-on-surface shadow-[0_14px_34px_-28px_rgba(112,85,68,0.5)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_46px_-26px_rgba(112,85,68,0.55)] sm:min-h-[292px] sm:p-7"
           >
             <svg
@@ -155,12 +153,12 @@ export default function LandingPage() {
             </div>
 
             <div className="relative mt-5 flex items-center justify-between border-t border-[#e8dbcd] pt-4">
-              <span className="text-[11.5px] font-semibold text-secondary/85">바로가기 · farmblossom.github.io</span>
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#f0e4d7] text-secondary transition-transform duration-300 group-hover:translate-x-0.5 group-hover:bg-[#e7d7c7]">
-                <span className="material-symbols-outlined text-[16px]">open_in_new</span>
+              <span className="text-[11.5px] font-semibold text-secondary/85">바로가기 · farmblossom.kr</span>
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#f0e4d7] text-secondary transition-transform duration-300 group-hover:translate-x-1 group-hover:bg-[#e7d7c7]">
+                <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
               </span>
             </div>
-          </a>
+          </Link>
         </div>
         </div>
 
@@ -169,13 +167,15 @@ export default function LandingPage() {
           <p className="text-[10.5px] leading-relaxed text-outline" style={{ wordBreak: "keep-all" }}>
             © 2026 꽃폈네 · FM 쩡이 운영 · 3D 장면과 데이터는 실증을 위한 시뮬레이션입니다
           </p>
-          <Link
-            href="/os"
+          <a
+            href={PORTFOLIO_URL}
+            target="_blank"
+            rel="noreferrer"
             className="inline-flex items-center gap-1 rounded-full px-2 py-1 text-[10.5px] font-medium text-outline/75 transition-colors hover:text-secondary"
           >
-            <span className="material-symbols-outlined text-[12px]">settings</span>
-            관리자 OS
-          </Link>
+            <span className="material-symbols-outlined text-[12px]">north_east</span>
+            꽃폈네 브랜드 포트폴리오
+          </a>
         </footer>
       </div>
     </main>
