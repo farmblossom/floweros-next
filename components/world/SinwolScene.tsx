@@ -26,6 +26,19 @@ interface SinwolSceneProps {
   portrait?: boolean;
 }
 
+/**
+ * 캐릭터가 선 자리의 발밑 지형 — 몸통 반경 안에서 가장 높은 지점.
+ * 경사면이 발·몸통 아래를 스쳐 가리지 않도록 그만큼 올려 세운다.
+ */
+function footGroundY(x: number, z: number, radius = 0.34): number {
+  let y = sinwolHeight(x, z);
+  for (let i = 0; i < 8; i++) {
+    const a = (i / 8) * Math.PI * 2;
+    y = Math.max(y, sinwolHeight(x + Math.cos(a) * radius, z + Math.sin(a) * radius));
+  }
+  return y + 0.02;
+}
+
 // 지형: 남서향 경사 10~15도 (필지분석결과서 반영) + 잔디 색 얼룩
 function HillyTerrain() {
   const geometry = useMemo(() => {
@@ -95,34 +108,59 @@ function PlumSapling({ position, delay = 0 }: { position: [number, number, numbe
   );
 }
 
-/** 호밀밭 — 초록 바람결 */
-function RyeField({ position }: { position: [number, number, number] }) {
+/**
+ * 호밀 포기 — 파릇하게 올라온 이파리. 포기마다 키와 기우는 방향이 조금씩 다르고,
+ * 바람이 지나면 밭 전체가 초록 물결로 흔들린다.
+ */
+function RyeBlades({
+  baseX,
+  baseZ,
+  width,
+  depth,
+  count,
+  lift = 0.16,
+  rowStart,
+  rowStep,
+  rowCount,
+  rowSpread,
+}: {
+  baseX: number;
+  baseZ: number;
+  width: number;
+  depth: number;
+  count: number;
+  lift?: number;
+  /** 고랑 줄 배치 — 주면 줄을 따라 촘촘히 올라온다 */
+  rowStart?: number;
+  rowStep?: number;
+  rowCount?: number;
+  rowSpread?: number;
+}) {
   const meshRef = useRef<THREE.InstancedMesh>(null);
   const groupRef = useRef<THREE.Group>(null);
-  const count = 900;
-  const ground = useMemo(
-    () => terrainPatchGeometry(8.5, 5.5, position[0], position[2], 0.14, 20),
-    [position]
-  );
 
   useLayoutEffect(() => {
     const mesh = meshRef.current;
     if (!mesh) return;
     const dummy = new THREE.Object3D();
-    const baseX = position[0];
-    const baseZ = position[2];
     for (let i = 0; i < count; i++) {
-      const x = (Math.random() - 0.5) * 8.0 + baseX;
-      const z = (Math.random() - 0.5) * 5.0 + baseZ;
-      dummy.position.set(x, sinwolHeight(x, z) + 0.24 + Math.random() * 0.16, z);
+      let x: number;
+      if (rowStart !== undefined && rowStep !== undefined && rowCount !== undefined) {
+        const row = Math.floor(Math.random() * rowCount);
+        x = rowStart + row * rowStep + (Math.random() - 0.5) * (rowSpread ?? 1.2);
+      } else {
+        x = (Math.random() - 0.5) * width + baseX;
+      }
+      const z = (Math.random() - 0.5) * depth + baseZ;
+      const s = 0.62 + Math.random() * 0.4;
+      dummy.position.set(x, sinwolHeight(x, z) + lift + 0.14 * s - 0.02, z);
       dummy.rotation.set((Math.random() - 0.5) * 0.22, Math.random() * Math.PI, (Math.random() - 0.5) * 0.22);
-      const s = 0.55 + Math.random() * 0.55;
-      dummy.scale.set(s, s * (0.9 + Math.random() * 0.5), s);
+      dummy.scale.set(s, s, s);
       dummy.updateMatrix();
       mesh.setMatrixAt(i, dummy.matrix);
     }
     mesh.instanceMatrix.needsUpdate = true;
-  }, [position]);
+  }, [baseX, baseZ, width, depth, count, lift, rowStart, rowStep, rowCount, rowSpread]);
 
   useFrame((state) => {
     if (groupRef.current) {
@@ -133,13 +171,46 @@ function RyeField({ position }: { position: [number, number, number] }) {
 
   return (
     <group ref={groupRef}>
-      <mesh geometry={ground} rotation={[-Math.PI / 2, 0, 0]} position={[position[0], 0, position[2]]} receiveShadow>
-        <meshStandardMaterial color="#5f7f2e" roughness={0.95} />
-      </mesh>
-      <instancedMesh ref={meshRef} args={[undefined, undefined, count]} castShadow receiveShadow>
-        <coneGeometry args={[0.05, 0.62, 4]} />
-        <meshStandardMaterial color="#7ba33c" roughness={0.86} />
+      <instancedMesh ref={meshRef} args={[undefined, undefined, count]} receiveShadow>
+        <coneGeometry args={[0.035, 0.28, 3]} />
+        <meshStandardMaterial color="#86bd45" roughness={0.86} />
       </instancedMesh>
+    </group>
+  );
+}
+
+/** 호밀밭 — 흙바닥 위에 파릇하게 올라온 호밀 */
+function RyeField({
+  position,
+  width = 8.5,
+  depth = 5.5,
+  count = 1200,
+  lift = 0.14,
+}: {
+  position: [number, number, number];
+  width?: number;
+  depth?: number;
+  count?: number;
+  lift?: number;
+}) {
+  const [px, , pz] = position;
+  const ground = useMemo(
+    () => terrainPatchGeometry(width, depth, px, pz, lift, 20),
+    [width, depth, px, pz, lift]
+  );
+  return (
+    <group>
+      <mesh geometry={ground} rotation={[-Math.PI / 2, 0, 0]} position={[px, 0, pz]} receiveShadow>
+        <meshStandardMaterial color="#5d8f2f" roughness={0.95} />
+      </mesh>
+      <RyeBlades
+        baseX={px}
+        baseZ={pz}
+        width={width}
+        depth={depth}
+        count={count}
+        lift={lift + 0.04}
+      />
     </group>
   );
 }
@@ -156,7 +227,7 @@ function GrassTufts() {
     for (let i = 0; i < count; i++) {
       const x = (Math.random() - 0.5) * 62;
       const z = (Math.random() - 0.5) * 62;
-      // 개간지(흙) 안쪽은 잔디 제외
+      // 경작지(호밀밭) 안쪽은 잔디 제외
       if (x > -11 && x < 7 && z > -4.5 && z < 10.5) continue;
       dummy.position.set(x, sinwolHeight(x, z) + 0.12, z);
       dummy.rotation.set((Math.random() - 0.5) * 0.3, Math.random() * Math.PI, (Math.random() - 0.5) * 0.3);
@@ -251,26 +322,45 @@ function ZelkovaShade({ position }: { position: [number, number, number] }) {
   );
 }
 
-/** 개간 구역 — 양토 노출, 경계 측량 말뚝 (지형에 밀착) */
-function ClearedZone() {
-  const patch = useMemo(() => terrainPatchGeometry(16, 13, -3, 2.5, 0.08, 28), []);
-  const strips = useMemo(
-    () => Array.from({ length: 7 }, (_, i) => terrainPatchGeometry(0.9, 12.4, -9.6 + i * 2, 2.5, 0.1, 18)),
+/** 경작지 — 밭 전체에 파종한 호밀. 고랑을 따라 파릇하게 올라오고, 경계 측량 말뚝이 서 있다 */
+const ROW_START = -8.4;
+const ROW_STEP = 1.75;
+const ROW_COUNT = 8;
+
+function RyePaddock() {
+  const patch = useMemo(() => terrainPatchGeometry(14, 12.6, -2, 2.5, 0.08, 30), []);
+  const rows = useMemo(
+    () =>
+      Array.from({ length: ROW_COUNT }, (_, i) =>
+        terrainPatchGeometry(1.15, 12.0, ROW_START + i * ROW_STEP, 2.5, 0.11, 20)
+      ),
     []
   );
   return (
     <group>
-      <mesh geometry={patch} rotation={[-Math.PI / 2, 0, 0]} position={[-3, 0, 2.5]} receiveShadow>
-        <meshStandardMaterial color="#8c5e38" roughness={0.95} />
+      <mesh geometry={patch} rotation={[-Math.PI / 2, 0, 0]} position={[-2, 0, 2.5]} receiveShadow>
+        <meshStandardMaterial color="#54862b" roughness={0.95} />
       </mesh>
-      {strips.map((geo, i) => (
-        <mesh key={i} geometry={geo} rotation={[-Math.PI / 2, 0, 0]} position={[-9.6 + i * 2, 0, 2.5]}>
-          <meshStandardMaterial color={i % 2 ? "#96683f" : "#7f5530"} roughness={0.96} />
+      {rows.map((geo, i) => (
+        <mesh key={i} geometry={geo} rotation={[-Math.PI / 2, 0, 0]} position={[ROW_START + i * ROW_STEP, 0, 2.5]}>
+          <meshStandardMaterial color={i % 2 ? "#74aa3f" : "#6aa03a"} roughness={0.96} />
         </mesh>
       ))}
+      <RyeBlades
+        baseX={-2}
+        baseZ={2.5}
+        width={14}
+        depth={12.6}
+        count={6000}
+        lift={0.12}
+        rowStart={ROW_START}
+        rowStep={ROW_STEP}
+        rowCount={ROW_COUNT}
+        rowSpread={0.9}
+      />
       {([-10.5, 7.5] as number[]).flatMap((px) =>
         ([-4.5, 10.5] as number[]).map((pz) => (
-          <group key={`survey-${px}-${pz}`} position={[px, 0.4, pz]}>
+          <group key={`survey-${px}-${pz}`} position={[px, sinwolHeight(px, pz) + 0.4, pz]}>
             <mesh castShadow>
               <cylinderGeometry args={[0.07, 0.09, 1.4, 6]} />
               <meshStandardMaterial color="#5a3a18" roughness={0.8} />
@@ -302,7 +392,7 @@ function RetainingWall() {
   );
 }
 
-/** 밤나무·상수리나무 식재 예정 표시 */
+/** 나무 식재 예정 표시 — 밤나무(주황)·상수리나무(초록) 말뚝 */
 function PlantingSpot({
   position,
   color,
@@ -314,7 +404,7 @@ function PlantingSpot({
 }) {
   return (
     <group position={position}>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.06, 0]}>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.16, 0]}>
         <circleGeometry args={[radius, 12]} />
         <meshStandardMaterial color={color} transparent opacity={0.38} />
       </mesh>
@@ -343,13 +433,14 @@ const westSparseForest: [number, number, number][] = [
   [-15, 0, -4], [-15, 0, 2], [-15, 0, 8],
 ];
 
-const chestnutPositions: [number, number, number][] = [
-  [-8, 0.3, 1.5], [-4, 0.3, 1.5], [0, 0.3, 1.5], [4, 0.3, 1.5],
-  [-8, 0.3, 5.5], [-4, 0.3, 5.5], [0, 0.3, 5.5], [4, 0.3, 5.5],
+// 나무 식재 예정 자리 (x, z) — 높이는 지형에서 계산한다
+const chestnutPositions: [number, number][] = [
+  [-8, 1.5], [-4, 1.5], [0, 1.5], [4, 1.5],
+  [-8, 5.5], [-4, 5.5], [0, 5.5], [4, 5.5],
 ];
 
-const oakPositions: [number, number, number][] = [
-  [-10, 0.4, -2], [-7, 0.7, -4.5], [-4, 0.7, -6],
+const oakPositions: [number, number][] = [
+  [-10, -2], [-7, -4.5], [-4, -6],
 ];
 
 // 자두 유목 과수원 (서남쪽 비탈)
@@ -381,7 +472,7 @@ export default function SinwolScene({
     const idx = mainNpcs.findIndex((m) => m.id === id);
     const stand = idx >= 0 ? photoSpot.stands[idx] : null;
     if (!stand) return null;
-    return { x: stand[0], z: stand[1], yaw: photoSpot.yaw, groundY: sinwolHeight(stand[0], stand[1]) };
+    return { x: stand[0], z: stand[1], yaw: photoSpot.yaw, groundY: footGroundY(stand[0], stand[1]) };
   };
 
   return (
@@ -395,11 +486,11 @@ export default function SinwolScene({
       <HorizonGround y={-2.6} />
       <MountainRidge />
       <HillyTerrain />
-      <ClearedZone />
+      <RyePaddock />
       <RetainingWall />
 
       <GrassTufts />
-      <RyeField position={[7.0, 0.1, 12.0]} />
+      <RyeField position={[7.0, 0.1, 12.0]} count={1800} />
 
       {eastForest.map((pos, i) => (
         <BroadleafTree key={`e-${i}`} position={[pos[0], sinwolHeight(pos[0], pos[2]), pos[2]]} scale={0.9} tint={i} />
@@ -416,10 +507,10 @@ export default function SinwolScene({
       ))}
 
       {chestnutPositions.map((pos, i) => (
-        <PlantingSpot key={`chestnut-${i}`} position={pos} color="#c8973a" radius={1.6} />
+        <PlantingSpot key={`chestnut-${i}`} position={[pos[0], sinwolHeight(pos[0], pos[1]), pos[1]]} color="#c8973a" radius={1.6} />
       ))}
       {oakPositions.map((pos, i) => (
-        <PlantingSpot key={`oak-${i}`} position={pos} color="#5a8a30" radius={1.3} />
+        <PlantingSpot key={`oak-${i}`} position={[pos[0], sinwolHeight(pos[0], pos[1]), pos[1]]} color="#5a8a30" radius={1.3} />
       ))}
 
       <LampPost position={[-11.2, sinwolHeight(-11.2, 9.6), 9.6]} />
@@ -444,9 +535,9 @@ export default function SinwolScene({
 
       {/* 핫스팟 — 실제 임업분석 데이터 반영 (구역 사진 연결 준비) */}
       <WorldHotspot
-        position={[-3, 0.5, 5]}
-        label="🌰 밤나무 조성 예정지"
-        info="임업분석 최적 수종 — 밤나무. 개간 구역(0.18ha) 내 식재 계획 중. 임지생산능력 Ⅱ급지(상), 양토 토양(토심 30cm 미만), 남서향 경사 10~15도. 오렌지 말뚝 = 밤나무 식재 예정 위치"
+        position={[-2, sinwolHeight(-2, 3.5) + 0.4, 3.5]}
+        label="🌳 나무 조성예정지"
+        info="밤나무·상수리나무를 심을 자리입니다. 개간 구역(0.18ha) 안에서 밤나무(임지생산능력 Ⅱ급지·양토·남서향 경사 10~15도)와 상수리나무 식재 위치를 잡아 두었습니다. 주황 말뚝 = 밤나무, 초록 말뚝 = 상수리나무 예정지. 지금은 밭 전체에 호밀을 파종해 땅심을 올리는 중입니다."
         onSelect={onHotspotSelect}
         hidden={photoMode}
         playerRef={playerRef}
@@ -460,14 +551,6 @@ export default function SinwolScene({
         playerRef={playerRef}
       />
       <WorldHotspot
-        position={[0, 0.5, 4]}
-        label="🌿 산나물 재배 가능지"
-        info="임업경영분석 결과 — 곰취·두릅·고비 재배 가능. 경사 10~15도, 남서향 경사지, 양토. 연평균기온 13~14°C, 강수량 1200~1300mm 조건. 산사태 위험 5등급(최저)"
-        onSelect={onHotspotSelect}
-        hidden={photoMode}
-        playerRef={playerRef}
-      />
-      <WorldHotspot
         position={[-10, 0.2, 7]}
         label="📍 서쪽 접근로 · 필지 경계"
         info="신월리 98번지 · 0.18ha(토지대장). 지목: 전. 계획관리지역, 성장관리계획구역. 드론 사진 기반 접근로 위치 반영 (서쪽 경계)"
@@ -476,9 +559,9 @@ export default function SinwolScene({
         playerRef={playerRef}
       />
       <WorldHotspot
-        position={[7.0, 0.6, 12.0]}
+        position={[2.2, sinwolHeight(2.2, 7.4) + 0.5, 7.4]}
         label="🌾 호밀밭"
-        info="녹비작물 호밀 재배 구역. 땅심을 살리고 잡초를 억제하는 사이갈이용으로 키우고 있습니다. 바람이 지나면 초록 물결이 일어요."
+        info="신월리 농장 밭 전체에 파종한 호밀. 파릇하게 올라온 호밀이 고랑을 따라 자라고 있습니다. 땅심을 살리고 잡초를 억제하는 녹비작물로, 사이갈이해 땅에 되돌립니다. 바람이 지나면 초록 물결이 일어요."
         onSelect={onHotspotSelect}
         hidden={photoMode}
         playerRef={playerRef}

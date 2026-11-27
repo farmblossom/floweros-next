@@ -58,20 +58,30 @@ export default function WorldHUD({
       <div className="absolute top-0 left-0 right-0 z-20 pointer-events-none">
         <div className="bg-gradient-to-b from-black/80 via-black/45 to-transparent pb-2.5">
           <div className="flex items-center gap-1.5 px-2 pt-2">
+            {/* 농장 선택으로 — 모바일 아이콘 */}
             <Link
-              href="/"
-              aria-label="꽃폈네 메인으로 이동"
+              href="/world"
+              aria-label="농장 선택으로 이동"
               className="pointer-events-auto flex items-center justify-center w-8 h-8 rounded-full bg-black/55 text-white backdrop-blur-sm hover:bg-black/75 transition-colors sm:hidden"
             >
               <span className="material-symbols-outlined text-[17px]">arrow_back</span>
             </Link>
+            {/* 농장 선택 · 처음 화면 — 넓은 화면 */}
             <Link
-              href="/"
-              aria-label="꽃폈네 메인으로 이동"
+              href="/world"
+              aria-label="농장 선택으로 이동"
               className="pointer-events-auto hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-black/50 text-white text-xs backdrop-blur-sm hover:bg-black/70 transition-colors"
             >
               <span className="material-symbols-outlined text-[15px]">arrow_back</span>
-              대문으로
+              농장 선택
+            </Link>
+            <Link
+              href="/"
+              aria-label="처음 화면으로 이동"
+              title="처음 화면"
+              className="pointer-events-auto flex items-center justify-center w-8 h-8 rounded-full bg-black/55 text-white backdrop-blur-sm hover:bg-black/75 transition-colors sm:h-7 sm:w-7"
+            >
+              <span className="material-symbols-outlined text-[16px]">home</span>
             </Link>
             <Link href="/" aria-label="꽃폈네" className="pointer-events-auto hidden md:flex items-center">
               <Image

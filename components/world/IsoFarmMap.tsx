@@ -17,7 +17,7 @@ const clamp = (n: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, n
 const HOTSPOTS: Record<Farm, { id: string; x: number; y: number; label: string; category: string; title: string; body: string; status: string }[]> = {
   sinwol: [
     { id: "new-field", x: 5, y: 5, label: "조성 기록", category: "농장 일지", title: "조성 과정을 기록합니다", body: "정리 전후 사진과 작업 내용, 계획 변경 사항을 시간순으로 모을 수 있는 자리입니다. 현재 임업분석 기반 컨셉 맵입니다.", status: "구현 예정" },
-    { id: "orchard", x: 9, y: 6, label: "식재 계획", category: "과원 관리", title: "식재와 생육 관리", body: "밤나무·상수리나무 식재 위치, 품종, 정식 시기, 생육 관찰 기록을 실제 자료와 연결할 예정입니다.", status: "설계 중" },
+    { id: "orchard", x: 9, y: 6, label: "나무 조성예정지", category: "과원 관리", title: "나무 조성예정지", body: "밤나무·상수리나무를 심을 자리입니다. 식재 위치·품종·정식 시기, 생육 관찰 기록을 실제 자료와 연결할 예정입니다.", status: "설계 중" },
     { id: "water", x: 11, y: 9, label: "용수 점검", category: "현장 관리", title: "배수·관수 관리", body: "남서향 경사지(10~15도) 지형과 물길을 검토하고 점검 항목을 정리하는 공간입니다.", status: "구현 예정" },
   ],
   deoksan: [
@@ -35,7 +35,7 @@ const FARM_INFO: Record<Farm, { name: string; english: string; note: string }> =
 // ── 타일 데이터 빌더 ─────────────────────────────────────────────
 type TileEl = { key: string; points: string; fill: string };
 type TreeEl = { key: string; cx: number; cy: number; leaf: string; shade: string };
-type SproutEl = { key: string; cx: number; cy: number; fill: string };
+type SproutEl = { key: string; cx: number; cy: number; fill: string; fill2: string };
 
 function buildTiles(farm: Farm) {
   const tiles: TileEl[] = [];
@@ -50,17 +50,18 @@ function buildTiles(farm: Farm) {
 
       if (farm === "sinwol") {
         const isWood = y < 2 || x > 12 || (x > 9 && y > 10) || (y > 11 && x < 4);
+        // 밭 전체가 호밀밭 — 고랑을 따라 파릇하게 올라온 호밀
         let fill: string = isWood
           ? ["#93ad74", "#9aae71", "#7c9a6c"][n % 3]
-          : ["#bdba8b", "#cfbf94", "#cab78d"][n % 3];
+          : ["#8cbc57", "#95c562", "#84b350"][n % 3];
         if ((x === 7 || x === 8) && y >= 3 && y <= 10) fill = "#d9c4a0";
         tiles.push({ key: `t${x}${y}`, points: iTile(x, y), fill });
         if (isWood && n > 2 && (x + y) % 2 === 0) {
           const c = iP(x + 0.5, y + 0.5);
           trees.push({ key: `tr${x}${y}`, cx: c.x, cy: c.y, leaf: n % 2 ? "#47765a" : "#356d52", shade: n % 3 ? "#79a174" : "#628e66" });
-        } else if (!isWood && n === 2) {
+        } else if (!isWood && y % 2 === 0 && n !== 5) {
           const c = iP(x + 0.5, y + 0.5);
-          sprouts.push({ key: `sp${x}${y}`, cx: c.x, cy: c.y, fill: n % 2 ? "#5f995a" : "#79a65c" });
+          sprouts.push({ key: `sp${x}${y}`, cx: c.x, cy: c.y, fill: n % 2 ? "#7ab648" : "#8ec95a", fill2: "#6aa838" });
         }
       } else {
         const isField = x >= 3 && x <= 11 && y >= 2 && y <= 10;
@@ -71,7 +72,7 @@ function buildTiles(farm: Farm) {
         tiles.push({ key: `t${x}${y}`, points: iTile(x, y), fill });
         if (isField && !isPath && n !== 0) {
           const c = iP(x + 0.5, y + 0.5);
-          sprouts.push({ key: `sp${x}${y}`, cx: c.x, cy: c.y, fill: n % 2 ? "#5f995a" : "#79a65c" });
+          sprouts.push({ key: `sp${x}${y}`, cx: c.x, cy: c.y, fill: n % 2 ? "#5f995a" : "#79a65c", fill2: "#3a7854" });
         } else if (!isField && n > 6 && (x + y) % 2 === 0) {
           const c = iP(x + 0.5, y + 0.5);
           trees.push({ key: `tr${x}${y}`, cx: c.x, cy: c.y, leaf: "#2a5e1e", shade: "#356728" });
@@ -234,7 +235,7 @@ export default function IsoFarmMap({ farm, onClose }: IsoFarmMapProps) {
               <g key={s.key} transform={`translate(${s.cx} ${s.cy - 3})`}>
                 <path d="M0 0V-11" stroke="#4b7950" strokeWidth="2" strokeLinecap="round" />
                 <ellipse cx="-5" cy="-8" rx="7" ry="3.8" transform="rotate(28 -5 -8)" fill={s.fill} />
-                <ellipse cx="5" cy="-12" rx="7" ry="3.8" transform="rotate(-30 5 -12)" fill="#3a7854" />
+                <ellipse cx="5" cy="-12" rx="7" ry="3.8" transform="rotate(-30 5 -12)" fill={s.fill2} />
               </g>
             ))}
 

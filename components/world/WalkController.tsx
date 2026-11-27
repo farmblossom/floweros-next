@@ -3,7 +3,22 @@ import { useEffect, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import VisitorAvatar, { AvatarPresetId } from "./VisitorAvatar";
-import { terrainHeight, type FarmId, type PlayerPosition, type WalkBounds } from "./terrain";
+import { sinwolHeight, terrainHeight, type FarmId, type PlayerPosition, type WalkBounds } from "./terrain";
+
+/**
+ * 포토존에 설 때의 발밑 높이 — 몸통 반경 안에서 가장 높은 지형.
+ * 경사면이 발·몸통 아래를 스쳐 가리지 않도록 그만큼 올려 세운다 (신월리).
+ */
+function stagedGroundY(farm: FarmId, x: number, z: number): number {
+  const base = terrainHeight(farm, x, z);
+  if (farm !== "sinwol") return base;
+  let y = base;
+  for (let i = 0; i < 8; i++) {
+    const a = (i / 8) * Math.PI * 2;
+    y = Math.max(y, sinwolHeight(x + Math.cos(a) * 0.3, z + Math.sin(a) * 0.3));
+  }
+  return y + 0.02;
+}
 
 interface JoystickState {
   x: number;
@@ -220,7 +235,7 @@ export default function WalkController({
           movingStateRef.current.moving = false;
         }
       }
-      pos.y = terrainHeight(farm, pos.x, pos.z);
+      pos.y = stagedRef.current ? stagedGroundY(farm, pos.x, pos.z) : terrainHeight(farm, pos.x, pos.z);
       if (avatarRef.current) {
         avatarRef.current.position.set(pos.x, pos.y, pos.z);
         avatarRef.current.rotation.y = headingRef.current;

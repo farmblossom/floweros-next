@@ -40,7 +40,7 @@ const farmMeta: Record<
   },
   sinwol: {
     name: "신월리 농장",
-    subtitle: "초동면 신월리 98번지 · 자두 유무·호밀밭",
+    subtitle: "초동면 신월리 98번지 · 자두 유목·호밀밭",
     start: [-10.6, 0, 11.4],
   },
 };
