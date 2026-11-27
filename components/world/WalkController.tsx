@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
-import VisitorAvatar, { AVATAR_LABEL_HEIGHT, type VisitorLook, type VisitorPose } from "./VisitorAvatar";
+import VisitorAvatar, { avatarLabelY, type VisitorLook, type VisitorPose } from "./VisitorAvatar";
 import { Html } from "@react-three/drei";
 import { sinwolHeight, terrainHeight, type FarmId, type PlayerPosition, type WalkBounds } from "./terrain";
 
@@ -267,7 +267,7 @@ export default function WalkController({
     <group ref={avatarRef} position={startPosition}>
       <VisitorAvatar look={look} pose={pose} movingState={movingStateRef} />
       <Html
-        position={[0, AVATAR_LABEL_HEIGHT[look.type], 0]}
+        position={[0, avatarLabelY(look, pose), 0]}
         center
         pointerEvents="none"
         zIndexRange={[7, 16]}

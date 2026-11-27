@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
 import * as THREE from "three";
-import VisitorAvatar, { AVATAR_LABEL_HEIGHT } from "./VisitorAvatar";
+import VisitorAvatar, { avatarLabelY } from "./VisitorAvatar";
 import { terrainHeight, type FarmId } from "./terrain";
 import type { Peer } from "./useFarmPresence";
 
@@ -59,7 +59,7 @@ function PeerAvatar({
     <group ref={groupRef} position={[peer.x, 0, peer.z]}>
       <VisitorAvatar look={peer.look} pose={peer.pose} movingState={movingRef} />
       <Html
-        position={[0, AVATAR_LABEL_HEIGHT[peer.look.type], 0]}
+        position={[0, avatarLabelY(peer.look, peer.pose), 0]}
         center
         pointerEvents="none"
         zIndexRange={[7, 16]}

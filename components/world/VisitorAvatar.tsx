@@ -49,13 +49,19 @@ export const POSES: { id: VisitorPose; label: string; emoji: string }[] = [
   { id: "bend", label: "구부리기", emoji: "🌱" },
 ];
 
-/** 이름표를 머리 위 어디에 띄울지 (월드 좌표) */
+/** 이름표를 머리 위 어디에 띄울지 (월드 좌표) — 앉거나 숙이면 그만큼 내린다 */
+export function avatarLabelY(look: VisitorLook, pose: VisitorPose): number {
+  const base = AVATAR_LABEL_HEIGHT[safeType(look.type)];
+  if (pose === "sit") return base - 0.5;
+  if (pose === "bend") return base - 0.34;
+  return base;
+}
+
 export const AVATAR_LABEL_HEIGHT: Record<AvatarType, number> = {
   female: 2.02,
   male: 2.02,
   child: 1.72,
 };
-
 const AVATAR_TYPE_IDS: AvatarType[] = ["female", "male", "child"];
 const POSE_IDS: VisitorPose[] = ["stand", "sit", "bend"];
 
@@ -188,10 +194,10 @@ function poseTarget(pose: VisitorPose, cfg: AvatarConfig): PoseTarget {
   }
   if (pose === "bend") {
     // 밭작물을 살피듯 살짝 쪼그려 상체를 숙이기
-    const thigh = -0.5;
-    const knee = 1.0;
-    const hip = half * Math.cos(0.5) * 2 + 0.04;
-    return { thigh, knee, drop: -(legTop - hip), torso: 0.58, arm: -0.3 };
+    const thigh = -0.6;
+    const knee = 1.2;
+    const hip = half * Math.cos(0.6) * 2 + 0.04;
+    return { thigh, knee, drop: -(legTop - hip), torso: 0.45, arm: -0.3 };
   }
   return { thigh: 0, knee: 0, drop: 0, torso: 0, arm: 0 };
 }
