@@ -181,10 +181,10 @@ function poseTarget(pose: VisitorPose, cfg: AvatarConfig): PoseTarget {
       const knee = 1.4;
       return { thigh, knee, drop: -(legTop - half - 0.05), torso: 0.04, arm: -0.62 };
     }
-    // 치마·반바지는 다리가 짧게 보이므로 조금 덜 굽히고 엉덩이를 낮춘다
-    const thigh = -1.2;
+    // 치마·반바지는 긴 치맛자락이 땅에 깔리듯 앉고, 발은 치맛단 아래로 내린다
+    const thigh = -1.25;
     const knee = 1.5;
-    return { thigh, knee, drop: -(legTop * 0.62 - half * 0.2), torso: 0.04, arm: -0.58 };
+    return { thigh, knee, drop: -(legTop * 0.6 - half * 0.2), torso: 0.04, arm: -0.5 };
   }
   if (pose === "bend") {
     // 밭작물을 살피듯 살짝 쪼그려 상체를 숙이기
