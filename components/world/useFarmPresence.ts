@@ -113,6 +113,7 @@ export default function useFarmPresence({
     let channel: RealtimeChannel | null = null;
     let sendTimer: number | null = null;
     let pruneTimer: number | null = null;
+    let reconnectTimer: number | null = null;
     let disposed = false;
 
     const syncPeerIds = () => {
@@ -218,7 +219,7 @@ export default function useFarmPresence({
         });
         channel.on("presence", { event: "leave" }, () => recount());
 
-        channel.subscribe((state) => {
+        channel.subscribe(function onState(state) {
           if (disposed) return;
           if (state === "SUBSCRIBED") {
             setStatus("live");
@@ -248,8 +249,24 @@ export default function useFarmPresence({
             };
             send();
             if (sendTimer === null) sendTimer = window.setInterval(send, 100);
-          } else if (state === "CHANNEL_ERROR" || state === "TIMED_OUT") {
-            setStatus("error");
+          } else if (state === "CHANNEL_ERROR" || state === "TIMED_OUT" || state === "CLOSED") {
+            // 끊겼으면 조용히 다시 붙는다 (잠깐의 오류로 혼자 보는 상태가 남지 않게)
+            if (sendTimer !== null) {
+              window.clearInterval(sendTimer);
+              sendTimer = null;
+            }
+            setStatus((prev) => (prev === "live" ? "error" : prev));
+            if (reconnectTimer === null && !disposed) {
+              reconnectTimer = window.setTimeout(() => {
+                reconnectTimer = null;
+                if (disposed || !channel) return;
+                try {
+                  void channel.subscribe(onState);
+                } catch {
+                  /* 다음 자동 재시도에서 */
+                }
+              }, 3000);
+            }
           }
         });
 
@@ -276,6 +293,7 @@ export default function useFarmPresence({
       disposed = true;
       if (sendTimer !== null) window.clearInterval(sendTimer);
       if (pruneTimer !== null) window.clearInterval(pruneTimer);
+      if (reconnectTimer !== null) window.clearTimeout(reconnectTimer);
       peersRef.current.clear();
       try {
         if (channel) void channel.unsubscribe();
