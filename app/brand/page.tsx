@@ -4,7 +4,27 @@ import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "브랜드 소개",
-  description: "FM 쩡이·퍼뜨기·쑤담이와 함께하는 꽃폈네 브랜드 이야기. 심고 가꾸고 수확하고 전하는 농장 플랫폼입니다.",
+  description:
+    "FM 쩡이·퍼뜨기·쑤담이와 함께하는 꽃폈네 브랜드 이야기. 심고 가꾸고 수확하고 전하는 농장 플랫폼입니다.",
+  alternates: { canonical: "/brand" },
+  openGraph: {
+    title: "꽃폈네 브랜드 소개",
+    description: "꽃이 피어야 열매를 맺습니다 — 꽃폈네 브랜드 이야기.",
+    url: "/brand",
+    images: [
+      {
+        url: "/assets/og/og-default.jpg",
+        width: 1200,
+        height: 630,
+        alt: "꽃폈네 브랜드",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "꽃폈네 브랜드 소개",
+    images: ["/assets/og/og-default.jpg"],
+  },
 };
 
 // 재배 과정 4단계 (siteContent.js 반영)

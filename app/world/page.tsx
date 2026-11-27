@@ -5,6 +5,26 @@ export const metadata: Metadata = {
   title: "3D 가상농장 — 농장 선택",
   description:
     "밀양 초동면의 두 농장, 신월리 농장과 덕산 농장 중 하나를 골라 3D로 산책해 보세요.",
+  alternates: { canonical: "/world" },
+  openGraph: {
+    title: "꽃폈네 3D 시뮬레이션 농장",
+    description: "신월리 98번지 호밀밭과 덕산 봄감자밭을 직접 걸어 보세요.",
+    url: "/world",
+    images: [
+      {
+        url: "/assets/og/og-world.jpg",
+        width: 1200,
+        height: 630,
+        alt: "꽃폈네 3D 시뮬레이션 농장",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "꽃폈네 3D 시뮬레이션 농장",
+    description: "호밀밭과 봄감자밭을 3D로 산책.",
+    images: ["/assets/og/og-world.jpg"],
+  },
 };
 
 const FARMS = [

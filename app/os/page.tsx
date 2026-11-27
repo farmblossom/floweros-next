@@ -3,12 +3,30 @@ import Link from "next/link";
 import Image from "next/image";
 import WeatherChip from "@/components/WeatherChip";
 
-/** 꽃폈네 브랜드 포트폴리오 (GitHub Pages) */
-const PORTFOLIO_URL = "https://farmblossom.github.io/FARMBLOSSOM_GitHub_Pages/";
-
 export const metadata: Metadata = {
   title: "꽃폈네 홈페이지",
-  description: "꽃폈네 운영 홈. 덕산농장·신월리 농장·3D 가상농장과 관리자 메뉴를 한곳에서 엽니다.",
+  description:
+    "꽃폈네 운영 홈. 덕산농장·신월리 농장·3D 가상농장과 관리자 메뉴를 한곳에서 엽니다.",
+  alternates: { canonical: "/os" },
+  openGraph: {
+    title: "꽃폈네 홈페이지 — 브랜드 이야기와 농장 소식",
+    description: "덕산농장·신월리 농장·3D 가상농장과 꽃폈네의 계절 기록을 한곳에서.",
+    url: "/os",
+    images: [
+      {
+        url: "/assets/og/og-home.jpg",
+        width: 1200,
+        height: 630,
+        alt: "꽃폈네 홈페이지 — 크라프트 봉투와 브랜드 로고",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "꽃폈네 홈페이지",
+    description: "브랜드 이야기 · 농장 소식 · 계절 기록",
+    images: ["/assets/og/og-home.jpg"],
+  },
 };
 
 // ── 아이소메트릭 미니맵 헬퍼 ──────────────────────────────────────
@@ -309,15 +327,13 @@ export default function GatewayPage() {
                     <span className="material-symbols-outlined text-[18px]">auto_stories</span>
                     브랜드 이야기
                   </Link>
-                  <a
-                    href={PORTFOLIO_URL}
-                    target="_blank"
-                    rel="noreferrer"
+                  <Link
+                    href="/portfolio"
                     className="inline-flex items-center gap-2 px-5 py-3 rounded-lg border border-[#e2d3c4] bg-[#fdf6ef] text-secondary font-semibold text-[14px] hover:bg-[#f7ebdf] transition-all shadow-sm"
                   >
                     <span aria-hidden>🌸</span>
                     브랜드 포트폴리오 보기
-                  </a>
+                  </Link>
                 </div>
 
                 {/* 실증 목표 안내 — 수치 과장 없음 */}

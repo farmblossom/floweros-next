@@ -5,10 +5,28 @@ export const metadata: Metadata = {
   title: "꽃폈네 — 어디로 들어가 볼까요?",
   description:
     "밀양 초동면 꽃폈네의 두 갈래 입구. 3D 시뮬레이션 농장을 산책하거나 꽃폈네 홈페이지에서 브랜드 이야기를 만나보세요.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "꽃폈네 — 어디로 들어가 볼까요?",
+    description:
+      "3D 시뮬레이션 농장과 브랜드 홈페이지, 두 갈래 입구. 밀양 초동면 꽃폈네.",
+    url: "/",
+    images: [
+      {
+        url: "/assets/og/og-default.jpg",
+        width: 1200,
+        height: 630,
+        alt: "꽃폈네 — 자연이 키운 건강한 선물",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "꽃폈네 — 어디로 들어가 볼까요?",
+    description: "3D 시뮬레이션 농장과 브랜드 홈페이지, 두 갈래 입구.",
+    images: ["/assets/og/og-default.jpg"],
+  },
 };
-
-/** 꽃폈네 브랜드 포트폴리오 (GitHub Pages) */
-const PORTFOLIO_URL = "https://farmblossom.github.io/FARMBLOSSOM_GitHub_Pages/";
 
 export default function LandingPage() {
   return (
@@ -167,15 +185,13 @@ export default function LandingPage() {
           <p className="text-[10.5px] leading-relaxed text-outline" style={{ wordBreak: "keep-all" }}>
             © 2026 꽃폈네 · FM 쩡이 운영 · 3D 장면과 데이터는 실증을 위한 시뮬레이션입니다
           </p>
-          <a
-            href={PORTFOLIO_URL}
-            target="_blank"
-            rel="noreferrer"
+          <Link
+            href="/portfolio"
             className="inline-flex items-center gap-1 rounded-full px-2 py-1 text-[10.5px] font-medium text-outline/75 transition-colors hover:text-secondary"
           >
             <span className="material-symbols-outlined text-[12px]">north_east</span>
             꽃폈네 브랜드 포트폴리오
-          </a>
+          </Link>
         </footer>
       </div>
     </main>
