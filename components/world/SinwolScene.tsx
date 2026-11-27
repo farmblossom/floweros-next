@@ -535,7 +535,7 @@ export default function SinwolScene({
 
       {/* 핫스팟 — 실제 임업분석 데이터 반영 (구역 사진 연결 준비) */}
       <WorldHotspot
-        position={[-2, sinwolHeight(-2, 3.5) + 0.4, 3.5]}
+        position={[-6.4, sinwolHeight(-6.4, 3.6) + 0.4, 3.6]}
         label="🌳 나무 조성예정지"
         info="밤나무·상수리나무를 심을 자리입니다. 개간 구역(0.18ha) 안에서 밤나무(임지생산능력 Ⅱ급지·양토·남서향 경사 10~15도)와 상수리나무 식재 위치를 잡아 두었습니다. 주황 말뚝 = 밤나무, 초록 말뚝 = 상수리나무 예정지. 지금은 밭 전체에 호밀을 파종해 땅심을 올리는 중입니다."
         onSelect={onHotspotSelect}
