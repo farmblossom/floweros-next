@@ -2,14 +2,23 @@
 import { useEffect, useRef, useState } from "react";
 import type { RealtimeChannel, SupabaseClient } from "@supabase/supabase-js";
 import type { PlayerPosition } from "./terrain";
-import type { AvatarPresetId } from "./VisitorAvatar";
+import {
+  safePose,
+  safeShirt,
+  safeType,
+  type VisitorLook,
+  type VisitorPose,
+} from "./VisitorAvatar";
 
 export type PresenceStatus = "off" | "connecting" | "live" | "error";
 
 export interface Peer {
   id: string;
   name: string;
-  avatar: AvatarPresetId;
+  /** 닉네임 · 타입 · 옷 색 · 밀짚모자 */
+  look: VisitorLook;
+  /** 서기 · 앉기 · 구부리기 */
+  pose: VisitorPose;
   /** 현재 렌더 위치 (수신 즉시 목표값으로) */
   x: number;
   y: number;
@@ -22,7 +31,14 @@ export interface Peer {
 interface PosPayload {
   s?: string;
   n?: string;
-  a?: string;
+  /** 아바타 타입 */
+  t?: string;
+  /** 옷 색 id */
+  c?: string;
+  /** 밀짚모자 (1/0) */
+  h?: number;
+  /** 자세 */
+  p?: string;
   x?: number;
   y?: number;
   z?: number;
@@ -30,22 +46,12 @@ interface PosPayload {
   m?: boolean;
 }
 
-const AVATAR_IDS: AvatarPresetId[] = ["farmer", "farmerette", "kid"];
+export const DEFAULT_VISITOR_NAME = "방문객";
 
-function safeAvatar(v: unknown): AvatarPresetId {
-  return AVATAR_IDS.includes(v as AvatarPresetId) ? (v as AvatarPresetId) : "farmer";
-}
-
-function readOrCreateNickname() {
-  const fallback = `방문객 ${Math.floor(Math.random() * 89) + 10}`;
-  try {
-    const saved = window.localStorage.getItem("floweros:visitor-name");
-    if (saved && saved.trim()) return saved.trim().slice(0, 12);
-    window.localStorage.setItem("floweros:visitor-name", fallback);
-  } catch {
-    /* 저장 못 해도 이번 방문은 그대로 진행 */
-  }
-  return fallback;
+/** 닉네임이 비어 있으면 기본 이름으로 */
+export function fallbackName(name: string) {
+  const trimmed = (name ?? "").trim();
+  return trimmed ? trimmed.slice(0, 12) : DEFAULT_VISITOR_NAME;
 }
 
 export function realtimeEnv(): { url: string; key: string } | null {
@@ -57,19 +63,21 @@ export function realtimeEnv(): { url: string; key: string } | null {
 }
 
 /**
- * 같은 농장에 동시에 접속한 방문자들의 위치·아바타를 Supabase Realtime Presence/Broadcast 로 주고받는다.
+ * 같은 농장에 동시에 접속한 방문자들의 위치·아바타·자세를 Supabase Realtime Presence/Broadcast 로 주고받는다.
  * 환경변수나 연결이 없으면 조용히 꺼지고(단독 모드) 3D 농장은 그대로 동작한다.
  */
 export default function useFarmPresence({
   farmId,
-  avatar,
+  look,
+  pose,
   playerRef,
   headingRef,
   movingRef,
   enabled = true,
 }: {
   farmId: string;
-  avatar: AvatarPresetId;
+  look: VisitorLook;
+  pose: VisitorPose;
   playerRef: React.RefObject<PlayerPosition>;
   headingRef: React.RefObject<number>;
   movingRef: React.RefObject<{ moving: boolean }>;
@@ -79,14 +87,16 @@ export default function useFarmPresence({
   const [peerIds, setPeerIds] = useState<string[]>([]);
   const [online, setOnline] = useState(1);
   const [status, setStatus] = useState<PresenceStatus>("off");
-  const [selfName, setSelfName] = useState("방문객");
   const selfIdRef = useRef<string>("");
-  const avatarRef = useRef<AvatarPresetId>(avatar);
+  const lookRef = useRef<VisitorLook>(look);
+  const poseRef = useRef<VisitorPose>(pose);
   const channelRef = useRef<RealtimeChannel | null>(null);
+  const name = fallbackName(look.name);
 
   useEffect(() => {
-    avatarRef.current = avatar;
-  }, [avatar]);
+    lookRef.current = look;
+    poseRef.current = pose;
+  }, [look, pose]);
 
   useEffect(() => {
     if (!enabled) return;
@@ -112,8 +122,18 @@ export default function useFarmPresence({
         ? crypto.randomUUID()
         : `v-${Math.random().toString(36).slice(2, 10)}`;
     selfIdRef.current = id;
-    const name = readOrCreateNickname();
-    setSelfName(name);
+    const nickname = fallbackName(lookRef.current.name);
+
+    const trackSelf = () => {
+      if (!channel) return;
+      void channel.track({
+        name: nickname,
+        type: lookRef.current.type,
+        shirt: lookRef.current.shirt,
+        strawHat: lookRef.current.strawHat,
+        pose: poseRef.current,
+      });
+    };
 
     (async () => {
       try {
@@ -136,10 +156,18 @@ export default function useFarmPresence({
           const p = (msg.payload ?? {}) as PosPayload;
           if (!p.s || p.s === selfIdRef.current) return;
           const prev = peersRef.current.get(p.s);
+          const peerLook = {
+            name: (p.n ?? DEFAULT_VISITOR_NAME).toString().slice(0, 12),
+            type: safeType(p.t),
+            shirt: safeShirt(p.c),
+            strawHat: p.h !== 0,
+          };
           const peer: Peer = {
             id: p.s,
-            name: (p.n ?? "방문객").toString().slice(0, 12),
-            avatar: safeAvatar(p.a),
+            name: peerLook.name,
+            look: peerLook,
+            pose: safePose(p.p),
+            // 옷 색·모자·자세가 바뀌면 즉시 반영 (위치는 부드럽게 보간)
             x: typeof p.x === "number" ? p.x : (prev?.x ?? 0),
             y: typeof p.y === "number" ? p.y : (prev?.y ?? 0),
             z: typeof p.z === "number" ? p.z : (prev?.z ?? 0),
@@ -180,18 +208,22 @@ export default function useFarmPresence({
           if (disposed) return;
           if (state === "SUBSCRIBED") {
             setStatus("live");
-            void channel?.track({ name, avatar: avatarRef.current });
-            // 연결되면 바로 한 번 알리고, 이후 100ms 주기로 위치를 보낸다
+            trackSelf();
+            // 연결되면 바로 한 번 알리고, 이후 100ms 주기로 위치·모습을 보낸다
             const send = () => {
               const p = playerRef.current;
               if (!p || !channel) return;
+              const l = lookRef.current;
               void channel.send({
                 type: "broadcast",
                 event: "pos",
                 payload: {
                   s: id,
-                  n: name,
-                  a: avatarRef.current,
+                  n: fallbackName(l.name),
+                  t: l.type,
+                  c: l.shirt,
+                  h: l.strawHat ? 1 : 0,
+                  p: poseRef.current,
                   x: Number(p.x.toFixed(2)),
                   y: Number((p.y ?? 0).toFixed(2)),
                   z: Number(p.z.toFixed(2)),
@@ -240,5 +272,18 @@ export default function useFarmPresence({
     };
   }, [farmId, enabled, playerRef, headingRef, movingRef]);
 
-  return { peersRef, peerIds, online, status, selfName, selfId: selfIdRef.current };
+  // 이름·모습이 바뀌면 presence 정보도 갱신 (같은 농장 방문자 목록)
+  useEffect(() => {
+    const channel = channelRef.current;
+    if (!channel) return;
+    void channel.track({
+      name,
+      type: look.type,
+      shirt: look.shirt,
+      strawHat: look.strawHat,
+      pose,
+    });
+  }, [name, look.type, look.shirt, look.strawHat, pose]);
+
+  return { peersRef, peerIds, online, status, selfName: name, selfId: selfIdRef.current };
 }

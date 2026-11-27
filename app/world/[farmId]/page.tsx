@@ -4,11 +4,27 @@ import { Canvas } from "@react-three/fiber";
 import dynamic from "next/dynamic";
 import * as THREE from "three";
 import WorldHUD from "@/components/world/WorldHUD";
-import type { AvatarPresetId } from "@/components/world/VisitorAvatar";
+import VisitorSetup from "@/components/world/VisitorSetup";
+import {
+  AVATAR_TYPES,
+  DEFAULT_LOOK,
+  POSES,
+  safeLook,
+  safePose,
+  type VisitorLook,
+  type VisitorPose,
+} from "@/components/world/VisitorAvatar";
 import { resolveMood, FARM_BOUNDS, type PreviewMode, type PlayerPosition } from "@/components/world/world-mood";
-import { DEFAULT_VIEW, scaledView, spotById, spotsFor } from "@/components/world/photo-spots";
+import {
+  DEFAULT_VIEW,
+  PHOTO_EXTRAS,
+  scaledView,
+  spotById,
+  spotsFor,
+  type PhotoExtraId,
+} from "@/components/world/photo-spots";
 import PhotoStudio, { playShutter } from "@/components/world/PhotoStudio";
-import useFarmPresence from "@/components/world/useFarmPresence";
+import useFarmPresence, { fallbackName } from "@/components/world/useFarmPresence";
 import { sunDirection } from "@/lib/weather";
 import { useWeather } from "@/lib/useWeather";
 import Link from "next/link";
@@ -56,6 +72,9 @@ interface HotspotInfo {
   imageUrl?: string;
 }
 
+const LOOK_STORAGE_KEY = "floweros:visitor-look";
+const POSE_STORAGE_KEY = "floweros:visitor-pose";
+
 type ViewMode = "3d" | "2d";
 
 export default function WorldPage({ params }: { params: Promise<{ farmId: string }> }) {
@@ -64,7 +83,10 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
   const [walkMode, setWalkMode] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>("3d");
   const [preview, setPreview] = useState<PreviewMode>("live");
-  const [avatar, setAvatar] = useState<AvatarPresetId>("farmer");
+  const [look, setLook] = useState<VisitorLook>(DEFAULT_LOOK);
+  const [pose, setPose] = useState<VisitorPose>("stand");
+  const [setupMode, setSetupMode] = useState<"entry" | "edit" | null>(null);
+  const [photoExtras, setPhotoExtras] = useState<PhotoExtraId[]>([]);
   const [activeNpc, setActiveNpc] = useState<string | null>(null);
   const [photoSpotId, setPhotoSpotId] = useState<string | null>(null);
   const [spotPanel, setSpotPanel] = useState(false);
@@ -103,6 +125,49 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
     return () => mq.removeEventListener("change", on);
   }, []);
 
+  // 저장해 둔 내 모습·닉네임 불러오기 — 이름이 없으면 입장 카드를 연다
+  useEffect(() => {
+    let saved: VisitorLook | null = null;
+    try {
+      const raw = window.localStorage.getItem(LOOK_STORAGE_KEY);
+      if (raw) saved = safeLook(JSON.parse(raw));
+      const savedPose = window.localStorage.getItem(POSE_STORAGE_KEY);
+      if (savedPose) setPose(safePose(savedPose));
+    } catch {
+      /* 저장된 값이 깨졌으면 기본값으로 */
+    }
+    if (saved?.name) {
+      setLook(saved);
+      return;
+    }
+    // 3D가 한 번 그려진 뒤 입장 카드를 띄운다
+    const id = window.setTimeout(() => setSetupMode("entry"), 650);
+    return () => window.clearTimeout(id);
+  }, []);
+
+  const saveLook = useCallback((next: VisitorLook) => {
+    setLook(next);
+    setSetupMode(null);
+    try {
+      window.localStorage.setItem(LOOK_STORAGE_KEY, JSON.stringify(next));
+    } catch {
+      /* 저장 못 해도 이번 방문은 그대로 */
+    }
+  }, []);
+
+  const changePose = useCallback((next: VisitorPose) => {
+    setPose(next);
+    try {
+      window.localStorage.setItem(POSE_STORAGE_KEY, next);
+    } catch {
+      /* 저장 못 해도 이번 방문은 그대로 */
+    }
+  }, []);
+
+  const toggleExtra = useCallback((id: PhotoExtraId) => {
+    setPhotoExtras((prev) => (prev.includes(id) ? prev.filter((v) => v !== id) : [...prev, id]));
+  }, []);
+
   // 농장을 바꾸면 보던 시점·패널은 초기화
   useEffect(() => {
     setPhotoSpotId(null);
@@ -131,7 +196,8 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
   // 같은 농장에 함께 접속한 방문자 (환경변수·연결이 없으면 조용히 단독 모드)
   const { peersRef, peerIds, online, status, selfId } = useFarmPresence({
     farmId,
-    avatar,
+    look,
+    pose,
     playerRef,
     headingRef: headingOutRef,
     movingRef: movingOutRef,
@@ -222,6 +288,7 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
               activeId={activeNpc}
               onTalk={setActiveNpc}
               photoSpot={photoSpot}
+              photoExtras={photoExtras}
               photoMode={!!photoSpot || cameraBusy}
               orbitTarget={orbitTarget as [number, number, number]}
               onPhotoSpotSelect={openSpot}
@@ -235,6 +302,7 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
               activeId={activeNpc}
               onTalk={setActiveNpc}
               photoSpot={photoSpot}
+              photoExtras={photoExtras}
               photoMode={!!photoSpot || cameraBusy}
               orbitTarget={orbitTarget as [number, number, number]}
               onPhotoSpotSelect={openSpot}
@@ -247,7 +315,9 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
             bounds={bounds}
             joystickRef={joystickRef}
             farm={isoFarm}
-            avatar={avatar}
+            look={look}
+            pose={pose}
+            name={fallbackName(look.name)}
             playerRef={playerRef}
             startPosition={start}
             headingOutRef={headingOutRef}
@@ -278,14 +348,89 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
         weather={weather}
         preview={preview}
         onPreviewChange={setPreview}
-        avatar={avatar}
-        onAvatarChange={setAvatar}
         visitors={online}
         presence={status}
       />
 
       {/* 동서남북 나침반 */}
       <Compass yawRef={compassRef} />
+
+      {/* 🧍 서기 · 🪑 앉기 · 🌱 구부리기 — 방문자 자세 */}
+      <div className="absolute right-3 bottom-[156px] z-20 flex items-center gap-0.5 p-1 rounded-full bg-black/50 backdrop-blur-sm sm:right-4 sm:bottom-[164px]">
+        {POSES.map((p) => {
+          const on = pose === p.id;
+          return (
+            <button
+              key={p.id}
+              onClick={() => changePose(p.id)}
+              aria-pressed={on}
+              aria-label={`${p.label} 자세`}
+              title={`${p.label} 자세`}
+              className={`flex items-center gap-1 px-2 py-1.5 rounded-full text-[11px] font-semibold whitespace-nowrap transition-colors ${
+                on ? "bg-white text-[#23301d]" : "text-white/85 hover:bg-white/15"
+              }`}
+            >
+              <span className="text-[12px] leading-none">{p.emoji}</span>
+              {p.label}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* 👤 내 캐릭터 — 닉네임 · 아바타 꾸미기 다시 열기 */}
+      <button
+        onClick={() => setSetupMode("edit")}
+        aria-label="내 캐릭터 닉네임·아바타 꾸미기"
+        className="absolute right-3 bottom-[112px] z-20 flex items-center gap-1.5 pl-1 pr-2.5 py-1 rounded-full bg-black/55 text-white backdrop-blur-sm hover:bg-black/75 transition-colors sm:right-4 sm:bottom-[114px]"
+      >
+        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-[#7fb04d] text-[12px]">
+          {AVATAR_TYPES.find((t) => t.id === look.type)?.emoji ?? "👩"}
+        </span>
+        <span className="max-w-[88px] truncate text-[11px] font-bold">{fallbackName(look.name)}</span>
+        <span className="material-symbols-outlined text-[14px] text-white/80">palette</span>
+      </button>
+
+      {/* 👥 포토존 단체샷 — 함께 찍을 지기 고르기 (퍼뜨기·쑤담이는 기본) */}
+      {photoSpot ? (
+        <div className="absolute left-3 bottom-[116px] z-20 w-[188px] rounded-2xl bg-[#1b2018]/92 backdrop-blur-md border border-white/12 shadow-xl p-2 sm:left-4 sm:bottom-[188px]">
+          <p className="px-1 text-[10.5px] font-bold text-white">👥 함께 찍을 지기</p>
+          <p className="px-1 pt-0.5 text-[9px] leading-snug text-white/55" style={{ wordBreak: "keep-all" }}>
+            퍼뜨기·쑤담이는 늘 함께해요
+          </p>
+          <div className="mt-1.5 grid grid-cols-2 gap-1">
+            {PHOTO_EXTRAS.map((e) => {
+              const on = photoExtras.includes(e.id);
+              return (
+                <button
+                  key={e.id}
+                  onClick={() => toggleExtra(e.id)}
+                  aria-pressed={on}
+                  className={`flex items-center gap-1 rounded-lg px-1.5 py-1.5 text-[10.5px] font-semibold border transition-colors ${
+                    on
+                      ? "bg-[#8cbd57]/25 border-[#8cbd57] text-white"
+                      : "bg-white/6 border-white/10 text-white/70 hover:bg-white/12"
+                  }`}
+                >
+                  <span className="text-[11px]">{e.emoji}</span>
+                  <span className="truncate">{e.label}</span>
+                  <span className="ml-auto material-symbols-outlined text-[12px] opacity-80">
+                    {on ? "check" : "add"}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
+
+      {/* 입장 카드 · 내 캐릭터 꾸미기 */}
+      <VisitorSetup
+        open={setupMode !== null}
+        mode={setupMode ?? "edit"}
+        initial={look}
+        onSave={saveLook}
+        onClose={() => setSetupMode(null)}
+      />
 
       {/* 📷 사진 찍기 · 포토존 · 전체 보기 */}
       <div className="absolute right-3 bottom-16 z-20 flex flex-col items-end gap-1.5 sm:right-auto sm:bottom-28 sm:left-4 sm:items-start">

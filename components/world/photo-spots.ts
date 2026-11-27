@@ -127,6 +127,55 @@ export function spotsFor(farm: FarmId): PhotoSpot[] {
   return PHOTO_SPOTS.filter((s) => s.farm === farm);
 }
 
+/** 포토존에서 함께 찍을 수 있는 추가 캐릭터 (퍼뜨기·쑤담이는 기본 고정) */
+export type PhotoExtraId = "dangoma" | "kkuloma" | "jjongoma" | "fm";
+
+export const PHOTO_EXTRAS: { id: PhotoExtraId; npcId: string; label: string; emoji: string }[] = [
+  { id: "dangoma", npcId: "dangoma", label: "당고매", emoji: "🍠" },
+  { id: "kkuloma", npcId: "kkuloma", label: "꿀고매", emoji: "🍯" },
+  { id: "jjongoma", npcId: "jjongoma", label: "쫀고매", emoji: "🍢" },
+  { id: "fm", npcId: "fm-jjeongi", label: "FM 쩡이", emoji: "👒" },
+];
+
+/**
+ * 추가 캐릭터가 서는 자리 — 방문자 아바타 뒤쪽 반원으로 퍼진다.
+ * 카메라 쪽(+back 반대)을 등지고 서서 모두 카메라를 바라보므로 앞사람을 가리지 않는다.
+ * 캐릭터마다 자리가 고정돼 있어 하나를 꾸고 꺼도 나머지가 움직이지 않는다.
+ */
+const EXTRA_SLOT: Record<PhotoExtraId, [number, number]> = {
+  dangoma: [32, 1.95],
+  kkuloma: [-32, 1.95],
+  jjongoma: [68, 1.86],
+  fm: [-68, 1.86],
+};
+
+export function extraGatherSlots(
+  spot: PhotoSpot,
+  ids: PhotoExtraId[]
+): Record<string, { x: number; z: number; yaw: number }> {
+  const dx = spot.view.eye[0] - spot.avatarAt[0];
+  const dz = spot.view.eye[2] - spot.avatarAt[1];
+  const len = Math.hypot(dx, dz) || 1;
+  // back: 카메라 반대(방문자 뒤쪽), right: 좌우
+  const bx = -dx / len;
+  const bz = -dz / len;
+  const rx = -bz;
+  const rz = bx;
+  const out: Record<string, { x: number; z: number; yaw: number }> = {};
+  for (const id of ids) {
+    const slot = EXTRA_SLOT[id];
+    if (!slot) continue;
+    const [deg, r] = slot;
+    const a = (deg * Math.PI) / 180;
+    out[id] = {
+      x: spot.avatarAt[0] + (bx * Math.cos(a) + rx * Math.sin(a)) * r,
+      z: spot.avatarAt[1] + (bz * Math.cos(a) + rz * Math.sin(a)) * r,
+      yaw: spot.yaw,
+    };
+  }
+  return out;
+}
+
 export function spotById(farm: FarmId, id: string | null): PhotoSpot | null {
   if (!id) return null;
   return PHOTO_SPOTS.find((s) => s.farm === farm && s.id === id) ?? null;

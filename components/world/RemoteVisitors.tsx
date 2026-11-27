@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
 import * as THREE from "three";
-import VisitorAvatar from "./VisitorAvatar";
+import VisitorAvatar, { AVATAR_LABEL_HEIGHT } from "./VisitorAvatar";
 import { terrainHeight, type FarmId } from "./terrain";
 import type { Peer } from "./useFarmPresence";
 
@@ -36,14 +36,19 @@ function PeerAvatar({ peer, farm }: { peer: Peer; farm: FarmId }) {
 
   return (
     <group ref={groupRef} position={[peer.x, 0, peer.z]}>
-      <VisitorAvatar preset={peer.avatar} movingState={movingRef} />
-      <Html position={[0, 2.05, 0]} center pointerEvents="none" zIndexRange={[7, 16]}>
+      <VisitorAvatar look={peer.look} pose={peer.pose} movingState={movingRef} />
+      <Html
+        position={[0, AVATAR_LABEL_HEIGHT[peer.look.type], 0]}
+        center
+        pointerEvents="none"
+        zIndexRange={[7, 16]}
+      >
         <div
           style={{
             display: "flex",
             alignItems: "center",
             gap: 3,
-            background: "rgba(38,58,32,0.82)",
+            background: "rgba(38,58,32,0.86)",
             color: "#f4f8ee",
             border: "1px solid rgba(255,255,255,0.35)",
             borderRadius: 999,
@@ -63,7 +68,7 @@ function PeerAvatar({ peer, farm }: { peer: Peer; farm: FarmId }) {
   );
 }
 
-/** 같은 농장에 접속한 다른 방문자들의 아바타 — 위치·방향·아바타를 실시간으로 따라간다 */
+/** 같은 농장에 접속한 다른 방문자들의 아바타 — 위치·방향·아바타·자세를 실시간으로 따라간다 */
 export default function RemoteVisitors({
   farm,
   peerIds,
@@ -78,7 +83,7 @@ export default function RemoteVisitors({
       {peerIds.map((id) => {
         const peer = peersRef.current?.get(id);
         if (!peer) return null;
-        return <PeerAvatar key={`${id}-${peer.avatar}`} peer={peer} farm={farm} />;
+        return <PeerAvatar key={id} peer={peer} farm={farm} />;
       })}
     </>
   );

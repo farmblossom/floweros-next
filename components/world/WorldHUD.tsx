@@ -3,7 +3,6 @@ import Link from "next/link";
 import Image from "next/image";
 import type { WeatherNow } from "@/lib/weather";
 import type { PreviewMode } from "./world-mood";
-import { AVATAR_PRESETS, type AvatarPresetId } from "./VisitorAvatar";
 
 interface WorldHUDProps {
   farmName: string;
@@ -14,8 +13,6 @@ interface WorldHUDProps {
   weather: WeatherNow | null;
   preview: PreviewMode;
   onPreviewChange: (preview: PreviewMode) => void;
-  avatar: AvatarPresetId;
-  onAvatarChange: (avatar: AvatarPresetId) => void;
   /** 같은 농장에 함께 접속한 방문자 수 (나 포함) */
   visitors?: number;
   presence?: "off" | "connecting" | "live" | "error";
@@ -44,8 +41,6 @@ export default function WorldHUD({
   weather,
   preview,
   onPreviewChange,
-  avatar,
-  onAvatarChange,
   visitors = 1,
   presence = "off",
 }: WorldHUDProps) {
@@ -200,35 +195,6 @@ export default function WorldHUD({
             </div>
           </div>
         </div>
-      </div>
-
-      {/* ── 방문자 아바타 선택 (남성 · 여성 · 어린이) ── */}
-      <div className="absolute right-3 bottom-[112px] z-20 flex flex-col items-end gap-1 pointer-events-none sm:right-4">
-        <span className="text-[10px] text-white/70 bg-black/40 px-2 py-0.5 rounded-full backdrop-blur-sm">
-          방문자 아바타
-        </span>
-        <div className="pointer-events-auto flex items-center gap-1 p-1 rounded-full bg-black/45 backdrop-blur-sm">
-          {AVATAR_PRESETS.map((preset) => (
-            <button
-              key={preset.id}
-              onClick={() => onAvatarChange(preset.id)}
-              title={`${preset.label} — ${preset.description}`}
-              aria-label={preset.label}
-              aria-pressed={avatar === preset.id}
-              className={`flex flex-col items-center justify-center w-9 h-9 rounded-full transition-colors ${
-                avatar === preset.id ? "bg-white text-[#23301d]" : "text-white/80 hover:bg-white/15"
-              }`}
-            >
-              <span className="material-symbols-outlined text-[16px]">{preset.icon}</span>
-              <span className="text-[7.5px] font-semibold leading-none mt-0.5">
-                {preset.gender === "male" ? "남" : preset.gender === "female" ? "여" : "어린이"}
-              </span>
-            </button>
-          ))}
-        </div>
-        <span className="text-[10px] text-white/85 bg-black/45 px-2 py-0.5 rounded-full backdrop-blur-sm">
-          {AVATAR_PRESETS.find((p) => p.id === avatar)?.label}
-        </span>
       </div>
 
       {/* ── 조작 안내 ── */}

@@ -9,7 +9,7 @@ import { FARM_NPCS } from "./farm-npcs";
 import { sinwolHeight, terrainPatchGeometry, type PlayerPosition } from "./terrain";
 import { BroadleafTree, HorizonGround, LampPost, MountainRidge } from "./Scenery";
 import { PhotoSpotSign } from "./Decorations";
-import { spotsFor, type PhotoSpot } from "./photo-spots";
+import { spotsFor, extraGatherSlots, PHOTO_EXTRAS, type PhotoExtraId, type PhotoSpot } from "./photo-spots";
 
 interface SinwolSceneProps {
   onHotspotSelect: (label: string, info: string) => void;
@@ -19,6 +19,8 @@ interface SinwolSceneProps {
   onTalk: (id: string | null) => void;
   /** 포토존 — 지기들이 이 자리로 모여 선다 */
   photoSpot?: PhotoSpot | null;
+  /** 포토존에서 함께 찍기로 고른 추가 캐릭터 */
+  photoExtras?: PhotoExtraId[];
   photoMode?: boolean;
   orbitTarget?: [number, number, number];
   onPhotoSpotSelect?: (id: string) => void;
@@ -369,6 +371,7 @@ export default function SinwolScene({
   activeId,
   onTalk,
   photoSpot = null,
+  photoExtras = [],
   photoMode = false,
   orbitTarget = [0, 1, 2],
   onPhotoSpotSelect,
@@ -380,12 +383,20 @@ export default function SinwolScene({
   const spots = useMemo(() => spotsFor("sinwol"), []);
 
   // 포토존에 모일 때 — 지기마다 설 자리
+  const extraSlots = photoSpot ? extraGatherSlots(photoSpot, photoExtras) : null;
   const gatherFor = (id: string): { x: number; z: number; yaw: number; groundY?: number } | null => {
     if (!photoSpot) return null;
     const idx = mainNpcs.findIndex((m) => m.id === id);
-    const stand = idx >= 0 ? photoSpot.stands[idx] : null;
-    if (!stand) return null;
-    return { x: stand[0], z: stand[1], yaw: photoSpot.yaw, groundY: footGroundY(stand[0], stand[1]) };
+    if (idx >= 0) {
+      const stand = photoSpot.stands[idx];
+      if (!stand) return null;
+      return { x: stand[0], z: stand[1], yaw: photoSpot.yaw, groundY: footGroundY(stand[0], stand[1]) };
+    }
+    // 추가로 고른 고구마 3종 · FM 쩡이 — 반원 대형으로 합류
+    const extra = PHOTO_EXTRAS.find((e) => e.npcId === id);
+    const slot = extra && extraSlots ? extraSlots[extra.id] : null;
+    if (!slot) return null;
+    return { x: slot.x, z: slot.z, yaw: slot.yaw, groundY: footGroundY(slot.x, slot.z) };
   };
 
   return (

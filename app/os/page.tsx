@@ -7,7 +7,7 @@ import WeatherChip from "@/components/WeatherChip";
 const PORTFOLIO_URL = "https://farmblossom.github.io/FARMBLOSSOM_GitHub_Pages/";
 
 export const metadata: Metadata = {
-  title: "꽃폈네 OS — 관리자",
+  title: "꽃폈네 홈페이지",
   description: "꽃폈네 운영 홈. 덕산농장·신월리 농장·3D 가상농장과 관리자 메뉴를 한곳에서 엽니다.",
 };
 

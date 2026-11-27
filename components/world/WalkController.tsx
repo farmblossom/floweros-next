@@ -2,7 +2,8 @@
 import { useEffect, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
-import VisitorAvatar, { AvatarPresetId } from "./VisitorAvatar";
+import VisitorAvatar, { AVATAR_LABEL_HEIGHT, type VisitorLook, type VisitorPose } from "./VisitorAvatar";
+import { Html } from "@react-three/drei";
 import { sinwolHeight, terrainHeight, type FarmId, type PlayerPosition, type WalkBounds } from "./terrain";
 
 /**
@@ -31,7 +32,12 @@ interface WalkControllerProps {
   bounds: WalkBounds;
   joystickRef: React.RefObject<JoystickState>;
   farm: FarmId;
-  avatar: AvatarPresetId;
+  /** 방문자가 고른 모습 (타입·옷 색·밀짚모자) */
+  look: VisitorLook;
+  /** 서기 · 앉기 · 구부리기 */
+  pose: VisitorPose;
+  /** 아바타 머리 위에 띄우는 닉네임 */
+  name: string;
   playerRef: React.RefObject<PlayerPosition>;
   startPosition: [number, number, number];
   /** 바라보는 방향 공유 (실시간 접속자 동기화용) */
@@ -52,7 +58,9 @@ export default function WalkController({
   bounds,
   joystickRef,
   farm,
-  avatar,
+  look,
+  pose,
+  name,
   playerRef,
   startPosition,
   headingOutRef,
@@ -257,7 +265,34 @@ export default function WalkController({
 
   return (
     <group ref={avatarRef} position={startPosition}>
-      <VisitorAvatar preset={avatar} movingState={movingStateRef} />
+      <VisitorAvatar look={look} pose={pose} movingState={movingStateRef} />
+      <Html
+        position={[0, AVATAR_LABEL_HEIGHT[look.type], 0]}
+        center
+        pointerEvents="none"
+        zIndexRange={[7, 16]}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 3,
+            background: "rgba(255,255,255,0.9)",
+            color: "#22301b",
+            border: "1.5px solid rgba(63,107,52,0.85)",
+            borderRadius: 999,
+            padding: "1px 7px",
+            fontSize: 10,
+            fontWeight: 800,
+            whiteSpace: "nowrap",
+            pointerEvents: "none",
+            boxShadow: "0 1px 4px rgba(0,0,0,0.2)",
+            fontFamily: "system-ui, -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif",
+          }}
+        >
+          {name}
+        </div>
+      </Html>
     </group>
   );
 }
