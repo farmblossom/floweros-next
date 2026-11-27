@@ -145,8 +145,8 @@ export const PHOTO_EXTRAS: { id: PhotoExtraId; npcId: string; label: string; emo
 const EXTRA_SLOT: Record<PhotoExtraId, [number, number]> = {
   dangoma: [0.85, 1.55],
   kkuloma: [-0.85, 1.55],
-  jjongoma: [1.72, 1.2],
-  fm: [-1.72, 1.2],
+  jjongoma: [1.95, -0.45],
+  fm: [-1.95, -0.45],
 };
 
 export function extraGatherSlots(
