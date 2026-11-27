@@ -326,7 +326,7 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
           />
           <RemoteVisitors farm={isoFarm} peerIds={peerIds} peersRef={peersRef} />
           <PhotoCamera
-            view={cameraView ? scaledView(cameraView.view, portrait ? 2 : 1) : scaledView(DEFAULT_VIEW[isoFarm], portrait ? 1.45 : 1)}
+            view={cameraView ? scaledView(cameraView.view, portrait ? 2.15 : 1) : scaledView(DEFAULT_VIEW[isoFarm], portrait ? 1.45 : 1)}
             requestId={photoSpot ? photoSpot.id : `home-${isoFarm}-${homeTick}`}
             onAnimating={setCameraBusy}
           />
@@ -392,7 +392,7 @@ export default function WorldPage({ params }: { params: Promise<{ farmId: string
 
       {/* 👥 포토존 단체샷 — 함께 찍을 지기 고르기 (퍼뜨기·쑤담이는 기본) */}
       {photoSpot ? (
-        <div className="absolute left-3 bottom-[116px] z-20 w-[188px] rounded-2xl bg-[#1b2018]/92 backdrop-blur-md border border-white/12 shadow-xl p-2 sm:left-4 sm:bottom-[188px]">
+        <div className="absolute left-2 top-[98px] z-20 w-[178px] rounded-2xl bg-[#1b2018]/92 backdrop-blur-md border border-white/12 shadow-xl p-2 sm:left-4 sm:top-auto sm:bottom-[196px] sm:w-[188px]">
           <p className="px-1 text-[10.5px] font-bold text-white">👥 함께 찍을 지기</p>
           <p className="px-1 pt-0.5 text-[9px] leading-snug text-white/55" style={{ wordBreak: "keep-all" }}>
             퍼뜨기·쑤담이는 늘 함께해요
