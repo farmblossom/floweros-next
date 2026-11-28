@@ -62,10 +62,34 @@ export const metadata: Metadata = {
   verification: {
     google: "YFYMtrQ5oVG6nH9GMe2kJfG5GLb1hnjSWcWEZfap-a0",
     other: {
-      "naver-site-verification": ["d67f6562c7f171486689c774354ddc007c46f306"],
+      "naver-site-verification": [
+        "d67f6562c7f171486689c774354ddc007c46f306",
+        "997b7dc203cc0fecd5dabf027b2655f253bb4bae",
+      ],
     },
   },
 };
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "꽃폈네",
+    alternateName: ["farmblossom", "꽃폈네 농장"],
+    url: "https://farmblossom.kr",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "꽃폈네",
+    url: "https://farmblossom.kr",
+    logo: "https://farmblossom.kr/assets/og/og-default.jpg",
+    sameAs: [
+      "https://link.inpock.co.kr/farmblossom",
+      "https://www.instagram.com/_farmblossom",
+    ],
+  },
+];
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
@@ -77,6 +101,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
       </head>
       <body className="min-h-full flex flex-col bg-surface text-on-surface">

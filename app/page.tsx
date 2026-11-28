@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "꽃폈네 — 어디로 들어가 볼까요?",
+  title: "꽃폈네 — 밀양 초동면 농장 공식 홈페이지",
   description:
     "밀양 초동면 꽃폈네의 두 갈래 입구. 3D 시뮬레이션 농장을 산책하거나 꽃폈네 홈페이지에서 브랜드 이야기를 만나보세요.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "꽃폈네 — 어디로 들어가 볼까요?",
+    title: "꽃폈네 — 밀양 초동면 농장 공식 홈페이지",
     description:
       "3D 시뮬레이션 농장과 브랜드 홈페이지, 두 갈래 입구. 밀양 초동면 꽃폈네.",
     url: "/",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "꽃폈네 — 어디로 들어가 볼까요?",
+    title: "꽃폈네 — 밀양 초동면 농장 공식 홈페이지",
     description: "3D 시뮬레이션 농장과 브랜드 홈페이지, 두 갈래 입구.",
     images: ["/assets/og/og-default.jpg"],
   },
@@ -43,13 +43,13 @@ export default function LandingPage() {
         {/* 브랜드 */}
         <header className="flex flex-col items-center text-center">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-[#e3d7c8] bg-white/60 px-3 py-1 text-[11px] font-semibold tracking-[0.22em] text-secondary backdrop-blur-sm">
-            MIRYANG · CHODONG
+            꽃폈네 · MIRYANG · CHODONG
           </span>
           <h1
             className="mt-5 text-[27px] font-bold leading-[1.3] tracking-[-0.025em] text-on-surface sm:mt-6 sm:text-[40px] sm:leading-[1.22]"
             style={{ wordBreak: "keep-all" }}
           >
-            어디로 들어가 볼까요?
+            <span className="sr-only">꽃폈네 — </span>어디로 들어가 볼까요?
           </h1>
           <p
             className="mt-3 max-w-sm text-[13.5px] leading-[1.75] text-on-surface-variant sm:mt-4 sm:max-w-md sm:text-[15px]"
